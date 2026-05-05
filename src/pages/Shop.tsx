@@ -30,7 +30,7 @@ const Shop = () => {
     {
       title: 'The Best Keto Cookbook',
       benefit: '100+ gourmet keto recipes with full macro breakdowns for easy weight loss.',
-      url: 'https://joeduff.gumroad.com/l/BestKetoCookbook',
+      url: 'https://joeduff.gumroad.com/l/BestKetoCookbook?a=383200147',
       category: 'Keto & Diet',
       price: null,
       currency: 'USD'
@@ -38,7 +38,7 @@ const Shop = () => {
     {
       title: 'Savory Keto Cookbook',
       benefit: 'Satisfying meals that crush cravings and keep you in ketosis effortlessly.',
-      url: 'https://joeduff.gumroad.com/l/SavoryKetoCookbook',
+      url: 'https://joeduff.gumroad.com/l/SavoryKetoCookbook?a=383200147',
       category: 'Keto & Diet',
       price: null,
       currency: 'USD'
@@ -46,7 +46,7 @@ const Shop = () => {
     {
       title: 'The P:E Diet',
       benefit: 'Science-backed approach to body recomposition and sustainable fat loss.',
-      url: 'https://tednaiman.gumroad.com/l/thepediet',
+      url: 'https://tednaiman.gumroad.com/l/thepediet?a=383200147',
       category: 'Keto & Diet',
       price: null,
       currency: 'USD'
@@ -54,7 +54,7 @@ const Shop = () => {
     {
       title: 'Satiety Per Calorie',
       benefit: 'Learn how to eat until you are full and still drop the pounds consistently.',
-      url: 'https://tednaiman.gumroad.com/l/satietypercalorie',
+      url: 'https://tednaiman.gumroad.com/l/satietypercalorie?a=383200147',
       category: 'Keto & Diet',
       price: null,
       currency: 'USD'
@@ -62,7 +62,7 @@ const Shop = () => {
     {
       title: 'The Fairy Princess Diet',
       benefit: 'Aesthetic approach to wellness, flexibility, and feminine fitness mastery.',
-      url: 'https://fairyprincessdiet.gumroad.com/l/fpd',
+      url: 'https://fairyprincessdiet.gumroad.com/l/fpd?a=383200147',
       category: 'Keto & Diet',
       price: null,
       currency: 'USD'
@@ -72,7 +72,7 @@ const Shop = () => {
     {
       title: 'Yoga Membership',
       benefit: 'Full access to premium yoga library and live community transformation sessions.',
-      url: 'https://pouyayoga.gumroad.com/l/YogaMembership',
+      url: 'https://pouyayoga.gumroad.com/l/YogaMembership?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -80,7 +80,7 @@ const Shop = () => {
     {
       title: 'The Mindful Goddess',
       benefit: 'Reduce stress and tone your body with focused feminine energy and movement.',
-      url: 'https://rogueevans.gumroad.com/l/themindfulgoddess',
+      url: 'https://rogueevans.gumroad.com/l/themindfulgoddess?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -88,7 +88,7 @@ const Shop = () => {
     {
       title: 'Yoga with Pam',
       benefit: 'Fix your posture and gain agility with expert-led sessions for all levels.',
-      url: 'https://onlineyogawithpam.gumroad.com/l/bivzn',
+      url: 'https://onlineyogawithpam.gumroad.com/l/bivzn?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -96,7 +96,7 @@ const Shop = () => {
     {
       title: 'Niitty Yoga',
       benefit: 'Low-impact movements for high-impact results in your daily practice.',
-      url: 'https://somiyoga.gumroad.com/l/niitty',
+      url: 'https://somiyoga.gumroad.com/l/niitty?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -104,7 +104,7 @@ const Shop = () => {
     {
       title: 'Babaji Sky Yoga',
       benefit: 'Traditional yoga techniques for modern life and deep spiritual growth.',
-      url: 'https://babajiskyp.gumroad.com/l/CNlac',
+      url: 'https://babajiskyp.gumroad.com/l/CNlac?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -112,7 +112,7 @@ const Shop = () => {
     {
       title: 'Steele Pilates Yoga Program',
       benefit: 'Complete training program blending pilates precision with yoga flow.',
-      url: 'https://steelepilatesllc.gumroad.com/l/Tvnwl',
+      url: 'https://steelepilatesllc.gumroad.com/l/Tvnwl?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -120,7 +120,7 @@ const Shop = () => {
     {
       title: 'Kayla Kurin Yoga Sequences',
       benefit: 'Personalized yoga sequences for strength, flexibility, and mindfulness.',
-      url: 'https://kaylakurin.gumroad.com/l/kdwcD',
+      url: 'https://kaylakurin.gumroad.com/l/kdwcD?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -128,7 +128,7 @@ const Shop = () => {
     {
       title: 'Mysore Body Practice',
       benefit: 'Traditional Mysore technique for authentic yogic transformation.',
-      url: 'https://adarshwilliams.gumroad.com/l/mysorebody',
+      url: 'https://adarshwilliams.gumroad.com/l/mysorebody?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -136,7 +136,7 @@ const Shop = () => {
     {
       title: 'Yogic Healing eBook',
       benefit: 'Ancient healing practices and wisdom for modern life transformation.',
-      url: 'https://worldbornwithin.gumroad.com/l/Yogic-Healing-eBook',
+      url: 'https://worldbornwithin.gumroad.com/l/Yogic-Healing-eBook?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -144,7 +144,7 @@ const Shop = () => {
     {
       title: 'Seven Surya Sun Salutation Mastery',
       benefit: 'Master the sacred sun salutation practice with proper alignment.',
-      url: 'https://anjanyoga.gumroad.com/l/sevensurya',
+      url: 'https://anjanyoga.gumroad.com/l/sevensurya?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -152,7 +152,7 @@ const Shop = () => {
     {
       title: 'Yoga for Moms Program',
       benefit: 'Postpartum recovery, core strength, and confidence rebuilding.',
-      url: 'https://crisdimayoga.gumroad.com/l/yogaformoms',
+      url: 'https://crisdimayoga.gumroad.com/l/yogaformoms?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -160,7 +160,7 @@ const Shop = () => {
     {
       title: 'Yogra Complete Practice System',
       benefit: 'Comprehensive system combining strength, flexibility, and breath.',
-      url: 'https://yograyoga.gumroad.com/l/pNvsT',
+      url: 'https://yograyoga.gumroad.com/l/pNvsT?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -168,7 +168,7 @@ const Shop = () => {
     {
       title: 'Taoist Yoga Healing Traditions',
       benefit: 'Ancient Eastern philosophy for energy balance and healing.',
-      url: 'https://aquariusacademy.gumroad.com/l/taoist-yoga',
+      url: 'https://aquariusacademy.gumroad.com/l/taoist-yoga?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -176,7 +176,7 @@ const Shop = () => {
     {
       title: 'Pilates for Flexibility',
       benefit: 'Improve mobility and range of motion with flowing pilates sequences.',
-      url: 'https://steelepilatesllc.gumroad.com/l/KqqNd',
+      url: 'https://steelepilatesllc.gumroad.com/l/KqqNd?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -184,7 +184,7 @@ const Shop = () => {
     {
       title: 'Pilates for Perfect Posture',
       benefit: 'Correct alignment and eliminate back pain through pilates.',
-      url: 'https://steelepilatesllc.gumroad.com/l/WOoRR',
+      url: 'https://steelepilatesllc.gumroad.com/l/WOoRR?a=383200147',
       category: 'Yoga & Flexibility',
       price: null,
       currency: 'USD'
@@ -194,7 +194,7 @@ const Shop = () => {
     {
       title: 'Accelerated Fat Loss',
       benefit: 'Fastest way to drop body fat safely and effectively.',
-      url: 'https://alexanderjacortes.gumroad.com/l/AcceleratedFatloss',
+      url: 'https://alexanderjacortes.gumroad.com/l/AcceleratedFatloss?a=383200147',
       category: 'Fat Loss & Fitness',
       price: null,
       currency: 'USD'
@@ -202,7 +202,7 @@ const Shop = () => {
     {
       title: 'AJAC Diet',
       benefit: 'Sustainable approach to eating for long-term health and performance.',
-      url: 'https://alexanderjacortes.gumroad.com/l/AJACDiet',
+      url: 'https://alexanderjacortes.gumroad.com/l/AJACDiet?a=383200147',
       category: 'Fat Loss & Fitness',
       price: null,
       currency: 'USD'
@@ -210,7 +210,7 @@ const Shop = () => {
     {
       title: 'The Big Bean',
       benefit: 'Unlock explosive energy levels and mental focus.',
-      url: 'https://soberfitness.gumroad.com/l/thebigbean',
+      url: 'https://soberfitness.gumroad.com/l/thebigbean?a=383200147',
       category: 'Fat Loss & Fitness',
       price: null,
       currency: 'USD'
@@ -218,7 +218,7 @@ const Shop = () => {
     {
       title: 'Fit Patriot',
       benefit: 'Develop functional strength and unstoppable stamina.',
-      url: 'https://fitpatriot.gumroad.com/l/goovg',
+      url: 'https://fitpatriot.gumroad.com/l/goovg?a=383200147',
       category: 'Fat Loss & Fitness',
       price: null,
       currency: 'USD'
@@ -226,7 +226,7 @@ const Shop = () => {
     {
       title: 'Pilates Cardio Fusion',
       benefit: 'High-energy fat-burning pilates for maximum calorie burn.',
-      url: 'https://steelepilatesllc.gumroad.com/l/lUYhB',
+      url: 'https://steelepilatesllc.gumroad.com/l/lUYhB?a=383200147',
       category: 'Fat Loss & Fitness',
       price: null,
       currency: 'USD'
@@ -234,7 +234,7 @@ const Shop = () => {
     {
       title: 'Advanced Pilates Mastery',
       benefit: 'Build lean muscle definition and advanced body control.',
-      url: 'https://steelepilatesllc.gumroad.com/l/NwUUQ',
+      url: 'https://steelepilatesllc.gumroad.com/l/NwUUQ?a=383200147',
       category: 'Fat Loss & Fitness',
       price: null,
       currency: 'USD'
@@ -242,7 +242,7 @@ const Shop = () => {
     {
       title: 'Core Strength Pilates',
       benefit: 'Build a strong, defined core with targeted pilates exercises.',
-      url: 'https://steelepilatesllc.gumroad.com/l/AzdFp',
+      url: 'https://steelepilatesllc.gumroad.com/l/AzdFp?a=383200147',
       category: 'Fat Loss & Fitness',
       price: null,
       currency: 'USD'
@@ -252,7 +252,7 @@ const Shop = () => {
     {
       title: 'Glow Up Guide',
       benefit: 'Holistic guide to looking and feeling your absolute best.',
-      url: 'https://bloombody.gumroad.com/l/GlowUp',
+      url: 'https://bloombody.gumroad.com/l/GlowUp?a=383200147',
       category: 'Glow & Lifestyle',
       price: null,
       currency: 'USD'
@@ -260,7 +260,7 @@ const Shop = () => {
     {
       title: 'Lyna Glow',
       benefit: 'Master the art of aesthetic wellness and beauty routines.',
-      url: 'https://glowupwithlyna.gumroad.com/l/luovl',
+      url: 'https://glowupwithlyna.gumroad.com/l/luovl?a=383200147',
       category: 'Glow & Lifestyle',
       price: null,
       currency: 'USD'
@@ -268,7 +268,7 @@ const Shop = () => {
     {
       title: 'Diet Planner',
       benefit: 'Simple tool for planning your meals and tracking results.',
-      url: 'https://harrisonwallace1999.gumroad.com/l/dietplanner',
+      url: 'https://harrisonwallace1999.gumroad.com/l/dietplanner?a=383200147',
       category: 'Glow & Lifestyle',
       price: null,
       currency: 'USD'
@@ -276,7 +276,7 @@ const Shop = () => {
     {
       title: 'Pro Coach',
       benefit: '1-on-1 support to reach your fitness and lifestyle goals.',
-      url: 'https://harrisonwallace1999.gumroad.com/l/procoach',
+      url: 'https://harrisonwallace1999.gumroad.com/l/procoach?a=383200147',
       category: 'Glow & Lifestyle',
       price: null,
       currency: 'USD'
