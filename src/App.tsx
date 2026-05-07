@@ -183,7 +183,7 @@ const AnalyzingStep = ({ name, onComplete }: { name: string, onComplete: () => v
   const messages = [
     "Calculating your metabolic profile...",
     "Analyzing stress & recovery markers...",
-    "Matching goals to 147 proven programs...",
+    "Matching your profile to 200+ proven programs...",
     "Optimizing for your schedule...",
     "Finalizing your 30-day transformation plan..."
   ];
@@ -505,7 +505,7 @@ const ResultsStep = ({ quizData, analysis, recommendations }: { quizData: QuizDa
           </p>
           <div className="flex flex-wrap justify-center gap-8 md:gap-16 opacity-60">
             <div className="flex items-center gap-3 font-bold text-[10px] uppercase tracking-widest"><Lock size={16} className="text-brand-sage" /> Secure SSL Encryption</div>
-            <div className="flex items-center gap-3 font-bold text-[10px] uppercase tracking-widest"><CheckCircle2 size={16} className="text-brand-sage" /> Trusted by 50K+ Women</div>
+            <div className="flex items-center gap-3 font-bold text-[10px] uppercase tracking-widest"><CheckCircle2 size={16} className="text-brand-sage" /> Trusted by 70K+ Women</div>
             <div className="flex items-center gap-3 font-bold text-[10px] uppercase tracking-widest"><Zap size={16} className="text-brand-gold" /> Instant Access</div>
           </div>
         </div>
@@ -737,7 +737,7 @@ function LandingPage() {
         </div>
         
         <h1 className="text-3xl md:text-7xl font-serif leading-[1.2] md:leading-[1.1] mb-4 md:mb-6 text-brand-ink">
-          Discover Your Perfect Women's Fitness Plan in <span className="text-brand-sage italic">60 Seconds</span>
+          Stop Wasting Time on Programs That Don't Work — Discover Your Perfect Plan in <span className="text-brand-sage italic">60 Seconds</span>
         </h1>
         
         <h2 className="text-sm md:text-2xl text-brand-muted max-w-2xl mb-8 md:mb-10 mx-auto leading-relaxed font-medium px-4">
@@ -759,7 +759,7 @@ function LandingPage() {
             }}
             className="group w-full relative inline-flex items-center justify-center gap-3 bg-brand-sage text-white px-6 md:px-12 py-4 md:py-5 rounded-full font-bold text-base md:text-lg hover:bg-brand-sage/90 hover:-translate-y-1 transition-all shadow-xl shadow-brand-sage/20 border-b-4 border-black/10 active:border-b-0 active:translate-y-1"
           >
-            START MY FREE QUIZ
+            FIND MY PERFECT PLAN — FREE
             <ArrowRight className="group-hover:translate-x-1 transition-transform" />
           </button>
           
@@ -769,7 +769,7 @@ function LandingPage() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-gold"></span>
             </span>
             <p className="text-[9px] md:text-xs font-bold uppercase tracking-widest text-brand-muted">
-              ðŸ”¥ 347 women started this quiz today
+              ðŸ”¥ ?? 1,247 women started this quiz today
             </p>
           </div>
         </div>
@@ -1056,7 +1056,7 @@ function LandingPage() {
               onClick={() => handleNext('identity')}
               className="w-full bg-brand-sage text-white py-4 rounded-full font-bold shadow-2xl shadow-brand-sage/40 flex items-center justify-center gap-3 border-b-4 border-black/10 active:border-b-0 active:translate-y-1"
             >
-              START MY FREE QUIZ <ArrowRight size={20} />
+              FIND MY PERFECT PLAN — FREE <ArrowRight size={20} />
             </button>
           </motion.div>
         )}
