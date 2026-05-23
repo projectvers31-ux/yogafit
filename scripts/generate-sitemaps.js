@@ -111,22 +111,71 @@ const blogSitemap = `<?xml version="1.0" encoding="UTF-8"?>
   
   <!-- Blog Articles -->
   <url>
-    <loc>${SITE_URL}/blog/yoga-for-busy-moms</loc>
-    <lastmod>2026-05-15T14:30:00+00:00</lastmod>
+    <loc>${SITE_URL}/blog/lose-belly-fat-yoga</loc>
+    <lastmod>2026-05-22T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   
   <url>
-    <loc>${SITE_URL}/blog/energy-metabolism-science</loc>
-    <lastmod>2026-05-10T09:15:00+00:00</lastmod>
+    <loc>${SITE_URL}/blog/yoga-beginners-at-home</loc>
+    <lastmod>2026-05-20T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
   
   <url>
-    <loc>${SITE_URL}/blog/sleep-improvement-guide</loc>
-    <lastmod>2026-05-05T11:00:00+00:00</lastmod>
+    <loc>${SITE_URL}/blog/weight-loss-busy-moms</loc>
+    <lastmod>2026-05-18T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>${SITE_URL}/blog/yoga-weight-loss-women-40</loc>
+    <lastmod>2026-05-16T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>${SITE_URL}/blog/restorative-yoga-sleep</loc>
+    <lastmod>2026-05-14T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>${SITE_URL}/blog/intermittent-fasting-beginners</loc>
+    <lastmod>2026-05-12T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>${SITE_URL}/blog/yoga-anxiety-depression</loc>
+    <lastmod>2026-05-10T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>${SITE_URL}/blog/best-diet-plan-weight-loss-women</loc>
+    <lastmod>2026-05-08T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>${SITE_URL}/blog/yoga-lower-back-pain</loc>
+    <lastmod>2026-05-06T10:00:00+00:00</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>${SITE_URL}/blog/lose-weight-without-exercise</loc>
+    <lastmod>2026-05-04T10:00:00+00:00</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>

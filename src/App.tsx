@@ -41,6 +41,7 @@ const Terms = lazy(() => import('./pages/Terms'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Shop = lazy(() => import('./pages/Shop'));
 const Blog = lazy(() => import('./pages/Blog'));
+const BlogArticle = lazy(() => import('./pages/BlogArticle'));
 const AffiliateDisclosure = lazy(() => import('./pages/AffiliateDisclosure'));
 const ResultsStep = lazy(() => import('@/components/quiz/ResultsStep'));
 const ChatWindow = lazy(() => import('@/components/chatbot/ChatWindow'));
@@ -1075,6 +1076,7 @@ export default function App() {
           <Route path="/terms" element={<Terms />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogArticle />} />
           <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
         </Routes>
       </Suspense>
