@@ -43,6 +43,7 @@ const Shop = lazy(() => import('./pages/Shop'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
 const AffiliateDisclosure = lazy(() => import('./pages/AffiliateDisclosure'));
+const TDEECalculator = lazy(() => import('./pages/TDEECalculator'));
 const ResultsStep = lazy(() => import('@/components/quiz/ResultsStep'));
 const ChatWindow = lazy(() => import('@/components/chatbot/ChatWindow'));
 
@@ -166,6 +167,7 @@ const Footer = () => (
             <Link to="/terms" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Terms</Link>
             <Link to="/contact" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Contact</Link>
             <Link to="/blog" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Blog</Link>
+            <Link to="/calculators/tdee-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">TDEE Calculator</Link>
           </div>
         </div>
 
@@ -1080,6 +1082,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
+          <Route path="/calculators/tdee-calculator" element={<TDEECalculator />} />
           <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
         </Routes>
       </Suspense>

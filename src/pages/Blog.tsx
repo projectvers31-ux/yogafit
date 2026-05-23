@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { Calendar, Clock, ArrowRight, Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, Clock, ArrowRight, Search, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { articles, categories, featuredArticles, paginateArticles } from '@/content/blogArticles';
 import type { BlogArticle } from '@/content/blogArticles';
 import { trackPageView } from '@/lib/analytics';
@@ -226,6 +226,21 @@ export default function Blog() {
             </button>
           </div>
         )}
+
+        {/* Internal link to TDEE Calculator */}
+        <section className="max-w-6xl mx-auto px-4 md:px-12 pb-10">
+          <div className="bg-gradient-to-r from-brand-sage/5 to-brand-blush/30 border border-brand-border/30 rounded-2xl p-6 md:p-8 text-center">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-brand-sage mb-2">Free Fitness Tool</p>
+            <h2 className="text-lg md:text-xl font-serif text-brand-ink mb-2">Calculate Your Exact Daily Calories</h2>
+            <p className="text-sm text-brand-muted mb-4 max-w-xl mx-auto">
+              Use our free TDEE calculator to find your maintenance calories, fat loss deficit, and personalized nutrition strategy.
+            </p>
+            <Link to="/calculators/tdee-calculator"
+              className="inline-flex items-center gap-2 bg-brand-sage text-white px-6 py-3 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#243D31] transition-all shadow-md shadow-brand-sage/20">
+              <Calculator size={14} /> TDEE Calculator
+            </Link>
+          </div>
+        </section>
       </section>
     </main>
   );
