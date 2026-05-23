@@ -50,12 +50,6 @@ function SectionRenderer({ section, index }: { section: Section; index: number }
         <div className="bg-gradient-to-r from-brand-sage/10 to-brand-blush/30 rounded-2xl p-6 md:p-8 mb-8 text-center border border-brand-sage/10">
           <Sparkles size={24} className="text-brand-sage mx-auto mb-3" />
           <p className="text-sm md:text-base text-brand-ink leading-relaxed font-medium max-w-xl mx-auto">{section.text}</p>
-          <Link
-            to="/"
-            className="mt-4 inline-flex items-center gap-2 bg-brand-sage text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest hover:bg-[#243D31] transition-all shadow-md shadow-brand-sage/20"
-          >
-            Take the Quiz <ChevronRight size={14} />
-          </Link>
         </div>
       );
     case 'product':

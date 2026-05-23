@@ -14,17 +14,52 @@
   --color-brand-muted: #8B7E74;
   --color-brand-border: rgba(200, 168, 130, 0.2);
   --color-brand-gold: #B99B6B;
+
+  --font-size-xs: 0.688rem;
+  --font-size-xs--line-height: 1.4;
+  --font-size-sm: 0.813rem;
+  --font-size-sm--line-height: 1.6;
+  --font-size-base: 1rem;
+  --font-size-base--line-height: 1.7;
+  --font-size-lg: 1.125rem;
+  --font-size-lg--line-height: 1.7;
+  --font-size-xl: 1.25rem;
+  --font-size-xl--line-height: 1.55;
+  --font-size-2xl: 1.5rem;
+  --font-size-2xl--line-height: 1.4;
+  --font-size-3xl: 1.875rem;
+  --font-size-3xl--line-height: 1.3;
+  --font-size-4xl: 2.5rem;
+  --font-size-4xl--line-height: 1.2;
+  --font-size-5xl: 3.5rem;
+  --font-size-5xl--line-height: 1.1;
+  --font-size-6xl: 4rem;
+  --font-size-6xl--line-height: 1.05;
+  --font-size-7xl: 4.5rem;
+  --font-size-7xl--line-height: 1;
 }
 
 @layer base {
   body {
-    @apply bg-brand-warm text-brand-ink font-sans antialiased overflow-x-hidden;
+    @apply bg-brand-warm text-brand-ink font-sans antialiased overflow-x-hidden text-base;
   }
   html {
     scroll-behavior: smooth;
   }
   h1, h2, h3, .serif {
-    @apply font-serif;
+    @apply font-serif text-brand-ink;
+  }
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+  h2 {
+    @apply text-3xl md:text-4xl font-semibold tracking-tight;
+  }
+  h3 {
+    @apply text-xl md:text-2xl font-semibold;
+  }
+  p {
+    @apply leading-relaxed;
   }
   .font-accent {
     font-family: var(--font-accent);

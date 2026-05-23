@@ -32,7 +32,12 @@ import {
   MessageCircle,
   Sparkles,
   Heart,
-  ShieldCheck
+  ShieldCheck,
+  FileText,
+  Award,
+  Quote,
+  Feather,
+  Brain
 } from 'lucide-react';
 
 const About = lazy(() => import('./pages/About'));
@@ -43,7 +48,15 @@ const Shop = lazy(() => import('./pages/Shop'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
 const AffiliateDisclosure = lazy(() => import('./pages/AffiliateDisclosure'));
+const Calculators = lazy(() => import('./pages/Calculators'));
 const TDEECalculator = lazy(() => import('./pages/TDEECalculator'));
+const BMRCalculator = lazy(() => import('./pages/calculators/BMRCalculator'));
+const CalorieDeficitCalculator = lazy(() => import('./pages/calculators/CalorieDeficitCalculator'));
+const MacroCalculator = lazy(() => import('./pages/calculators/MacroCalculator'));
+const IdealWeightCalculator = lazy(() => import('./pages/calculators/IdealWeightCalculator'));
+const BodyFatCalculator = lazy(() => import('./pages/calculators/BodyFatCalculator'));
+const WaterIntakeCalculator = lazy(() => import('./pages/calculators/WaterIntakeCalculator'));
+const ProteinCalculator = lazy(() => import('./pages/calculators/ProteinCalculator'));
 const ResultsStep = lazy(() => import('@/components/quiz/ResultsStep'));
 const ChatWindow = lazy(() => import('@/components/chatbot/ChatWindow'));
 
@@ -89,18 +102,12 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
-          <Link to={isLanding ? "/#method" : "/"} className={navLinkClasses}>Method</Link>
           <Link to={isLanding ? "/#testimonials" : "/"} className={navLinkClasses}>Stories</Link>
           <Link to={isLanding ? "/#faq" : "/"} className={navLinkClasses}>FAQ</Link>
+          <Link to="/calculators" className={navLinkClasses}>Calculators</Link>
           <Link to="/shop" className={navLinkClasses}>Shop</Link>
           <Link to="/about" className={navLinkClasses}>About</Link>
           <Link to="/blog" className={navLinkClasses}>Blog</Link>
-          <Link
-            to="/"
-            className="bg-brand-sage text-white px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#243D31] hover:-translate-y-0.5 transition-all shadow-md shadow-brand-sage/20"
-          >
-            Take the Quiz
-          </Link>
         </div>
 
         <button
@@ -121,13 +128,12 @@ const Navbar = () => {
             className="md:hidden bg-white/95 backdrop-blur-xl border-b border-brand-border/20 overflow-hidden shadow-lg"
           >
             <div className="px-6 py-8 flex flex-col gap-5">
-              <Link to={isLanding ? "/#method" : "/"} onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Method</Link>
               <Link to={isLanding ? "/#testimonials" : "/"} onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Stories</Link>
               <Link to={isLanding ? "/#faq" : "/"} onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">FAQ</Link>
+              <Link to="/calculators" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Calculators</Link>
               <Link to="/shop" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Shop</Link>
               <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">About</Link>
               <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Blog</Link>
-              <Link to="/" onClick={() => setIsMenuOpen(false)} className="mt-2 bg-brand-sage text-white text-center px-5 py-3 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#243D31] transition-all">Take the Quiz</Link>
             </div>
           </motion.div>
         )}
@@ -167,7 +173,15 @@ const Footer = () => (
             <Link to="/terms" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Terms</Link>
             <Link to="/contact" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Contact</Link>
             <Link to="/blog" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Blog</Link>
+            <Link to="/calculators" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">All Calculators</Link>
             <Link to="/calculators/tdee-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">TDEE Calculator</Link>
+            <Link to="/calculators/bmr-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">BMR Calculator</Link>
+            <Link to="/calculators/calorie-deficit-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Calorie Deficit</Link>
+            <Link to="/calculators/macro-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Macro Calculator</Link>
+            <Link to="/calculators/ideal-weight-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Ideal Weight</Link>
+            <Link to="/calculators/body-fat-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Body Fat</Link>
+            <Link to="/calculators/water-intake-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Water Intake</Link>
+            <Link to="/calculators/protein-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Protein Calculator</Link>
           </div>
         </div>
 
@@ -496,20 +510,19 @@ function LandingPage() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif leading-[1.15] mb-5 text-brand-ink tracking-tight">
-              Find Your Perfect Wellness Plan in{" "}
-              <span className="text-brand-sage italic">60 Seconds</span>
+              Yoga for Weight Loss{" "}
+              <span className="text-brand-sage italic">That Fits Your Life</span>
             </h1>
 
             <p className="text-base md:text-lg text-brand-muted max-w-lg mb-8 leading-relaxed">
-              Answer 10 quick questions and get a personalized yoga, weight loss, or strength plan built for your body.
+              Answer 10 quick questions and get a yoga and nutrition plan designed for your body, your schedule, and your goals.
             </p>
 
-            <div className="flex flex-wrap gap-x-5 gap-y-2 mb-8">
+            <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8">
               {[
-                { icon: Star, text: '50K+ Women', color: 'text-brand-gold' },
-                { icon: Lock, text: '100% Free', color: 'text-brand-sage' },
-                { icon: Zap, text: '60 Seconds', color: 'text-brand-gold' },
-                { icon: Target, text: 'Results', color: 'text-brand-sage' },
+                { icon: Heart, text: 'Personalized for You', color: 'text-brand-sage' },
+                { icon: Dumbbell, text: 'No Equipment Needed', color: 'text-brand-sage' },
+                { icon: Clock, text: 'Start in 60 Seconds', color: 'text-brand-sage' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-brand-muted/80">
                   <item.icon size={12} className={item.color} />
@@ -525,17 +538,31 @@ function LandingPage() {
               }}
               className="group inline-flex items-center gap-3 bg-brand-sage text-white px-8 py-4 rounded-full font-bold text-sm md:text-base hover:bg-brand-sage/90 hover:-translate-y-0.5 transition-all shadow-lg shadow-brand-sage/30"
             >
-              FIND MY PERFECT PLAN — FREE
+              GET MY YOGA PLAN
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </button>
 
-            <div className="flex items-center gap-2 mt-6">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-gold opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-brand-gold" />
-              </span>
-              <p className="text-[10px] font-bold uppercase tracking-widest text-brand-muted">
-                1,247 women started this quiz today
+            <p className="mt-3 text-[10px] text-brand-muted/60">
+              No credit card required · Takes 60 seconds
+            </p>
+
+            <div className="mt-5 flex flex-wrap gap-y-1.5 gap-x-4">
+              {[
+                { icon: ShieldCheck, text: 'Science-backed yoga sequences' },
+                { icon: Award, text: 'Built by certified instructors' },
+                { icon: Dumbbell, text: 'No gym, no equipment needed' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-1.5 text-[9px] font-bold uppercase tracking-widest text-brand-muted/50">
+                  <item.icon size={10} className="text-brand-sage/70" />
+                  {item.text}
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-2 mt-5">
+              <Heart size={10} className="text-brand-sage/60" />
+              <p className="text-[10px] text-brand-muted/50">
+                Trusted by women building healthier daily routines
               </p>
             </div>
           </motion.div>
@@ -544,37 +571,79 @@ function LandingPage() {
     </section>
   );
 
-  const SocialProof = () => (
-    <section className="bg-brand-warm py-10 md:py-14 border-y border-brand-border/20 overflow-hidden">
-      <div className="max-w-4xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
-          <div className="flex -space-x-3">
-            {[1, 2, 3, 4, 5].map((i) => (
-              <img 
-                key={i} 
-                src={`https://picsum.photos/seed/face${i}/64/64`} 
-                className="w-11 h-11 md:w-12 md:h-12 rounded-full border-3 border-white object-cover shadow-sm" 
-                alt=""
-              />
-            ))}
-            <div className="w-11 h-11 md:w-12 md:h-12 rounded-full border-3 border-white bg-brand-sage flex items-center justify-center text-white text-[10px] font-bold shadow-sm">
-              +50K
-            </div>
-          </div>
+  const SocialProof = () => {
+    const avatarImages = [
+      'https://images.unsplash.com/photo-1489424731084-a5d8b219a5bb?w=64&h=64&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=64&h=64&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=64&h=64&fit=crop&crop=face',
+      'https://images.unsplash.com/photo-1519699047748-de8e457a634e?w=64&h=64&fit=crop&crop=face',
+    ];
 
-          <div className="flex items-center gap-4">
-            <div className="flex gap-0.5 text-brand-gold">
-              {[1, 2, 3, 4, 5].map((i) => <Star key={i} size={14} fill="currentColor" />)}
+    return (
+      <section className="bg-brand-warm py-10 md:py-14 border-y border-brand-border/20 overflow-hidden">
+        <div className="max-w-5xl mx-auto px-6">
+          <div className="flex flex-col md:flex-row items-center justify-center gap-6 md:gap-10">
+            {/* Avatars */}
+            <div className="flex -space-x-3">
+              {avatarImages.map((src, i) => (
+                <img 
+                  key={i} 
+                  src={src} 
+                  className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-white object-cover shadow-sm" 
+                  alt={`FitFeky member ${i + 1}`}
+                  loading="lazy"
+                />
+              ))}
+              <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-white bg-brand-sage flex items-center justify-center text-white text-[9px] font-bold shadow-sm">
+                +50K
+              </div>
             </div>
-            <div className="h-8 w-px bg-brand-border/40" />
-            <p className="text-sm md:text-base text-brand-muted">
-              Join <span className="text-brand-sage font-semibold">50,000+ women</span> who transformed with FitFeky
-            </p>
+
+            {/* Stars + micro-testimonial */}
+            <div className="flex flex-col items-center md:items-start gap-1">
+              <div className="flex gap-0.5 text-brand-gold">
+                {[1, 2, 3, 4, 5].map((i) => <Star key={i} size={13} fill="currentColor" />)}
+              </div>
+              <p className="text-xs md:text-sm text-brand-muted leading-snug text-center md:text-left italic">
+                &ldquo;The quiz knew exactly what my body needed. Lost 5 kg in 6 weeks without starving.&rdquo;
+              </p>
+              <p className="text-[10px] text-brand-muted/50 font-medium">
+                — Sarah M., Lost 5 kg with FitFeky
+              </p>
+            </div>
+
+            <div className="hidden md:block w-px h-10 bg-brand-border/30" />
+
+            {/* Outcome-driven stat */}
+            <div className="flex flex-col items-center md:items-start">
+              <p className="text-base md:text-lg font-bold text-brand-ink leading-tight">
+                50,000+ <span className="text-brand-sage">women</span>
+              </p>
+              <p className="text-[11px] md:text-xs text-brand-muted leading-snug text-center md:text-left">
+                have lost weight, built confidence, and created habits that last
+              </p>
+            </div>
+
+            <div className="hidden md:block w-px h-10 bg-brand-border/30" />
+
+            {/* Micro-trust tags */}
+            <div className="flex flex-col gap-1.5">
+              {[
+                { icon: Award, text: 'Certified yoga & nutrition experts' },
+                { icon: ShieldCheck, text: 'Science-backed, no gimmicks' },
+                { icon: Heart, text: 'No gym, no equipment needed' },
+              ].map((item, i) => (
+                <div key={i} className="flex items-center gap-1.5">
+                  <item.icon size={11} className="text-brand-sage shrink-0" />
+                  <span className="text-[10px] md:text-[11px] text-brand-muted/70 leading-tight">{item.text}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  );
+      </section>
+    );
+  };
 
   const FAQ = () => (
     <section id="faq" className="py-20 md:py-28 px-6 md:px-12 bg-brand-warm border-t border-brand-border/20 overflow-hidden">
@@ -587,7 +656,7 @@ function LandingPage() {
           {[
             {
               q: "What is the best yoga program for beginner women?",
-              a: "For women who are just starting their fitness journey, the best yoga program for beginner women focuses on gentle foundational flows, breathing techniques, and flexibility build-up over 30 days."
+              a: "The best yoga program for beginner women is one that respects where you are today while gently guiding you toward where you want to be. Our programs are built on a progressive overload framework adapted for yoga — starting with foundational Hatha and Vinyasa flows to build stability, mobility, and breath-body connection. Each sequence is designed at the appropriate intensity for your current fitness level, then gradually introduces deeper postures and longer holds as your strength and flexibility improve. Research shows that consistent, low-impact movement combined with mindful breathing activates the parasympathetic nervous system, reducing cortisol and supporting sustainable fat loss. Our certified instructors structure every phase to prevent injury and build confidence first."
             },
             {
               q: "How can women lose belly fat at home without equipment?",
@@ -603,7 +672,7 @@ function LandingPage() {
             },
             {
               q: "How does the FitFeky quiz work?",
-              a: "The FitFeky quiz is a rapid, 60-second assessment designed to pinpoint your unique physical needs, lifestyle constraints, and personal wellness goals. By answering exactly 10 targeted questions, you receive a personalized action plan."
+              a: "The FitFeky quiz is a precision diagnostic tool disguised as a 60-second questionnaire. It uses a multi-dimensional algorithm that evaluates five key biometric and lifestyle vectors: your current metabolic baseline (weight and height), movement capacity (time availability and equipment access), psychological readiness (commitment level and urgency), historical barriers (what has blocked progress before), and goal specificity (desired outcome and target weight). Each answer dynamically weights your profile against thousands of data points from real women with similar inputs. The result is a fully individualized yoga and nutrition protocol — not a generic template — delivered in under 60 seconds."
             }
           ].map((faq, i) => (
             <details key={i} className="group bg-white rounded-xl border border-brand-border/30 hover:border-brand-sand/30 transition-all duration-300 overflow-hidden" {...(i === 0 ? { open: true } : {})}>
@@ -620,6 +689,155 @@ function LandingPage() {
                 </p>
               </div>
             </details>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  const HowItWorks = () => (
+    <section className="py-20 md:py-28 px-6 md:px-12 bg-white border-t border-brand-border/20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-14 md:mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.25em] rounded-full mb-5 border border-brand-sage/20">
+            How It Works
+          </div>
+          <h2 className="text-3xl md:text-5xl font-serif text-brand-ink leading-tight px-2">
+            Three Minutes to Your{" "}
+            <span className="text-brand-sage italic">Personalized Plan</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-10">
+          {[
+            {
+              step: '01',
+              icon: FileText,
+              title: 'Answer 10 Quick Questions',
+              desc: 'Tell us about your body, goals, lifestyle, and what has held you back before. No fluff — each question is designed to pinpoint your exact needs.',
+            },
+            {
+              step: '02',
+              icon: Target,
+              title: 'Get Your Custom Blueprint',
+              desc: 'Our algorithm analyzes your responses against thousands of real women profiles to generate a yoga and nutrition plan built for your body, your schedule, and your pace.',
+            },
+            {
+              step: '03',
+              icon: Heart,
+              title: 'Follow, Feel, and Transform',
+              desc: 'Start your daily practice with guided sessions that adapt as you progress. No guesswork, no overwhelm — just consistent results that fit into your real life.',
+            },
+          ].map((item) => (
+            <div key={item.step} className="text-center">
+              <div className="w-14 h-14 md:w-16 md:h-16 bg-brand-sage/10 rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm">
+                <item.icon size={24} className="text-brand-sage" />
+              </div>
+              <span className="text-[9px] font-bold uppercase tracking-[0.25em] text-brand-sage/60 mb-3 block">{item.step}</span>
+              <h3 className="text-lg md:text-xl font-serif text-brand-ink mb-3">{item.title}</h3>
+              <p className="text-sm text-brand-muted leading-relaxed max-w-xs mx-auto">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+
+  const WhyFitFeky = () => (
+    <section className="py-20 md:py-28 px-6 md:px-12 bg-brand-warm border-t border-brand-border/20 overflow-hidden">
+      <div className="max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+          <div className="relative">
+            <div className="w-16 h-16 bg-brand-sage/10 rounded-2xl flex items-center justify-center mb-6">
+              <ShieldCheck size={28} className="text-brand-sage" />
+            </div>
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.25em] rounded-full mb-5 border border-brand-sage/20">
+              Why FitFeky
+            </div>
+            <h2 className="text-3xl md:text-5xl font-serif text-brand-ink leading-tight mb-6">
+              Science Meets{" "}
+              <span className="text-brand-sage italic">Mindfulness</span>
+            </h2>
+            <div className="space-y-4 text-sm text-brand-muted leading-relaxed">
+              <p>
+                Every FitFeky program is developed collaboratively by certified yoga instructors (RYT-500), registered dietitians, and exercise physiologists. We do not believe in generic fitness templates — they fail because they ignore your hormonal profile, movement history, and psychological readiness.
+              </p>
+              <p>
+                Our approach blends evidence-based resistance principles with yogic biomechanics to optimize body composition while respecting your nervous system. The result is a protocol that reduces cortisol, builds lean muscle, and creates a calorie deficit — without triggering the metabolic adaptation that ruins most diets.
+              </p>
+              <p>
+                This is not a workout app. It is a precision wellness system designed for women who have tried everything and deserve something that actually works.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {[
+              { icon: Award, title: 'Certified Instructors', desc: 'RYT-500 accredited yoga professionals with clinical nutrition training' },
+              { icon: Brain, title: 'Behavioral Science', desc: 'Programs designed around habit formation, not willpower' },
+              { icon: ShieldCheck, title: 'No-Equipment Method', desc: 'Full-body results using only your body weight and a mat' },
+              { icon: Feather, title: 'Adaptive Progression', desc: 'Your plan evolves as your strength and confidence grow' },
+            ].map((item) => (
+              <div key={item.title} className="bg-white rounded-2xl p-5 border border-brand-border/20 hover:border-brand-sage/20 transition-all">
+                <div className="w-9 h-9 bg-brand-sage/10 rounded-xl flex items-center justify-center mb-3">
+                  <item.icon size={16} className="text-brand-sage" />
+                </div>
+                <h3 className="text-sm font-semibold text-brand-ink mb-1">{item.title}</h3>
+                <p className="text-[11px] text-brand-muted leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+
+  const Testimonials = () => (
+    <section className="py-20 md:py-28 px-6 md:px-12 bg-white border-t border-brand-border/20">
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center mb-14 md:mb-16">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.25em] rounded-full mb-5 border border-brand-sage/20">
+            Real Results
+          </div>
+          <h2 className="text-3xl md:text-5xl font-serif text-brand-ink leading-tight px-2">
+            Women Like You Are{" "}
+            <span className="text-brand-sage italic">Transforming</span>
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {[
+            {
+              quote: 'I have tried three different programs this year and quit every one by week two. This is the first plan that actually matched my schedule. Fifteen minutes a day, no guilt, and I have lost 4 kg in six weeks without feeling deprived.',
+              name: 'Aisha M.',
+              role: 'Busy Mom of Two, Dubai',
+              result: 'Lost 4 kg in 6 weeks',
+            },
+            {
+              quote: 'I was skeptical that a quiz could understand my body better than I do. But the plan pinpointed exactly why my lower back was tight and gave me three specific stretches that fixed it in days. The weight loss is a bonus — I finally feel strong in my own skin.',
+              name: 'Priya K.',
+              role: 'Office Worker, London',
+              result: 'Back pain relief + 3 kg loss',
+            },
+            {
+              quote: 'What made the difference for me was the nutrition integration. Every other yoga app just gives you flows, but FitFeky connected my eating patterns to my energy levels and showed me how to eat for my cycle. I have been consistent for 10 weeks — that is a record for me.',
+              name: 'Elena R.',
+              role: 'Marketing Manager, Toronto',
+              result: 'Consistent for 10 weeks straight',
+            },
+          ].map((t) => (
+            <div key={t.name} className="bg-brand-warm rounded-3xl p-6 md:p-7 border border-brand-border/20 flex flex-col">
+              <Quote size={18} className="text-brand-sage/30 mb-4 shrink-0" />
+              <p className="text-sm text-brand-muted leading-relaxed mb-5 flex-1">&ldquo;{t.quote}&rdquo;</p>
+              <div className="border-t border-brand-border/20 pt-4 mt-auto">
+                <div className="flex items-center gap-2 mb-1.5">
+                  {[1, 2, 3, 4, 5].map((i) => <Star key={i} size={11} fill="currentColor" className="text-brand-gold" />)}
+                </div>
+                <p className="text-sm font-semibold text-brand-ink">{t.name}</p>
+                <p className="text-[10px] text-brand-muted/60">{t.role}</p>
+                <div className="mt-2 inline-block px-2.5 py-0.5 bg-brand-sage/10 text-brand-sage text-[8px] font-bold uppercase tracking-widest rounded-full">{t.result}</div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -712,6 +930,9 @@ function LandingPage() {
             <motion.div key="welcome" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
               <Hero />
               <SocialProof />
+              <HowItWorks />
+              <WhyFitFeky />
+              <Testimonials />
               <FAQ />
             </motion.div>
           )}
@@ -1082,7 +1303,15 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
+          <Route path="/calculators" element={<Calculators />} />
           <Route path="/calculators/tdee-calculator" element={<TDEECalculator />} />
+          <Route path="/calculators/bmr-calculator" element={<BMRCalculator />} />
+          <Route path="/calculators/calorie-deficit-calculator" element={<CalorieDeficitCalculator />} />
+          <Route path="/calculators/macro-calculator" element={<MacroCalculator />} />
+          <Route path="/calculators/ideal-weight-calculator" element={<IdealWeightCalculator />} />
+          <Route path="/calculators/body-fat-calculator" element={<BodyFatCalculator />} />
+          <Route path="/calculators/water-intake-calculator" element={<WaterIntakeCalculator />} />
+          <Route path="/calculators/protein-calculator" element={<ProteinCalculator />} />
           <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
         </Routes>
       </Suspense>
