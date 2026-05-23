@@ -93,6 +93,7 @@ const Navbar = () => {
           <Link to={isLanding ? "/#faq" : "/"} className={navLinkClasses}>FAQ</Link>
           <Link to="/shop" className={navLinkClasses}>Shop</Link>
           <Link to="/about" className={navLinkClasses}>About</Link>
+          <Link to="/blog" className={navLinkClasses}>Blog</Link>
           <Link
             to="/"
             className="bg-brand-sage text-white px-5 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-[#243D31] hover:-translate-y-0.5 transition-all shadow-md shadow-brand-sage/20"
@@ -124,6 +125,7 @@ const Navbar = () => {
               <Link to={isLanding ? "/#faq" : "/"} onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">FAQ</Link>
               <Link to="/shop" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Shop</Link>
               <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">About</Link>
+              <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Blog</Link>
               <Link to="/" onClick={() => setIsMenuOpen(false)} className="mt-2 bg-brand-sage text-white text-center px-5 py-3 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#243D31] transition-all">Take the Quiz</Link>
             </div>
           </motion.div>
@@ -163,6 +165,7 @@ const Footer = () => (
             <Link to="/privacy" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Privacy</Link>
             <Link to="/terms" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Terms</Link>
             <Link to="/contact" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Contact</Link>
+            <Link to="/blog" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Blog</Link>
           </div>
         </div>
 
