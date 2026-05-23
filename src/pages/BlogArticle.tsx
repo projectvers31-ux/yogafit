@@ -47,7 +47,7 @@ function SectionRenderer({ section, index }: { section: Section; index: number }
       );
     case 'cta':
       return (
-        <div className="bg-linear-to-r from-brand-sage/10 to-brand-blush/30 rounded-2xl p-6 md:p-8 mb-8 text-center border border-brand-sage/10">
+        <div className="bg-gradient-to-r from-brand-sage/10 to-brand-blush/30 rounded-2xl p-6 md:p-8 mb-8 text-center border border-brand-sage/10">
           <Sparkles size={24} className="text-brand-sage mx-auto mb-3" />
           <p className="text-sm md:text-base text-brand-ink leading-relaxed font-medium max-w-xl mx-auto">{section.text}</p>
           <Link
@@ -157,14 +157,14 @@ function ShareButtons({ title, url }: { title: string; url: string }) {
   return (
     <div className="flex items-center gap-2">
       <span className="text-[10px] font-bold uppercase tracking-widest text-brand-muted/60 mr-1"><Share2 size={14} className="inline -mt-0.5 mr-1" />Share</span>
-      <a href={`https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all" aria-label="Share on Pinterest">
-        <svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.965 1.406-5.965s-.359-.719-.359-1.782c0-1.668.967-2.914 2.171-2.914 1.023 0 1.518.769 1.518 1.69 0 1.029-.655 2.568-.994 3.995-.283 1.194.599 2.169 1.777 2.169 2.133 0 3.772-2.249 3.772-5.495 0-2.873-2.064-4.882-5.012-4.882-3.414 0-5.418 2.561-5.418 5.207 0 1.031.397 2.138.893 2.738.098.119.112.224.083.345l-.333 1.36c-.053.22-.174.267-.402.161-1.499-.698-2.436-2.889-2.436-4.649 0-3.785 2.75-7.261 7.929-7.261 4.162 0 7.398 2.967 7.398 6.931 0 4.136-2.607 7.464-6.227 7.464-1.216 0-2.359-.631-2.75-1.378l-.748 2.853c-.271 1.043-1.002 2.35-1.492 3.146 1.124.347 2.317.535 3.554.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"/></svg>
+      <a href={`https://pinterest.com/pin/create/button/?url=${encodedUrl}&description=${encodedTitle}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all">
+        <svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937.552-2.542.552-3.682 0-1.9-1.284-3.5-3.183-3.5-1.897 0-3.427 1.537-3.427 3.429 0 1.066.335 2.116 1.009 2.979.061.097.145.186.241.262.218.162.376.2.605.053.531-.380.972-.905 1.32-1.541.349-.635.596-1.282.833-2.242l.027-.137-.032.002c-.304.921-.637 1.785-.637 2.716 0 .886.231 1.75.647 2.431.38.624.879 1.156 1.487 1.54.738.467 1.649.675 2.582.675 4.15 0 7.548-3.406 7.548-7.589 0-3.1-1.916-5.79-4.665-6.952-.21-.1-.422-.19-.637-.266z"/></svg>
       </a>
-      <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all" aria-label="Share on Facebook">
+      <a href={`https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all">
         <svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
       </a>
-      <a href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all" aria-label="Share on X">
-        <svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      <a href={`https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`} target="_blank" rel="noopener noreferrer" className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all">
+        <svg width={14} height={14} viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231 5.45-6.231zM17.002 18.807h1.815L5.99 4.131H4.08l12.922 14.676z"/></svg>
       </a>
       <button onClick={copyLink} className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all" aria-label="Copy link">
         {copied ? <Check size={14} /> : <Copy size={14} />}
@@ -239,7 +239,7 @@ function ArticleHero({ article }: { article: BlogArticle }) {
         <p className="text-base md:text-lg text-brand-muted leading-relaxed max-w-2xl">{article.excerpt}</p>
         <div className="flex flex-wrap gap-2 mt-4">
           {article.tags.map(tag => (
-            <span key={tag} className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 bg-white px-2.5 py-1 rounded-full border border-brand-border/30">
+            <span key={tag} className="inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 bg-white px-2.5 py-1 rounded-full border border-brand-border">
               <Tag size={9} /> {tag}
             </span>
           ))}
