@@ -1,9 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>https://fitfeky.com/</loc>
-    <lastmod>2025-05-02</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
-  </url>
-</urlset>
+<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Main pages sitemap -->
+  <sitemap>
+    <loc>https://fitfeky.com/sitemap-main.xml</loc>
+    <lastmod>2026-05-22T00:00:00+00:00</lastmod>
+  </sitemap>
+  
+  <!-- Blog/content sitemap -->
+  <sitemap>
+    <loc>https://fitfeky.com/sitemap-blog.xml</loc>
+    <lastmod>2026-05-22T00:00:00+00:00</lastmod>
+  </sitemap>
+  
+  <!-- Products/services sitemap -->
+  <sitemap>
+    <loc>https://fitfeky.com/sitemap-products.xml</loc>
+    <lastmod>2026-05-22T00:00:00+00:00</lastmod>
+  </sitemap>
+</sitemapindex>

@@ -116,3 +116,14 @@ export const trackMetaProductClick = (title: string, category: string) => {
     item_category: category
   });
 };
+
+// Backwards-compatible aliases used across the codebase
+export const trackResultsView = trackStepView;
+export const trackProductClick = trackMetaProductClick;
+export const trackCtaClick = (action: string, id?: any, goal?: string) => {
+  trackEvent('cta_click', { action, id, goal });
+};
+
+export const trackPageView = (path: string, title?: string) => {
+  trackEvent('page_view', { path, title });
+};

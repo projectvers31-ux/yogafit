@@ -1,4 +1,59 @@
+# FitFeky Robots File
+# Last Updated: May 2026
+# Purpose: Allow search engines to crawl public pages; protect admin and checkout areas
+
 User-agent: *
 Allow: /
+Allow: /blog/
+Allow: /quiz/
+Allow: /shop/
+Allow: /pages/
+Allow: /products/
+Allow: /sitemap.xml
 
+# Disallow sensitive pages and directories
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /account/
+Disallow: /private/
+Disallow: /api/
+Disallow: /internal/
+Disallow: /*.json$
+Disallow: /*.pdf$
+Disallow: /search?
+Disallow: /*?*sort=
+Disallow: /*?*filter=
+Disallow: /temp/
+Disallow: /backup/
+Disallow: /cache/
+
+# Allow specific bot behaviors
+Allow: /robots.txt
+Allow: /sitemap.xml
+
+# Crawl-Delay & Rate Limiting
+Crawl-delay: 1
+Request-rate: 10/1s
+
+# Google-specific directives
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0.5
+
+# Bing-specific directives
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Disallow other bots (optional, strict mode)
+User-agent: MJ12bot
+User-agent: AhrefsBot
+User-agent: SemrushBot
+Disallow: /
+
+# Sitemap location (critical for indexing)
 Sitemap: https://fitfeky.com/sitemap.xml
+Sitemap: https://fitfeky.com/sitemap-blog.xml
+Sitemap: https://fitfeky.com/sitemap-products.xml
