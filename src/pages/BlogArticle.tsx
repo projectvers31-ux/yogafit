@@ -47,7 +47,7 @@ function SectionRenderer({ section, index }: { section: Section; index: number }
       );
     case 'cta':
       return (
-        <div className="bg-gradient-to-r from-brand-sage/10 to-brand-blush/30 rounded-2xl p-6 md:p-8 mb-8 text-center border border-brand-sage/10">
+        <div className="bg-linear-to-r from-brand-sage/10 to-brand-blush/30 rounded-2xl p-6 md:p-8 mb-8 text-center border border-brand-sage/10">
           <Sparkles size={24} className="text-brand-sage mx-auto mb-3" />
           <p className="text-sm md:text-base text-brand-ink leading-relaxed font-medium max-w-xl mx-auto">{section.text}</p>
           <Link
