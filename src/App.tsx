@@ -6,10 +6,12 @@
 import React, { useState, useEffect, useRef, ReactNode, lazy, Suspense } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { trackEvent, trackStepView, trackConversion, trackMetaIntent, trackMetaCommitment } from '@/lib/analytics';
 import { getRecommendedProducts, getMatchReasons, getArchetype } from './lib/products';
 import { analyzeQuizEnhanced } from './lib/quizAnalysis';
 import type { EnhancedAnalysis, ProductMatch } from '@/lib/types';
+import SEOHelmet from '@/components/seo/SEOHelmet';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import {
   ChevronRight,
@@ -488,11 +490,14 @@ function LandingPage() {
   const Hero = () => (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-brand-warm">
       <div className="absolute inset-0">
-        <img 
-          src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1920&q=80" 
+        <img
+          src="https://images.unsplash.com/photo-1545205597-3d9d02c29597?auto=format&fit=crop&w=1920&q=80"
           alt=""
+          width={1920}
+          height={1080}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover"
-          loading="eager"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-brand-warm/95 via-brand-warm/60 to-brand-warm/20" />
       </div>
@@ -510,6 +515,7 @@ function LandingPage() {
             </div>
 
             <h1 className="text-4xl sm:text-5xl md:text-7xl font-serif leading-[1.15] mb-5 text-brand-ink tracking-tight">
+              Women's Fitness Quiz —{" "}
               Yoga for Weight Loss{" "}
               <span className="text-brand-sage italic">That Fits Your Life</span>
             </h1>
@@ -586,12 +592,15 @@ function LandingPage() {
             {/* Avatars */}
             <div className="flex -space-x-3">
               {avatarImages.map((src, i) => (
-                <img 
-                  key={i} 
-                  src={src} 
-                  className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-white object-cover shadow-sm" 
-                  alt={`FitFeky member ${i + 1}`}
+                <img
+                  key={i}
+                  src={src}
+                  width={44}
+                  height={44}
                   loading="lazy"
+                  decoding="async"
+                  className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-white object-cover shadow-sm"
+                  alt={`FitFeky member ${i + 1}`}
                 />
               ))}
               <div className="w-10 h-10 md:w-11 md:h-11 rounded-full border-2 border-white bg-brand-sage flex items-center justify-center text-white text-[9px] font-bold shadow-sm">
@@ -846,7 +855,12 @@ function LandingPage() {
 
   return (
     <div className="min-h-screen bg-brand-warm font-sans text-brand-ink selection:bg-brand-sage/20">
-      
+      <SEOHelmet
+        title="Women's Fitness Quiz — Free Personalized Yoga Plan | FitFeky"
+        description="Take our free women's fitness quiz in 60 seconds. Get a personalized yoga and weight loss program for busy women. Instant results."
+        canonicalPath="/"
+      />
+
       <AnimatePresence>
         {showSocialProof && (
           <motion.div
@@ -1286,14 +1300,154 @@ function LandingPage() {
   );
 }
 
+function CentralSchemas() {
+  const location = useLocation();
+  const siteUrl = 'https://www.fitfeky.com';
+  const path = location.pathname;
+  const schemas: Record<string, unknown>[] = [];
+
+  schemas.push({
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'FitFeky',
+    url: siteUrl,
+    description: 'Free personalized yoga and weight loss plans for women 25-45',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${siteUrl}/quiz?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
+  });
+
+  if (path === '/' || path === '/quiz') {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: 'FitFeky Fitness Quiz',
+      url: `${siteUrl}/quiz`,
+      applicationCategory: 'HealthApplication',
+      price: '0',
+      audience: { '@type': 'Audience', name: 'Women 25-45' },
+    } as Record<string, unknown>);
+  }
+
+  if (path === '/calculators/tdee-calculator') {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'WebApplication',
+      name: 'TDEE Calculator for Women',
+      url: `${siteUrl}/calculators/tdee-calculator`,
+      applicationCategory: 'HealthApplication',
+      price: '0',
+    } as Record<string, unknown>);
+  }
+
+  if (path === '/') {
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Is FitFeky completely free?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Yes! FitFeky is completely free to use. You can take the quiz, get your personalized plan, and start your journey without paying a cent. We believe every woman deserves access to a fitness plan that actually works for her body and lifestyle.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How long does the fitness quiz take?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'The FitFeky quiz takes just 60 seconds. Answer 10 quick questions about your body, goals, and lifestyle. Our smart algorithm instantly creates a personalized yoga and nutrition plan designed just for you.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'What kind of plan will I receive?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'You will receive a fully customized yoga and wellness plan based on your unique answers. It includes daily yoga flows, nutrition guidance, and lifestyle tips tailored to your body type, schedule, and fitness goals.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Do I need any equipment for the workouts?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'No equipment needed! All FitFeky workouts use only your body weight. A yoga mat is optional but recommended for comfort. You can do every session at home, making it perfect for busy women.',
+          },
+        },
+      ],
+    } as Record<string, unknown>);
+  }
+
+  const calcMatch = path.match(/^\/calculators\/(.+)/);
+  if (calcMatch) {
+    const names: Record<string, string> = {
+      'tdee-calculator': 'TDEE Calculator',
+      'bmr-calculator': 'BMR Calculator',
+      'calorie-deficit-calculator': 'Calorie Deficit Calculator',
+      'macro-calculator': 'Macro Calculator',
+      'ideal-weight-calculator': 'Ideal Weight Calculator',
+      'body-fat-calculator': 'Body Fat Calculator',
+      'water-intake-calculator': 'Water Intake Calculator',
+      'protein-calculator': 'Protein Calculator',
+    };
+    const name = names[calcMatch[1]] || 'Calculator';
+    schemas.push({
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+        { '@type': 'ListItem', position: 2, name: 'Calculators', item: `${siteUrl}/calculators` },
+        { '@type': 'ListItem', position: 3, name, item: `${siteUrl}${path}` },
+      ],
+    });
+  }
+
+  return (
+    <Helmet>
+      {schemas.map((schema, i) => (
+        <script key={i} type="application/ld+json">{JSON.stringify(schema)}</script>
+      ))}
+    </Helmet>
+  );
+}
+
+function NotFound() {
+  return (
+    <main id="main-content" className="min-h-screen bg-brand-warm flex flex-col items-center justify-center px-6 text-center">
+      <SEOHelmet title="Page Not Found | FitFeky" description="The page you are looking for does not exist." canonicalPath="/404" noIndex />
+      <div className="w-16 h-16 bg-brand-sage/10 rounded-full flex items-center justify-center mb-6">
+        <span className="text-2xl font-bold text-brand-sage">?</span>
+      </div>
+      <h1 className="text-3xl md:text-5xl font-serif text-brand-ink mb-4">Page Not Found</h1>
+      <p className="text-brand-muted mb-8 max-w-md">The page you are looking for does not exist or has been moved.</p>
+      <Link to="/" className="inline-flex items-center gap-2 bg-brand-sage text-white px-6 py-3 rounded-xl font-semibold text-sm hover:bg-brand-sage/90 transition-all">
+        <ArrowRight size={16} className="rotate-180" /> Back to Home
+      </Link>
+    </main>
+  );
+}
+
 export default function App() {
   return (
     <BrowserRouter>
       <a href="#main-content" className="skip-to-content">
         Skip to content
       </a>
+      <CentralSchemas />
       <Navbar />
-      <Suspense fallback={<LoadingSpinner text="Loading page..." />}>
+      <Suspense fallback={
+        <div className="flex items-center justify-center h-screen bg-brand-warm">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4A373]" />
+        </div>
+      }>
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/shop" element={<Shop />} />
@@ -1313,6 +1467,7 @@ export default function App() {
           <Route path="/calculators/water-intake-calculator" element={<WaterIntakeCalculator />} />
           <Route path="/calculators/protein-calculator" element={<ProteinCalculator />} />
           <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
       <Footer />

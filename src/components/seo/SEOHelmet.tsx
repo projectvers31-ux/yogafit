@@ -1,82 +1,52 @@
-import { useEffect, useId } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { useLocation } from 'react-router-dom';
 
 interface SEOHelmetProps {
   title: string;
   description?: string;
+  ogDescription?: string;
   canonicalPath?: string;
   noIndex?: boolean;
   ldJson?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const upsertMetaTag = (attribute: 'name' | 'property', value: string, content: string) => {
-  let tag = document.head.querySelector<HTMLMetaElement>(`meta[${attribute}="${value}"]`);
-
-  if (!tag) {
-    tag = document.createElement('meta');
-    tag.setAttribute(attribute, value);
-    document.head.appendChild(tag);
-  }
-
-  tag.setAttribute('content', content);
-};
-
-const upsertCanonicalLink = (href: string) => {
-  let link = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-
-  if (!link) {
-    link = document.createElement('link');
-    link.setAttribute('rel', 'canonical');
-    document.head.appendChild(link);
-  }
-
-  link.setAttribute('href', href);
-};
-
-const upsertLdJson = (id: string, data: Record<string, unknown> | Record<string, unknown>[]) => {
-  let existing = document.head.querySelector<HTMLScriptElement>(`script[data-ldjson="${id}"]`);
-
-  if (!existing) {
-    existing = document.createElement('script');
-    existing.setAttribute('type', 'application/ld+json');
-    existing.setAttribute('data-ldjson', id);
-    document.head.appendChild(existing);
-  }
-
-  existing.textContent = JSON.stringify(data);
-};
+const SITE_URL = 'https://www.fitfeky.com';
 
 export default function SEOHelmet({
   title,
   description,
+  ogDescription,
   canonicalPath,
   noIndex = false,
   ldJson,
 }: SEOHelmetProps) {
-  const id = useId();
+  const location = useLocation();
+  const canonical = canonicalPath
+    ? `${SITE_URL}${canonicalPath.startsWith('/') ? canonicalPath : `/${canonicalPath}`}`
+    : `${SITE_URL}${location.pathname}`;
 
-  useEffect(() => {
-    if (typeof document === 'undefined') {
-      return;
-    }
-
-    document.title = title;
-    upsertMetaTag('property', 'og:title', title);
-
-    if (description) {
-      upsertMetaTag('name', 'description', description);
-      upsertMetaTag('property', 'og:description', description);
-    }
-
-    upsertMetaTag('name', 'robots', noIndex ? 'noindex, nofollow' : 'index, follow');
-
-    if (canonicalPath && typeof window !== 'undefined') {
-      upsertCanonicalLink(new URL(canonicalPath, window.location.origin).toString());
-    }
-
-    if (ldJson) {
-      upsertLdJson(id, ldJson);
-    }
-  }, [canonicalPath, description, id, ldJson, noIndex, title]);
-
-  return null;
+  return (
+    <Helmet>
+      <title>{title}</title>
+      <meta property="og:title" content={title} />
+      {description && (
+        <meta name="description" content={description} />
+      )}
+      {(ogDescription || description) && (
+        <meta property="og:description" content={ogDescription || description} />
+      )}
+      <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow'} />
+      <meta property="og:url" content={canonical} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={ogDescription || description || ''} />
+      <meta name="twitter:image" content="https://www.fitfeky.com/og-image.webp" />
+      <link rel="canonical" href={canonical} />
+      {ldJson && (
+        <script type="application/ld+json">
+          {JSON.stringify(ldJson)}
+        </script>
+      )}
+    </Helmet>
+  );
 }

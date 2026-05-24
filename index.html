@@ -4,9 +4,12 @@
     <meta charset="UTF-8" />
     
     <!-- ===== GOOGLE FONTS ===== -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300..700;1,14..32,400..600&family=Playfair+Display:ital,wght@0,400..900;1,400..700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link rel="preload"
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&display=swap"
+      as="style"
+      onload="this.rel='stylesheet'"/>
     
     <!-- ===== PERFORMANCE OPTIMIZATION ===== -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -24,10 +27,10 @@
     <meta name="revisit-after" content="7 days">
     <meta name="charset" content="UTF-8">
     
-    <title>Free Women's Fitness Quiz — Find Your Perfect Plan | FitFeky</title>
-    <meta name="title" content="Free Women's Fitness Quiz — Find Your Perfect Plan | FitFeky">
-    <meta name="description" content="Answer a 60-second quiz. Get a personalized yoga and weight loss program designed for busy women. Instant results. 50,000+ women transformed.">
-    <meta name="keywords" content="yoga for women, weight loss programs, fitness for busy moms, beginner yoga, home workouts women, FitFeky fitness">
+    <title>Women's Fitness Quiz — Free Personalized Yoga Plan | FitFeky</title>
+    <meta name="title" content="Women's Fitness Quiz — Free Personalized Yoga Plan | FitFeky">
+    <meta name="description" content="Take our free women's fitness quiz in 60 seconds. Get a personalized yoga and weight loss program for busy women. Instant results.">
+    <meta name="keywords" content="women's fitness quiz, yoga for weight loss, TDEE calculator for women, calorie calculator, personalized fitness plan, beginner yoga women, weight loss program women, home workout women">
     
     <!-- ===== INDEXING & CRAWLING ===== -->
     <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -36,25 +39,38 @@
     
     <!-- ===== OPEN GRAPH (SOCIAL SHARING) ===== -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://fitfeky.com/">
+    <meta property="og:url" content="https://www.fitfeky.com">
     <meta property="og:site_name" content="FitFeky">
-    <meta property="og:title" content="Free Women's Fitness Quiz — Find Your Perfect Plan">
-    <meta property="og:description" content="60-second quiz reveals the best yoga or weight loss program for YOUR body. Free. Personalized. Instant results. 50,000+ women transformed.">
-    <meta property="og:image" content="https://fitfeky.com/og-image.webp">
+    <meta property="og:title" content="Women's Fitness Quiz — Free Personalized Yoga Plan | FitFeky">
+    <meta property="og:description" content="Take our free women's fitness quiz in 60 seconds. Get a personalized yoga and weight loss program for busy women. Instant results.">
+    <meta property="og:image" content="https://www.fitfeky.com/og-image.webp">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
     <meta property="og:locale" content="en_US">
 
     <!-- ===== TWITTER CARD ===== -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://fitfeky.com/">
-    <meta name="twitter:title" content="Free Women's Fitness Quiz — Find Your Perfect Plan">
-    <meta name="twitter:description" content="60-second quiz reveals the best yoga or weight loss program for YOUR body. Free. Personalized. Instant results.">
-    <meta name="twitter:image" content="https://fitfeky.com/og-image.webp">
+    <meta name="twitter:url" content="https://www.fitfeky.com">
+    <meta name="twitter:title" content="Women's Fitness Quiz — Free Personalized Yoga Plan | FitFeky">
+    <meta name="twitter:description" content="Take our free women's fitness quiz in 60 seconds. Get a personalized yoga and weight loss program for busy women. Instant results.">
+    <meta name="twitter:image" content="https://www.fitfeky.com/og-image.webp">
     <meta name="twitter:creator" content="@fitfeky">
 
-    <!-- ===== CANONICAL URL ===== -->
-    <link rel="canonical" href="https://fitfeky.com">
+    <!-- Canonical set dynamically by SEO component per route (fallback for pre-JS) -->
+    <link rel="canonical" href="https://www.fitfeky.com/" />
+    
+    <!-- ===== PRERENDER HINTS FOR SPA INDEXING ===== -->
+    <link rel="preload" href="/quiz" as="document" />
+    <link rel="preload" href="/calculators/tdee-calculator" as="document" />
+    <link rel="preload" href="/calculators/bmr-calculator" as="document" />
+    <link rel="preload" href="/calculators/calorie-deficit-calculator" as="document" />
+    <link rel="preload" href="/calculators/macro-calculator" as="document" />
+    <link rel="preload" href="/calculators/ideal-weight-calculator" as="document" />
+    <link rel="preload" href="/calculators/body-fat-calculator" as="document" />
+    <link rel="preload" href="/calculators/water-intake-calculator" as="document" />
+    <link rel="preload" href="/calculators/protein-calculator" as="document" />
+    <link rel="preload" href="/blog" as="document" />
+    <link rel="preload" href="/shop" as="document" />
     
     <!-- ===== ALTERNATE LANGUAGE ===== -->
     <link rel="alternate" hreflang="en-US" href="https://fitfeky.com" />
@@ -80,11 +96,13 @@
         }
       })();
     </script>
-    <!-- Meta Pixel Code -->
+    <!-- Meta Pixel Code (deferred: 3s timeout or first interaction) -->
     <script>
       (function() {
         const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' || window.location.hostname.startsWith('192.168.');
-        if (!isLocal) {
+        if (isLocal) return;
+        function loadPixel() {
+          if (window.fbq) return;
           !function(f,b,e,v,n,t,s)
           {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
           n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -96,6 +114,10 @@
           fbq('init', '17841477729454013');
           fbq('track', 'PageView');
         }
+        var t = setTimeout(loadPixel, 3000);
+        ['scroll','click','touchstart'].forEach(function(e) {
+          document.addEventListener(e, function() { clearTimeout(t); loadPixel(); }, { once: true });
+        });
       })();
     </script>
     <!-- End Meta Pixel Code -->
@@ -147,34 +169,6 @@
     }
     </script>
 
-    <!-- BreadcrumbList Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://fitfeky.com"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Quiz",
-          "item": "https://fitfeky.com/quiz"
-        },
-        {
-          "@type": "ListItem",
-          "position": 3,
-          "name": "Results",
-          "item": "https://fitfeky.com/quiz/results"
-        }
-      ]
-    }
-    </script>
-
     <!-- WebPage Schema -->
     <script type="application/ld+json">
     {
@@ -189,17 +183,6 @@
         "url": "https://fitfeky.com"
       },
       "image": "https://fitfeky.com/og-image.webp"
-    }
-    </script>
-
-    <!-- WebPage Schema -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Free Women's Fitness Quiz",
-      "description": "Find your perfect yoga or weight loss plan with FitFeky's 60-second quiz.",
-      "url": "https://fitfeky.com"
     }
     </script>
 
