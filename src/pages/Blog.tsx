@@ -1,6 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import { Calendar, Clock, ArrowRight, Search, ChevronLeft, ChevronRight, Calculator } from 'lucide-react';
 import { articles, categories, featuredArticles, paginateArticles } from '@/content/blogArticles';
 import type { BlogArticle } from '@/content/blogArticles';
@@ -63,7 +62,7 @@ export default function Blog() {
       {/* Header */}
       <section className="py-12 md:py-20 px-4 md:px-12 bg-white border-b border-brand-border">
         <div className="max-w-5xl mx-auto text-center">
-          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
+          <div className="animate-fadeIn">
             <span className="inline-block px-4 py-1.5 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.2em] rounded-full mb-4">
               FitFeky Blog
             </span>
@@ -74,7 +73,7 @@ export default function Blog() {
               Research-driven articles on yoga, energy, and home wellness — written for busy
               women who want real results without the noise.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -229,7 +228,7 @@ export default function Blog() {
 
         {/* Internal link to TDEE Calculator */}
         <section className="max-w-6xl mx-auto px-4 md:px-12 pb-10">
-          <div className="bg-gradient-to-r from-brand-sage/5 to-brand-blush/30 border border-brand-border/30 rounded-2xl p-6 md:p-8 text-center">
+          <div className="bg-linear-to-r from-brand-sage/5 to-brand-blush/30 border border-brand-border/30 rounded-2xl p-6 md:p-8 text-center">
             <p className="text-[10px] font-bold uppercase tracking-widest text-brand-sage mb-2">Free Fitness Tool</p>
             <h2 className="text-lg md:text-xl font-serif text-brand-ink mb-2">Calculate Your Exact Daily Calories</h2>
             <p className="text-sm text-brand-muted mb-4 max-w-xl mx-auto">

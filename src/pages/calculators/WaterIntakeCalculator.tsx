@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
 import { Droplets } from 'lucide-react';
 
@@ -54,7 +53,7 @@ export default function WaterIntakeCalculator() {
   );
 
   const resultsModule = (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
+    <div className="animate-fadeIn bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
       <div className="p-5 bg-brand-sage/5 rounded-2xl border border-brand-sage/10 text-center mb-4">
         <p className="text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 mb-1">Daily Water Target</p>
         <p className="text-4xl font-serif text-brand-sage font-bold">{water}L</p>
@@ -73,7 +72,7 @@ export default function WaterIntakeCalculator() {
       <div className="text-xs text-brand-muted leading-relaxed p-4 bg-brand-warm rounded-xl">
         <p>Proper hydration supports metabolism, energy, and skin health. Pair your water target with the right nutrition using our <Link to="/calculators/macro-calculator" className="text-brand-sage underline hover:no-underline">macro calculator</Link>.</p>
       </div>
-    </motion.div>
+    </div>
   );
 
   const educationContent = (

@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import { Heart, Calculator, Target, Utensils, Droplets, Flame } from 'lucide-react';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 
@@ -93,11 +92,10 @@ export default function Calculators() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {calculators.map((calc, i) => (
-              <motion.div
+              <div
                 key={calc.title}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: i * 0.05, duration: 0.4 }}
+                className="animate-fadeIn"
+                style={{ animationDelay: `${i * 0.05}s` }}
               >
                 <Link
                   to={calc.path}
@@ -113,7 +111,7 @@ export default function Calculators() {
                     <p className="text-xs text-brand-muted leading-relaxed">{calc.desc}</p>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
           <div className="mt-12 text-center">

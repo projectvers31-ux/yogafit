@@ -1,26 +1,20 @@
 import { useState, useCallback, useRef } from 'react';
 import { getChatbotResponse, categorizeUserMessage } from '@/lib/chatbotPersonality';
-import { productList } from '@/lib/products';
+import { generateGeminiResponse } from '@/lib/gemini';
+import type { ChatHistoryEntry } from '@/lib/gemini';
 
 export interface Message {
   id: string;
   content: string;
   from: 'user' | 'bot';
-  productRecommendation?: {
-    title: string;
-    category: string;
-    link: string;
-    price: number;
-    reason: string;
-  };
 }
 
 export const INITIAL_SUGGESTIONS = [
-  'How do I start?',
+  'How do I start losing weight?',
   'What program is best for me?',
-  'Help with weight loss',
-  'Yoga for beginners',
-  'How to stop emotional eating'
+  'Help with emotional eating',
+  'Yoga for beginners at home',
+  'Quick energy boost tips'
 ];
 
 interface ChatContext {
@@ -35,35 +29,6 @@ function generateId(): string {
   return Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 }
 
-function selectProductForContext(category: string, userGoal?: string): Message['productRecommendation'] | undefined {
-  const matching = productList.filter(p => {
-    if (category === 'YOGA' && p.category === 'YOGA') return true;
-    if (category === 'KETO' && p.category === 'KETO') return true;
-    if (category === 'FITNESS' && (p.category === 'FITNESS' || p.category === 'FAT_LOSS')) return true;
-    if (category === 'GLOW' && p.category === 'GLOW') return true;
-    return false;
-  });
-
-  if (matching.length === 0) return undefined;
-
-  const pick = matching[Math.floor(Math.random() * Math.min(matching.length, 2))];
-
-  const reasons: Record<string, string> = {
-    YOGA: 'Perfect for stress relief and flexibility — thousands of women use this daily',
-    KETO: 'Women on this program report 2-3x faster results with less cravings',
-    FITNESS: 'Designed for busy women who want maximum results in minimum time',
-    GLOW: 'Holistic approach that transforms how you look and feel from the inside out'
-  };
-
-  return {
-    title: pick.title,
-    category: pick.category,
-    link: pick.link,
-    price: pick.price,
-    reason: reasons[pick.category] || 'Recommended based on your goals'
-  };
-}
-
 export function useChat() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -72,6 +37,7 @@ export function useChat() {
     conversationTurn: 0,
     previousTopics: []
   });
+  const historyRef = useRef<ChatHistoryEntry[]>([]);
 
   const sendMessage = useCallback(async (content: string) => {
     if (!content.trim()) return;
@@ -93,30 +59,36 @@ export function useChat() {
       ctx.previousTopics.push(category);
     }
 
-    // Brief delay so the typing indicator shows naturally
-    await new Promise(resolve => setTimeout(resolve, 600 + Math.random() * 400));
+    historyRef.current.push({ role: 'user', text: content });
 
     try {
-      const response = getChatbotResponse(content, {
-        userName: ctx.userName,
-        userArchetype: ctx.userArchetype,
-        userGoal: ctx.userGoal as any,
-        conversationTurn: ctx.conversationTurn,
-        previousTopics: ctx.previousTopics
+      let responseContent: string;
+
+      const geminiResult = await generateGeminiResponse(content, historyRef.current.slice(-10), {
+        name: ctx.userName,
+        archetype: ctx.userArchetype,
+        goal: ctx.userGoal,
       });
 
-      const shouldRecommend = ctx.conversationTurn >= 2 && ctx.conversationTurn <= 8;
-      let productRec: Message['productRecommendation'] | undefined;
-
-      if (shouldRecommend && response.shouldRecommendProduct && response.recommendedProductCategory) {
-        productRec = selectProductForContext(response.recommendedProductCategory, ctx.userGoal);
+      if (geminiResult.content) {
+        responseContent = geminiResult.content;
+      } else {
+        const fallback = getChatbotResponse(content, {
+          userName: ctx.userName,
+          userArchetype: ctx.userArchetype,
+          userGoal: ctx.userGoal as any,
+          conversationTurn: ctx.conversationTurn,
+          previousTopics: ctx.previousTopics
+        });
+        responseContent = fallback.content;
       }
+
+      historyRef.current.push({ role: 'model', text: responseContent });
 
       const botMessage: Message = {
         id: generateId(),
-        content: response.content,
-        from: 'bot',
-        productRecommendation: productRec
+        content: responseContent,
+        from: 'bot'
       };
 
       setMessages(prev => [...prev, botMessage]);
@@ -139,6 +111,7 @@ export function useChat() {
       conversationTurn: 0,
       previousTopics: []
     };
+    historyRef.current = [];
   }, []);
 
   return { messages, isLoading, error, sendMessage, clearChat, setUserContext };

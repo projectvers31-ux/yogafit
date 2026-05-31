@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
 
 export default function IdealWeightCalculator() {
@@ -49,7 +48,7 @@ export default function IdealWeightCalculator() {
   );
 
   const resultsModule = (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
+    <div className="animate-fadeIn bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
       <div className="p-5 bg-brand-sage/5 rounded-2xl border border-brand-sage/10 text-center mb-4">
         <p className="text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 mb-1">Healthy BMI Range</p>
         <p className="text-3xl font-serif text-brand-sage font-bold">{weights.bmiLower} – {weights.bmiUpper} kg</p>
@@ -70,7 +69,7 @@ export default function IdealWeightCalculator() {
       <div className="text-xs text-brand-muted leading-relaxed p-4 bg-brand-warm rounded-xl">
         <p>Your ideal weight range depends on your frame, muscle mass, and body composition. For a more precise assessment, use our <Link to="/calculators/body-fat-calculator" className="text-brand-sage underline hover:no-underline">body fat calculator</Link>.</p>
       </div>
-    </motion.div>
+    </div>
   );
 
   const educationContent = (

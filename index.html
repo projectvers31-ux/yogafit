@@ -12,6 +12,8 @@
       onload="this.rel='stylesheet'"/>
     
     <!-- ===== PERFORMANCE OPTIMIZATION ===== -->
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link rel="dns-prefetch" href="https://images.unsplash.com">
     <link rel="preconnect" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://www.googletagmanager.com">
     <link rel="dns-prefetch" href="https://connect.facebook.net">
@@ -59,18 +61,8 @@
     <!-- Canonical set dynamically by SEO component per route (fallback for pre-JS) -->
     <link rel="canonical" href="https://www.fitfeky.com/" />
     
-    <!-- ===== PRERENDER HINTS FOR SPA INDEXING ===== -->
-    <link rel="preload" href="/quiz" as="document" />
-    <link rel="preload" href="/calculators/tdee-calculator" as="document" />
-    <link rel="preload" href="/calculators/bmr-calculator" as="document" />
-    <link rel="preload" href="/calculators/calorie-deficit-calculator" as="document" />
-    <link rel="preload" href="/calculators/macro-calculator" as="document" />
-    <link rel="preload" href="/calculators/ideal-weight-calculator" as="document" />
-    <link rel="preload" href="/calculators/body-fat-calculator" as="document" />
-    <link rel="preload" href="/calculators/water-intake-calculator" as="document" />
-    <link rel="preload" href="/calculators/protein-calculator" as="document" />
-    <link rel="preload" href="/blog" as="document" />
-    <link rel="preload" href="/shop" as="document" />
+    <!-- ===== DNS PREFETCH FOR SPA ROUTES ===== -->
+    <link rel="dns-prefetch" href="https://fitfeky.com">
     
     <!-- ===== ALTERNATE LANGUAGE ===== -->
     <link rel="alternate" hreflang="en-US" href="https://www.fitfeky.com" />
@@ -162,7 +154,7 @@
         "@type": "SearchAction",
         "target": {
           "@type": "EntryPoint",
-          "urlTemplate": "https://fitfeky.com/shop?q={search_term_string}"
+          "urlTemplate": "https://fitfeky.com/blog?q={search_term_string}"
         },
         "query-input": "required name=search_term_string"
       }

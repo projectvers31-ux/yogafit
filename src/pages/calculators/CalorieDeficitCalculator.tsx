@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
 import { Target, AlertTriangle } from 'lucide-react';
 
@@ -56,7 +55,7 @@ export default function CalorieDeficitCalculator() {
   );
 
   const resultsModule = (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="space-y-3">
+    <div className="animate-fadeIn space-y-3">
       <div className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
         <div className="p-5 bg-brand-sage/5 rounded-2xl border border-brand-sage/10 text-center mb-4">
           <p className="text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 mb-1">Daily Calories for Weight Loss</p>
@@ -77,7 +76,7 @@ export default function CalorieDeficitCalculator() {
           <p>A 500-calorie deficit is considered safe and sustainable for most women. Pair your deficit with the right macros using our <Link to="/calculators/macro-calculator" className="text-brand-sage underline hover:no-underline">macro calculator</Link>.</p>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 
   const educationContent = (

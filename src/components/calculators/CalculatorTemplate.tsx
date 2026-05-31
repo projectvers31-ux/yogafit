@@ -1,7 +1,6 @@
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { Sparkles, ArrowRight, Calculator, ChevronDown } from 'lucide-react';
+import { Sparkles, ArrowRight, ChevronDown } from 'lucide-react';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 import { breadcrumbSchema } from '@/lib/seo';
 
@@ -81,7 +80,7 @@ export default function CalculatorTemplate({
       </div>
 
       {/* ===== 1. SEO HERO ===== */}
-      <section className="py-14 md:py-20 px-4 md:px-12 bg-gradient-to-b from-brand-sage/5 via-white to-brand-bone border-b border-brand-border">
+      <section className="py-14 md:py-20 px-4 md:px-12 bg-linear-to-b from-brand-sage/5 via-white to-brand-bone border-b border-brand-border">
         <div className="max-w-3xl mx-auto text-center">
           <span className="inline-flex items-center gap-2 px-4 py-1.5 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.2em] rounded-full mb-4">
             <Sparkles size={12} /> Free Tool
@@ -98,25 +97,17 @@ export default function CalculatorTemplate({
 
       {/* ===== 2. CALCULATOR MODULE ===== */}
       <div className="max-w-lg mx-auto px-4 md:px-0 py-8 md:py-12">
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8"
-        >
+        <div className="animate-fadeIn bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
           {calculatorModule}
-        </motion.div>
+        </div>
       </div>
 
       {/* ===== 3. RESULTS SECTION ===== */}
       {resultsModule && (
         <div className="max-w-lg mx-auto px-4 md:px-0 pb-8 md:pb-12">
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-          >
+          <div className="animate-fadeIn" style={{ animationDelay: '0.1s' }}>
             {resultsModule}
-          </motion.div>
+          </div>
         </div>
       )}
 
@@ -159,7 +150,7 @@ export default function CalculatorTemplate({
 
       {/* ===== 6. CTA SECTION ===== */}
       <section className="max-w-lg mx-auto px-4 md:px-0 pb-24 md:pb-16">
-        <div className="bg-gradient-to-br from-brand-sage/10 to-brand-blush/30 border border-brand-sage/15 rounded-3xl p-8 md:p-10 text-center">
+        <div className="bg-linear-to-br from-brand-sage/10 to-brand-blush/30 border border-brand-sage/15 rounded-3xl p-8 md:p-10 text-center">
           <Sparkles size={36} className="text-brand-sage mx-auto mb-4" />
           <h2 className="text-2xl font-serif text-brand-ink mb-3 leading-tight">
             Your {ctaTopic} Is Just the Start<br />

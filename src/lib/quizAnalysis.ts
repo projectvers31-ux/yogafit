@@ -10,7 +10,7 @@ export interface PsychologicalProfile {
   stressLevel: 'low' | 'moderate' | 'high';
   confidenceLevel: 'low' | 'building' | 'high';
   lifestylePace: 'slow' | 'moderate' | 'hectic';
-  productAffinity: string[];
+  focusCategories: string[];
 }
 
 export interface MetabolicProfile {
@@ -34,13 +34,12 @@ export interface TransformationPlan {
   week4: string[];
   keyFocus: string;
   consistencyStrategy: string;
-  weeklyProductTip: string[];
+  weeklyFocusTip: string[];
 }
 
 export interface PersonalityInsight {
   trait: string;
   description: string;
-  productSuggestion?: string;
 }
 
 export interface PerAnswerInsight {
@@ -48,7 +47,6 @@ export interface PerAnswerInsight {
   answer: string;
   insight: string;
   recommendation: string;
-  productHint?: string;
 }
 
 export interface ActionPlanItem {
@@ -84,13 +82,13 @@ export interface EnhancedAnalysis {
   aiCta: string;
 }
 
-const PRODUCT_AFFINITY_MAP: Record<string, string[]> = {
-  'Busy Working Woman': ['FITNESS', 'KETO', 'GLOW'],
-  'Emotional Eater': ['YOGA', 'KETO', 'GLOW'],
-  'Beginner Restarting Journey': ['YOGA', 'KETO', 'GLOW'],
-  'Transformation-Ready Champion': ['FITNESS', 'KETO'],
-  'Consistent Grower': ['YOGA', 'GLOW', 'KETO'],
-  'Ambitious Achiever': ['FITNESS', 'GLOW']
+const FOCUS_AREA_MAP: Record<string, string[]> = {
+  'Busy Working Woman': ['weight_loss', 'quick_session', 'strength'],
+  'Emotional Eater': ['stress_relief', 'low_impact', 'mindfulness'],
+  'Beginner Restarting Journey': ['low_impact', 'flexibility', 'stress_relief'],
+  'Transformation-Ready Champion': ['strength', 'weight_loss'],
+  'Consistent Grower': ['flexibility', 'stress_relief', 'energy'],
+  'Ambitious Achiever': ['strength', 'energy']
 };
 
 const EMOTIONAL_EATING_TRIGGERS: Record<string, string[]> = {
@@ -186,7 +184,7 @@ export function analyzePsychologicalProfile(quizData: any): PsychologicalProfile
     strengths.push('Natural consistency', 'Patience', 'Balance in all things', 'Adaptability');
   }
 
-  const productAffinity = PRODUCT_AFFINITY_MAP[archetype] || ['FITNESS', 'KETO'];
+  const focusCategories = FOCUS_AREA_MAP[archetype] || ['weight_loss', 'strength'];
 
   if (painPoint.includes('confidence') || urgency.includes('personal')) {
     motivationStyle = 'intrinsic';
@@ -234,7 +232,7 @@ export function analyzePsychologicalProfile(quizData: any): PsychologicalProfile
     stressLevel,
     confidenceLevel,
     lifestylePace,
-    productAffinity
+    focusCategories
   };
 }
 
@@ -317,7 +315,7 @@ export function generateTransformationPlan(
   let week4: string[] = [];
   let keyFocus = '';
   let consistencyStrategy = '';
-  let weeklyProductTip: string[] = [];
+  let weeklyFocusTip: string[] = [];
 
   if (goal === 'weight_loss') {
     week1 = [
@@ -348,11 +346,11 @@ export function generateTransformationPlan(
     consistencyStrategy = psychProfile.emotionalState === 'overwhelmed'
       ? 'Start incredibly small — 10 minutes a day. Build the habit first, intensity later.'
       : 'Progressive challenge — increase by 10% weekly to stay engaged';
-    weeklyProductTip = [
-      'A keto cookbook can make healthy eating effortless this week',
-      'Meal prep tools save hours — worth every penny',
-      'A food scale helps with portion awareness without stress',
-      'Consider a structured program to lock in your progress'
+    weeklyFocusTip = [
+      'Focus on whole foods — prioritize protein and vegetables at every meal',
+      'Meal prepping on weekends sets you up for effortless weekdays',
+      'Track portions visually — use your hand as a guide for each macronutrient',
+      'Build a consistent routine — same wake-up, same workout, same mealtimes'
     ];
   } else if (goal === 'flexibility') {
     week1 = [
@@ -381,11 +379,11 @@ export function generateTransformationPlan(
     ];
     keyFocus = "Progressive opening — respect your body's timeline";
     consistencyStrategy = 'Yoga is meditative — focus on how you FEEL, not performance';
-    weeklyProductTip = [
-      'A quality yoga mat makes daily practice more comfortable',
-      'Yoga blocks help beginners achieve proper alignment',
-      'An online yoga membership gives you variety and guidance',
-      'Meditation apps complement your physical practice perfectly'
+    weeklyFocusTip = [
+      'Practice on a comfortable surface — consistency matters more than props',
+      'Use household items (books, cushions) as alignment aids if needed',
+      'Follow free online flows that match your current level',
+      'Pair movement with breath — the breath is the most powerful tool'
     ];
   } else {
     week1 = [
@@ -414,11 +412,11 @@ export function generateTransformationPlan(
     ];
     keyFocus = 'Energy is multi-factor: sleep + nutrition + movement + mindset';
     consistencyStrategy = 'Energy feeds energy — start when you feel it most, then expand';
-    weeklyProductTip = [
-      'An energizing workout program can kickstart your momentum',
-      'Meal planning tools help maintain stable energy through the day',
-      'Sleep optimization resources transform recovery quality',
-      'A holistic glow-up guide ties everything together beautifully'
+    weeklyFocusTip = [
+      'Start each session with dynamic movement to activate your nervous system',
+      'Plan meals around stable energy — protein + complex carbs at every meal',
+      'Prioritize 7-8 hours of sleep — it is the foundation of energy',
+      'Track your energy patterns to identify what fuels you best'
     ];
   }
 
@@ -433,16 +431,16 @@ export function generateTransformationPlan(
   if (psychProfile.lifestylePace === 'hectic') {
     week1 = week1.filter(w => !w.includes('meal prep') && !w.includes('all meals'));
     week1.push('Use a simple checklist app to track just 2 habits');
-    weeklyProductTip[0] = 'Short, efficient programs work best for your schedule';
+    weeklyFocusTip[0] = 'Short, focused sessions are more effective than long ones for your schedule';
   }
 
   if (psychProfile.emotionalEatingTriggers.length > 0) {
     week2.push('Identify your top 3 emotional eating triggers and write them down');
     week3.push('Practice a 5-minute pause before emotional eating — breathe or stretch instead');
-    weeklyProductTip[1] = 'Mindful movement (yoga) helps break the emotional eating cycle';
+    weeklyFocusTip[1] = 'Mindful movement (yoga) helps break the emotional eating cycle';
   }
 
-  return { week1, week2, week3, week4, keyFocus, consistencyStrategy, weeklyProductTip };
+  return { week1, week2, week3, week4, keyFocus, consistencyStrategy, weeklyFocusTip };
 }
 
 export function generatePersonalityInsights(
@@ -453,26 +451,22 @@ export function generatePersonalityInsights(
   insights.push({
     trait: `Your Archetype: ${psychProfile.archetype}`,
     description: psychProfile.archetypeDescription,
-    productSuggestion: `Products in ${psychProfile.productAffinity.join(', ')} categories are ideally suited for you`
   });
 
   if (psychProfile.motivationStyle === 'intrinsic') {
     insights.push({
       trait: 'Intrinsic Motivation',
       description: 'You are self-driven. Focus on personal improvement milestones rather than external validation. Track your own progress religiously.',
-      productSuggestion: 'Goal-tracking tools and progress journals align with your internal drive'
     });
   } else if (psychProfile.motivationStyle === 'extrinsic') {
     insights.push({
       trait: 'Community Motivation',
       description: 'You thrive with external support. Join accountability groups, find a fitness buddy, or share progress publicly for maximum motivation.',
-      productSuggestion: 'Community-based programs and coaching keep you engaged and accountable'
     });
   } else {
     insights.push({
       trait: 'Balanced Motivation',
       description: 'You respond to both internal and external drivers. Combine personal goals with community support for optimal results.',
-      productSuggestion: 'A mix of self-guided programs and community support works best for you'
     });
   }
 
@@ -496,10 +490,6 @@ export function generatePersonalityInsights(
     insights.push({
       trait: 'Known Barriers',
       description: `Common challenges: ${psychProfile.barriers.join(', ')}. Your plan specifically addresses these to ensure success.`,
-      productSuggestion: psychProfile.barriers.includes('Time constraints') ? 'Short-duration programs (10-15 min) maximize your limited time' :
-        psychProfile.barriers.includes('Emotional eating patterns') ? 'Mindfulness and yoga resources help break the cycle' :
-        psychProfile.barriers.includes('Past discouragement') ? 'Beginner-friendly programs rebuild confidence gradually' :
-        undefined
     });
   }
 
@@ -507,7 +497,6 @@ export function generatePersonalityInsights(
     insights.push({
       trait: 'Emotional Awareness',
       description: `Your emotional eating triggers include: ${psychProfile.emotionalEatingTriggers.join(', ')}. Awareness is the first step to freedom. Movement is a powerful alternative to emotional eating.`,
-      productSuggestion: 'Yoga and mindfulness programs provide healthy emotional regulation tools'
     });
   }
 
@@ -533,41 +522,33 @@ export function generatePerAnswerInsights(quizData: any): PerAnswerInsight[] {
 
     let insight = '';
     let recommendation = '';
-    let productHint: string | undefined;
 
     if (q.key === 'identity') {
       if (answer.toLowerCase().includes('mom')) {
         insight = 'You are balancing multiple responsibilities. Your fitness journey needs to fit YOUR life, not the other way around.';
         recommendation = 'Short, efficient home workouts. 15 minutes of focus beats 1 hour of distraction.';
-        productHint = 'Look for programs designed for busy moms — they understand your schedule';
       } else if (answer.toLowerCase().includes('working')) {
         insight = 'You have a structured life. This means you can leverage routines and habits effectively.';
         recommendation = 'Schedule workouts like meetings. Treat them as non-negotiable appointments.';
-        productHint = 'Structured fitness programs match your professional mindset perfectly';
       } else if (answer.toLowerCase().includes('beginner')) {
         insight = 'You are starting fresh. This is actually an advantage — no bad habits to break, just new ones to build.';
         recommendation = 'Master the basics first. Consistency matters more than complexity.';
-        productHint = 'Beginner-friendly programs build confidence without intimidation';
       }
     } else if (q.key === 'painPoint') {
       if (answer.toLowerCase().includes('belly') || answer.toLowerCase().includes('weight')) {
         insight = 'You are ready to address a specific body concern. This clarity is powerful.';
         recommendation = 'Combine targeted nutrition with full-body training for best results.';
-        productHint = 'Nutrition guides and structured workout plans target stubborn areas effectively';
       } else if (answer.toLowerCase().includes('energy')) {
         insight = 'Low energy suggests sleep, nutrition, or stress issues. Fitness is the solution, not the problem.';
         recommendation = 'Prioritize sleep and nutrition first, then add movement for energy amplification.';
-        productHint = 'Energy-focused programs address all three pillars: sleep, nutrition, movement';
       } else if (answer.toLowerCase().includes('stress') || answer.toLowerCase().includes('emotional')) {
         insight = "You are using fitness for mental health. This is one of fitness's greatest gifts.";
         recommendation = 'Yoga and walking are meditation in motion. Use movement for stress release.';
-        productHint = 'Yoga and mindfulness programs transform stress into strength';
       }
     } else if (q.key === 'desiredResult') {
       if (answer.toLowerCase().includes('confidence')) {
         insight = 'Confidence comes from consistent action and visible progress. You will build it step by step.';
         recommendation = 'Track progress (photos, measurements, strength gains) to see confidence build.';
-        productHint = 'Holistic glow-up guides combine inner and outer transformation';
       } else if (answer.toLowerCase().includes('health')) {
         insight = 'Health-focused motivation is sustainable and long-lasting. You are playing the long game.';
         recommendation = 'Focus on biomarkers: energy, sleep quality, lab work, how clothes fit.';
@@ -579,16 +560,10 @@ export function generatePerAnswerInsights(quizData: any): PerAnswerInsight[] {
       } else if (answer.toLowerCase().includes('15') || answer.toLowerCase().includes('few minutes')) {
         insight = 'Limited time means maximum efficiency. Every minute counts.';
         recommendation = 'High-intensity circuits, yoga flows, or walking will fit perfectly.';
-        productHint = 'Short-duration programs (10-15 min) deliver results in minimal time';
       }
     } else if (q.key === 'pastObstacle') {
       insight = `You have identified your failure pattern: ${answer}. Awareness is the first step to breaking it.`;
       recommendation = 'Build accountability systems to prevent this pattern from repeating.';
-      if (answer.toLowerCase().includes('motivation')) {
-        productHint = 'Structured programs with built-in accountability keep you on track when motivation dips';
-      } else if (answer.toLowerCase().includes('money') || answer.toLowerCase().includes('wasted')) {
-        productHint = 'Our programs come with a satisfaction guarantee — no risk, just results';
-      }
     } else if (q.key === 'commitment') {
       if (answer.toLowerCase().includes('high') || answer.toLowerCase().includes('100')) {
         insight = 'Your high commitment is your greatest asset. Channel it into consistent action.';
@@ -613,7 +588,6 @@ export function generatePerAnswerInsights(quizData: any): PerAnswerInsight[] {
         answer,
         insight,
         recommendation,
-        productHint
       });
     }
   }

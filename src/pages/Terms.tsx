@@ -1,6 +1,4 @@
-import React from 'react';
-import { motion } from 'motion/react';
-import { AlertCircle, FileText, Info, Scale } from 'lucide-react';
+import { AlertCircle, FileText, Info } from 'lucide-react';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 
 export default function Terms() {
@@ -8,32 +6,23 @@ export default function Terms() {
     <main id="main-content" className="min-h-screen bg-brand-warm">
       <SEOHelmet
         title="Terms of Service — FitFeky"
-        description="Review the terms of service for FitFeky. Including fitness disclaimer, user responsibility, affiliate disclosure, and intellectual property policies."
+        description="Review the terms of service for FitFeky. Including fitness disclaimer, user responsibility, and intellectual property policies."
         canonicalPath="/terms"
       />
 
       <section className="relative pt-36 pb-20 md:pb-28 px-6 md:px-12 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-b from-brand-blush/10 to-transparent" />
         <div className="max-w-3xl mx-auto relative">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <div className="animate-fadeIn">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.25em] rounded-full mb-5 border border-brand-sage/20">
               <FileText size={12} /> Terms of Service
             </div>
             <h1 className="text-4xl md:text-5xl font-serif text-brand-ink mb-3 leading-tight">Terms of Service</h1>
             <p className="text-brand-muted">Effective Date: May 2026</p>
-          </motion.div>
+          </div>
 
           <div className="mt-12 space-y-8">
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="bg-white p-8 md:p-10 rounded-2xl border border-brand-border/30"
-            >
+            <div className="animate-fadeIn bg-white p-8 md:p-10 rounded-2xl border border-brand-border/30">
               <div className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-brand-sage/10 rounded-xl flex items-center justify-center text-brand-sage shrink-0">
                   <AlertCircle size={20} />
@@ -45,7 +34,7 @@ export default function Terms() {
                   </p>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
             <div className="space-y-6">
               {[
@@ -55,22 +44,15 @@ export default function Terms() {
                   text: 'By using this site and our programs, you agree that you are performing these activities at your own risk. FitFeky and its creators are not responsible for any injuries or health problems you may experience as a result of following our recommendations.',
                 },
                 {
-                  icon: Scale,
-                  title: '2. Affiliate Disclosure',
-                  text: 'Some of the recommendations provided may include affiliate links. This means we may earn a commission if you choose to purchase a program or product through our link, at no additional cost to you. We only recommend products we truly believe will benefit our community.',
-                },
-                {
                   icon: FileText,
-                  title: '3. Intellectual Property',
+                  title: '2. Intellectual Property',
                   text: 'All content, logos, and designs on this website are the property of FitFeky. You may not reproduce, distribute, or use our content for commercial purposes without explicit written permission.',
                 },
               ].map((section, i) => (
-                <motion.div
+                <div
                   key={i}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 + i * 0.1 }}
-                  className="bg-white p-6 md:p-8 rounded-2xl border border-brand-border/30"
+                  className="animate-fadeIn bg-white p-6 md:p-8 rounded-2xl border border-brand-border/30"
+                  style={{ animationDelay: `${0.1 + i * 0.1}s` }}
                 >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-10 h-10 bg-brand-sage/10 rounded-xl flex items-center justify-center text-brand-sage shrink-0">
@@ -79,7 +61,7 @@ export default function Terms() {
                     <h3 className="text-lg font-semibold text-brand-ink">{section.title}</h3>
                   </div>
                   <p className="text-brand-muted leading-relaxed">{section.text}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
 

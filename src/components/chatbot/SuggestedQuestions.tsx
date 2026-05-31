@@ -1,4 +1,3 @@
-import React from 'react';
 export default function SuggestedQuestions({ suggestions, onSelect, disabled }: { suggestions: string[]; onSelect: (s: string) => void; disabled?: boolean }) {
   return (
     <div className="flex flex-wrap gap-2">

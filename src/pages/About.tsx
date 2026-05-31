@@ -1,5 +1,3 @@
-import React from 'react';
-import { motion } from 'motion/react';
 import { Heart, Sparkles, Target, ArrowRight, Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEOHelmet from '@/components/seo/SEOHelmet';
@@ -23,12 +21,7 @@ export default function About() {
       <section className="relative pt-36 pb-20 md:pb-28 px-6 md:px-12 overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-b from-brand-blush/10 to-transparent" />
         <div className="max-w-4xl mx-auto relative">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-center"
-          >
+          <div className="animate-fadeIn text-center">
             <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.25em] rounded-full mb-5 border border-brand-sage/20">
               <Heart size={12} /> Our Mission
             </div>
@@ -39,7 +32,7 @@ export default function About() {
             <p className="text-lg md:text-xl text-brand-muted max-w-2xl mx-auto leading-relaxed">
               At FitFeky, we believe fitness should be a celebration of what your body can do — not a punishment for what you ate.
             </p>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -63,19 +56,17 @@ export default function About() {
                 text: 'No fluff, no fads. Just science-backed yoga and movement that helps you feel confident and strong.',
               },
             ].map((item, i) => (
-              <motion.div
+              <div
                 key={i}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 + i * 0.1, duration: 0.5 }}
-                className="group relative bg-white p-8 md:p-10 rounded-2xl border border-brand-border/30 hover:border-brand-sand/40 hover:shadow-xl transition-all duration-500"
+                className="animate-fadeIn group relative bg-white p-8 md:p-10 rounded-2xl border border-brand-border/30 hover:border-brand-sand/40 hover:shadow-xl transition-all duration-500"
+                style={{ animationDelay: `${0.15 + i * 0.1}s` }}
               >
                 <div className="w-14 h-14 bg-linear-to-br from-brand-sage/10 to-brand-sage/5 rounded-2xl flex items-center justify-center text-brand-sage mb-6 group-hover:scale-105 transition-transform duration-500">
                   <item.icon size={24} />
                 </div>
                 <h3 className="text-xl font-bold text-brand-ink mb-3">{item.title}</h3>
                 <p className="text-brand-muted leading-relaxed">{item.text}</p>
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>
@@ -83,12 +74,7 @@ export default function About() {
 
       <section className="px-6 md:px-12 pb-20 md:pb-28">
         <div className="max-w-4xl mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative bg-linear-to-br from-brand-sage/5 to-brand-blush/10 rounded-3xl p-10 md:p-16 text-center border border-brand-border/30 overflow-hidden"
-          >
+          <div className="animate-fadeIn relative bg-linear-to-br from-brand-sage/5 to-brand-blush/10 rounded-3xl p-10 md:p-16 text-center border border-brand-border/30 overflow-hidden">
             <div className="absolute top-0 right-0 w-64 h-64 bg-brand-blush/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3" />
             <div className="relative">
               <div className="flex justify-center gap-1 text-brand-gold mb-6">
@@ -105,7 +91,7 @@ export default function About() {
                 Take the Free Quiz <ArrowRight size={16} />
               </Link>
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
     </main>

@@ -4,15 +4,12 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   Calculator, ArrowRight, Check, ChevronRight,
   Dumbbell, Sparkles, Target, Zap,
-  Heart, Activity, Brain, ShoppingBag, Home
+  Heart, Brain
 } from 'lucide-react';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 import { breadcrumbSchema } from '@/lib/seo';
-import SafeImage from '@/components/ui/SafeImage';
-import { productList } from '@/lib/products';
-import type { Product } from '@/lib/products';
 
-type Step = 'calculator' | 'results' | 'explain' | 'cta' | 'quiz' | 'ai_plan' | 'products';
+type Step = 'calculator' | 'results' | 'explain' | 'cta' | 'quiz' | 'ai_plan';
 type Gender = 'male' | 'female';
 type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very_active';
 type Goal = 'maintain' | 'lose' | 'fast_loss';
@@ -81,16 +78,6 @@ function estimatedGoalFromQuiz(days: number, speed: string): Goal {
   return 'lose';
 }
 
-function getProductsFor(goal: Goal, pref: WorkoutPref): Product[] {
-  const filtered = productList.filter(p => {
-    if (goal === 'maintain') return p.category === 'YOGA' || p.category === 'GLOW';
-    if (pref === 'gym') return p.category === 'FITNESS' || p.category === 'KETO';
-    if (pref === 'home') return p.category === 'YOGA' || p.category === 'GLOW';
-    return p.category === 'KETO' || p.category === 'FITNESS' || p.category === 'YOGA';
-  });
-  return filtered.slice(0, 3);
-}
-
 export default function TDEECalculator() {
   const [step, setStep] = useState<Step>('calculator');
 
@@ -116,7 +103,6 @@ export default function TDEECalculator() {
 
   const results = useMemo(() => calculateTDEE(age, gender, kgW, cmH, activity), [age, gender, kgW, cmH, activity]);
   const goal = useMemo(() => quizSpeed ? estimatedGoalFromQuiz(quizDays || 3, quizSpeed) : 'lose', [quizSpeed, quizDays]);
-  const products = useMemo(() => getProductsFor(goal, quizPref || 'mixed'), [goal, quizPref]);
   const allQuizDone = quizPref && quizDays && quizSpeed;
 
   const breadcrumb = breadcrumbSchema([
@@ -124,14 +110,14 @@ export default function TDEECalculator() {
     { name: 'TDEE Calculator', url: 'https://fitfeky.com/calculators/tdee-calculator' },
   ]);
 
-  const progressSteps = ['Calculate', 'Results', 'Your Numbers', 'Your Plan', 'Quick Quiz', 'AI Plan', 'Products'];
+  const progressSteps = ['Calculate', 'Results', 'Your Numbers', 'Your Plan', 'Quick Quiz', 'AI Plan'];
   const stepIndex = progressSteps.indexOf(
     step === 'calculator' ? 'Calculate' :
     step === 'results' ? 'Results' :
     step === 'explain' ? 'Your Numbers' :
     step === 'cta' ? 'Your Plan' :
     step === 'quiz' ? 'Quick Quiz' :
-    step === 'ai_plan' ? 'AI Plan' : 'Products'
+    step === 'ai_plan' ? 'AI Plan' : 'Results'
   );
 
   const handleCalculate = () => {
@@ -534,7 +520,7 @@ export default function TDEECalculator() {
 
           {step === 'cta' && (
             <motion.div key="cta" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}
-              className="bg-gradient-to-br from-brand-sage/10 to-brand-blush/30 border border-brand-sage/15 rounded-3xl p-8 md:p-10 text-center">
+              className="bg-linear-to-br from-brand-sage/10 to-brand-blush/30 border border-brand-sage/15 rounded-3xl p-8 md:p-10 text-center">
               <Sparkles size={36} className="text-brand-sage mx-auto mb-4" />
               <h2 className="text-2xl font-serif text-brand-ink mb-3 leading-tight">Calories to Lose Weight –<br />Get Your <span className="text-brand-sage italic">Personalized Plan</span></h2>
               <p className="text-sm text-brand-muted max-w-md mx-auto mb-6 leading-relaxed">
@@ -630,7 +616,7 @@ export default function TDEECalculator() {
               </div>
 
               <div className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8 space-y-4">
-                <div className="bg-gradient-to-br from-brand-sage/5 to-brand-blush/20 rounded-2xl p-5">
+                <div className="bg-linear-to-br from-brand-sage/5 to-brand-blush/20 rounded-2xl p-5">
                   <h3 className="text-sm font-bold text-brand-ink mb-2">Your Strategy</h3>
                   <p className="text-xs text-brand-muted leading-relaxed">
                     {goal === 'fast_loss'
@@ -677,11 +663,10 @@ export default function TDEECalculator() {
                   </div>
                 </div>
 
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                  onClick={() => goTo('products')}
-                  className="w-full bg-brand-sage text-white py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#243D31] transition-all shadow-lg shadow-brand-sage/20 inline-flex items-center justify-center gap-2 mt-2">
-                  View Recommended Products <ShoppingBag size={15} />
-                </motion.button>
+                <Link to="/"
+                  className="block w-full bg-brand-sage text-white py-4 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#243D31] transition-all shadow-lg shadow-brand-sage/20 text-center mt-2">
+                  Take the Full Quiz for Your Complete Plan →
+                </Link>
 
                 <Link to="/"
                   className="block w-full text-center py-3 text-[10px] font-bold uppercase tracking-widest text-brand-muted hover:text-brand-sage transition-colors">
@@ -691,52 +676,6 @@ export default function TDEECalculator() {
             </motion.div>
           )}
 
-          {step === 'products' && (
-            <motion.div key="products" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }}>
-              <div className="text-center mb-6">
-                <div className="w-12 h-12 bg-brand-sage/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
-                  <ShoppingBag size={22} className="text-brand-sage" />
-                </div>
-                <h2 className="text-xl font-serif text-brand-ink">Top Picks for Your Weight Loss Goals</h2>
-                <p className="text-xs text-brand-muted mt-1">AI-curated based on your goal and preferences</p>
-              </div>
-
-              <div className="space-y-4">
-                {products.map((product, i) => (
-                  <motion.div key={product.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}
-                    className="bg-white border border-brand-border/30 rounded-2xl p-4 flex gap-4 hover:shadow-sm transition-all">
-                    <SafeImage src={product.image} alt={product.title} className="w-20 h-20 rounded-xl object-cover shrink-0" width={80} height={80} />
-                    <div className="flex-1 min-w-0">
-                      <span className="inline-block px-2 py-0.5 bg-brand-sage/10 text-brand-sage text-[8px] font-bold uppercase tracking-widest rounded-full mb-1.5">{product.category}</span>
-                      <h3 className="text-sm font-serif text-brand-ink leading-snug mb-0.5">{product.title}</h3>
-                      <p className="text-[11px] text-brand-muted leading-relaxed mb-1.5">{product.benefit}</p>
-                      <div className="flex items-center justify-between">
-                        <div>
-                          {product.oldPrice > 0 && <span className="text-[9px] text-brand-muted/50 line-through block">${product.oldPrice}</span>}
-                          <span className="text-sm font-bold text-brand-sage">${product.price}</span>
-                        </div>
-                        <a href={product.link} target="_blank" rel="noopener noreferrer sponsored"
-                          className="bg-brand-sage text-white px-4 py-2 rounded-full text-[9px] font-bold uppercase tracking-widest hover:bg-[#243D31] transition-all inline-flex items-center gap-1">
-                          Shop <ArrowRight size={10} />
-                        </a>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-
-                <Link to="/"
-                  className="block w-full bg-gradient-to-r from-brand-sage/10 to-brand-blush/30 border border-brand-sage/10 text-center py-4 rounded-2xl text-xs font-bold uppercase tracking-[0.2em] text-brand-ink hover:bg-brand-sage hover:text-white transition-all mt-2">
-                  Get Your Complete AI Fat Loss Plan →
-                </Link>
-
-                <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                  onClick={resetAll}
-                  className="w-full text-center py-3 text-[10px] font-bold uppercase tracking-widest text-brand-muted hover:text-brand-sage transition-colors">
-                  ← Recalculate TDEE
-                </motion.button>
-              </div>
-            </motion.div>
-          )}
         </AnimatePresence>
       </div>
 

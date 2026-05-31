@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
 import { Utensils } from 'lucide-react';
 
@@ -87,7 +86,7 @@ export default function MacroCalculator() {
   );
 
   const resultsModule = (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
+    <div className="animate-fadeIn bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
       <div className="p-5 bg-brand-sage/5 rounded-2xl border border-brand-sage/10 text-center mb-4">
         <p className="text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 mb-1">Daily Calories</p>
         <p className="text-3xl font-serif text-brand-sage font-bold">{macros.calories.toLocaleString()}</p>
@@ -107,7 +106,7 @@ export default function MacroCalculator() {
       <div className="text-xs text-brand-muted leading-relaxed p-4 bg-brand-warm rounded-xl">
         <p>Protein is the most important macro during weight loss — it preserves muscle and keeps you full. For a deeper look at protein targets, use our <Link to="/calculators/protein-calculator" className="text-brand-sage underline hover:no-underline">protein calculator</Link>.</p>
       </div>
-    </motion.div>
+    </div>
   );
 
   const educationContent = (

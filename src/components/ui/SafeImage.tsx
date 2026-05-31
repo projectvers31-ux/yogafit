@@ -7,9 +7,11 @@ interface SafeImageProps {
   width?: number;
   height?: number;
   loading?: 'lazy' | 'eager';
+  fetchPriority?: 'high' | 'low' | 'auto';
+  sizes?: string;
 }
 
-export default function SafeImage({ src, alt, className = '', width, height, loading = 'lazy' }: SafeImageProps) {
+export default function SafeImage({ src, alt, className = '', width, height, loading = 'lazy', fetchPriority, sizes }: SafeImageProps) {
   const [error, setError] = useState(false);
 
   if (!src || error) {
@@ -35,6 +37,8 @@ export default function SafeImage({ src, alt, className = '', width, height, loa
       width={width}
       height={height}
       loading={loading}
+      fetchPriority={fetchPriority}
+      sizes={sizes}
       onError={() => setError(true)}
       decoding="async"
     />

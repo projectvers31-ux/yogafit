@@ -1,18 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowLeft, Clock, Calendar, ChevronDown, Tag, Copy, Check, ExternalLink, Sparkles, Share2, ChevronRight } from 'lucide-react';
-import { articles, getArticleBySlug, getRelatedArticles } from '@/content/blogArticles';
-import type { BlogArticle, Section, ProductRef } from '@/content/blogArticles';
-import { productList } from '@/lib/products';
-import type { Product } from '@/lib/products';
-import { breadcrumbSchema } from '@/lib/seo';
+import { ArrowLeft, Clock, Calendar, Tag, Copy, Check, Sparkles, Share2 } from 'lucide-react';
+import { getArticleBySlug, getRelatedArticles } from '@/content/blogArticles';
+import type { BlogArticle, Section } from '@/content/blogArticles';
+import { breadcrumbSchema, articleSchema as articleSchemaFn } from '@/lib/seo';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 import SafeImage from '@/components/ui/SafeImage';
-
-function resolveProduct(ref: ProductRef): Product | undefined {
-  return productList.find(p => p.id === ref.id);
-}
 
 function H2SectionRenderer({ section: s }: { section: Section }) {
   if (s.type !== 'h2') return null;
@@ -47,38 +40,9 @@ function SectionRenderer({ section, index }: { section: Section; index: number }
       );
     case 'cta':
       return (
-        <div className="bg-gradient-to-r from-brand-sage/10 to-brand-blush/30 rounded-2xl p-6 md:p-8 mb-8 text-center border border-brand-sage/10">
+        <div className="bg-linear-to-r from-brand-sage/10 to-brand-blush/30 rounded-2xl p-6 md:p-8 mb-8 text-center border border-brand-sage/10">
           <Sparkles size={24} className="text-brand-sage mx-auto mb-3" />
           <p className="text-sm md:text-base text-brand-ink leading-relaxed font-medium max-w-xl mx-auto">{section.text}</p>
-        </div>
-      );
-    case 'product':
-      const product = resolveProduct({ id: section.productId, reason: section.text });
-      if (!product) return null;
-      return (
-        <div className="bg-white border border-brand-border rounded-2xl p-5 md:p-6 mb-6 flex flex-col md:flex-row gap-5 items-start hover:shadow-sm transition-shadow">
-          <SafeImage src={product.image} alt={product.title} className="w-full md:w-28 h-28 rounded-xl object-cover shrink-0" width={112} height={112} />
-          <div className="grow min-w-0">
-            {section.title && <p className="text-[10px] font-bold uppercase tracking-widest text-brand-sage mb-1">{section.title}</p>}
-            <h4 className="text-base font-serif text-brand-ink mb-1">{product.title}</h4>
-            <p className="text-sm text-brand-muted leading-relaxed mb-3">{section.text}</p>
-            <div className="flex items-center gap-3">
-              <a
-                href={product.link}
-                target="_blank"
-                rel="noopener noreferrer sponsored"
-                className="inline-flex items-center gap-1.5 bg-brand-sage text-white px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#243D31] transition-all"
-              >
-                Check Price <ExternalLink size={11} />
-              </a>
-              {product.oldPrice > 0 && (
-                <span className="text-xs text-brand-muted">
-                  <span className="line-through">${product.oldPrice}</span>
-                  <span className="text-brand-sage font-semibold ml-1">${product.price}</span>
-                </span>
-              )}
-            </div>
-          </div>
         </div>
       );
     default:
@@ -163,26 +127,6 @@ function ShareButtons({ title, url }: { title: string; url: string }) {
       <button onClick={copyLink} className="w-8 h-8 bg-brand-blush/40 rounded-full flex items-center justify-center text-brand-muted hover:bg-brand-sage hover:text-white transition-all" aria-label="Copy link">
         {copied ? <Check size={14} /> : <Copy size={14} />}
       </button>
-    </div>
-  );
-}
-
-function FAQAccordion({ faq }: { faq: BlogArticle['faq'] }) {
-  return (
-    <div className="mt-8 space-y-3">
-      <h2 className="text-xl md:text-2xl font-serif text-brand-ink mb-4">Frequently Asked Questions</h2>
-      {faq.map((item, i) => (
-        <details key={i} className="group bg-white rounded-xl border border-brand-border/30 hover:border-brand-sand/30 transition-all overflow-hidden">
-          <summary className="flex items-center justify-between px-5 py-4 cursor-pointer list-none">
-            <h3 className="text-sm md:text-base font-medium text-brand-ink group-open:text-brand-sage transition-colors pr-4 text-left leading-snug">{item.q}</h3>
-            <ChevronDown size={16} className="text-brand-muted shrink-0 transition-transform duration-300 group-open:rotate-180" />
-          </summary>
-          <div className="px-5 pb-4">
-            <div className="h-px bg-brand-border/20 -mx-5 mb-3" />
-            <p className="text-sm text-brand-muted leading-relaxed">{item.a}</p>
-          </div>
-        </details>
-      ))}
     </div>
   );
 }
@@ -291,16 +235,13 @@ export default function BlogArticle() {
     { name: article.title, url: canonicalUrl }
   ]);
 
-  const articleSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
+  const articleJsonLd = articleSchemaFn({
     headline: article.title,
     description: article.metaDescription,
     image: article.ogImage,
     datePublished: article.date,
-    author: { '@type': 'Organization', name: 'FitFeky' },
-    publisher: { '@type': 'Organization', name: 'FitFeky' }
-  };
+    slug: article.slug,
+  });
 
   const h2Sections = article.sections.filter(s => s.type === 'h2');
   const h2Ids = h2Sections.map(s => ({
@@ -314,7 +255,7 @@ export default function BlogArticle() {
         title={article.metaTitle}
         description={article.metaDescription}
         canonicalPath={`/blog/${article.slug}`}
-        ldJson={[breadcrumb, articleSchema]}
+        ldJson={[breadcrumb, articleJsonLd]}
       />
 
       <ArticleHero article={article} />
@@ -328,8 +269,6 @@ export default function BlogArticle() {
               ))}
             </div>
 
-            {article.faq.length > 0 && <FAQAccordion faq={article.faq} />}
-
             <div className="mt-8 pt-6 border-t border-brand-border/40">
               <ShareButtons title={article.title} url={typeof window !== 'undefined' ? window.location.href : canonicalUrl} />
             </div>
@@ -340,29 +279,6 @@ export default function BlogArticle() {
           <aside className="hidden lg:block w-64 shrink-0">
             <div className="space-y-6">
               <TOC sections={article.sections} />
-              {article.productRefs.length > 0 && (
-                <div className="bg-white border border-brand-border rounded-2xl p-5">
-                  <p className="text-[10px] font-bold uppercase tracking-widest text-brand-sage mb-3">Recommended</p>
-                  <div className="space-y-4">
-                    {article.productRefs.map((ref, i) => {
-                      const product = resolveProduct(ref);
-                      if (!product) return null;
-                      return (
-                        <div key={i} className="flex items-start gap-3">
-                          <SafeImage src={product.image} alt={product.title} className="w-12 h-12 rounded-lg object-cover shrink-0" width={48} height={48} />
-                          <div className="min-w-0">
-                            <h4 className="text-xs font-medium text-brand-ink leading-tight">{product.title}</h4>
-                            <p className="text-[10px] text-brand-muted leading-tight mt-0.5">{ref.reason}</p>
-                            <a href={product.link} target="_blank" rel="noopener noreferrer sponsored" className="text-[10px] font-bold text-brand-sage hover:underline mt-1 inline-block">
-                              Shop Now →
-                            </a>
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
             </div>
           </aside>
         </div>

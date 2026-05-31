@@ -1,6 +1,5 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
 
 function bmiBasedBF(bmi: number, age: number, isFemale: boolean): number {
@@ -62,7 +61,7 @@ export default function BodyFatCalculator() {
   );
 
   const resultsModule = (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
+    <div className="animate-fadeIn bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
       <div className="p-5 bg-brand-sage/5 rounded-2xl border border-brand-sage/10 text-center mb-4">
         <p className="text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 mb-1">Estimated Body Fat</p>
         <p className="text-4xl font-serif text-brand-sage font-bold">{result.bf}%</p>
@@ -83,7 +82,7 @@ export default function BodyFatCalculator() {
       <div className="text-xs text-brand-muted leading-relaxed p-4 bg-brand-warm rounded-xl">
         <p>Body fat percentage is a better health marker than weight alone. For more about how body composition affects your weight goals, see our <Link to="/calculators/ideal-weight-calculator" className="text-brand-sage underline hover:no-underline">ideal weight calculator</Link>.</p>
       </div>
-    </motion.div>
+    </div>
   );
 
   const educationContent = (

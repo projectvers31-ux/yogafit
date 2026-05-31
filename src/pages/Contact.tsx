@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
 import { Mail, Send, CheckCircle2, MessageCircle, AlertCircle } from 'lucide-react';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 
@@ -45,11 +44,7 @@ export default function Contact() {
         <div className="absolute inset-0 bg-linear-to-b from-brand-blush/10 to-transparent" />
         <div className="max-w-6xl mx-auto relative">
           <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-            >
+            <div className="animate-fadeIn">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-[0.25em] rounded-full mb-5 border border-brand-sage/20">
                 <MessageCircle size={12} /> Get in Touch
               </div>
@@ -72,14 +67,9 @@ export default function Contact() {
                   </a>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="bg-white p-8 md:p-10 rounded-2xl border border-brand-border/30 shadow-xl"
-            >
+            <div className="animate-fadeIn bg-white p-8 md:p-10 rounded-2xl border border-brand-border/30 shadow-xl">
               {submitted ? (
                 <div className="text-center py-10">
                   <div className="w-20 h-20 bg-brand-sage/10 text-brand-sage rounded-full flex items-center justify-center mb-6 mx-auto">
@@ -155,7 +145,7 @@ export default function Contact() {
                   </button>
                 </form>
               )}
-            </motion.div>
+            </div>
           </div>
         </div>
       </section>

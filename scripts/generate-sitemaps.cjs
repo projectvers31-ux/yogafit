@@ -19,12 +19,10 @@ const url = (loc, priority, changefreq = 'monthly', lastmod) => `  <url>
 const mainSitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${url('/', '1.0', 'weekly')}
-${url('/shop', '0.85', 'weekly')}
 ${url('/about', '0.7')}
 ${url('/contact', '0.6')}
 ${url('/privacy', '0.5', 'yearly')}
 ${url('/terms', '0.5', 'yearly')}
-${url('/affiliate-disclosure', '0.4', 'yearly')}
 ${url('/calculators', '0.9', 'weekly')}
 ${url('/calculators/tdee-calculator', '0.8')}
 ${url('/calculators/bmr-calculator', '0.8')}

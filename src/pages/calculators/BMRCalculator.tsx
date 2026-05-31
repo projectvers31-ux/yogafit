@@ -1,8 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
-import { Heart, Calculator } from 'lucide-react';
+import { Heart } from 'lucide-react';
 
 export default function BMRCalculator() {
   const [age, setAge] = useState(30);
@@ -68,7 +67,7 @@ export default function BMRCalculator() {
   );
 
   const resultsModule = (
-    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
+    <div className="animate-fadeIn bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8">
       <div className="p-5 bg-brand-sage/5 rounded-2xl border border-brand-sage/10 text-center mb-4">
         <p className="text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 mb-1">Your Basal Metabolic Rate</p>
         <p className="text-4xl font-serif text-brand-sage font-bold">{bmr.toLocaleString()}</p>
@@ -79,7 +78,7 @@ export default function BMRCalculator() {
         <p>To find your <strong>total daily calories</strong> including all activity, use our <Link to="/calculators/tdee-calculator" className="text-brand-sage underline hover:no-underline">TDEE calculator</Link>.</p>
       <p className="mt-2">Once you know your BMR, create a <Link to="/calculators/calorie-deficit-calculator" className="text-brand-sage underline hover:no-underline">calorie deficit</Link> for weight loss or use our <Link to="/calculators/macro-calculator" className="text-brand-sage underline hover:no-underline">macro calculator</Link> to set your daily protein, carbs, and fat targets.</p>
       </div>
-    </motion.div>
+    </div>
   );
 
   const educationContent = (

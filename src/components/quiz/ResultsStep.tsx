@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
+import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  ArrowRight, ArrowUp, CheckCircle2, Clock, Lock, ShieldCheck, Star, Target, Zap, Heart, Brain, Flame, Award, Sparkles, Activity
+  ArrowRight, ArrowUp, CheckCircle2, Clock, Lock, ShieldCheck, Star, Target, Zap, Heart, Brain, Flame, Award, Sparkles, Activity, ShoppingCart, Users, ExternalLink
 } from 'lucide-react';
-import { trackResultsView, trackProductClick, trackCtaClick } from '@/lib/analytics';
+import { trackResultsView } from '@/lib/analytics';
 import { useCountdown } from '@/hooks/useCountdown';
-import type { QuizData, EnhancedAnalysis, ProductMatch } from '@/lib/types';
+import { useRecommendations } from '@/hooks/useRecommendations';
+import { productSchema } from '@/lib/seo';
+import type { QuizData, EnhancedAnalysis } from '@/lib/types';
 
 function getGoalIcon(goal: string) {
   if (goal === 'weight_loss') return Flame;
@@ -28,11 +31,9 @@ function getGoalBg(goal: string) {
 export default function ResultsStep({
   quizData,
   analysis,
-  productMatches,
 }: {
   quizData: QuizData;
   analysis: EnhancedAnalysis;
-  productMatches: ProductMatch[];
 }) {
   const [showScrollTop, setShowScrollTop] = useState(false);
   const resultsRef = useRef<HTMLDivElement>(null);
@@ -204,113 +205,64 @@ export default function ResultsStep({
         </div>
       </div>
 
-      {/* === PRODUCT RECOMMENDATIONS === */}
-      <div className="text-center mb-8 md:mb-12">
-        <h3 className="text-xl md:text-4xl font-serif text-brand-ink mb-3">Your Matched Programs</h3>
-        <p className="text-xs md:text-base text-brand-muted italic max-w-2xl mx-auto">
-          Each program below was scored against your answers. Match scores reflect how well each program fits your unique profile.
+      {/* === RECOMMENDATION TAGS === */}
+      <div className="mb-12 md:mb-16">
+        <h3 className="text-xl md:text-4xl font-serif text-brand-ink mb-3 text-center">Your Recommendation Profile</h3>
+        <p className="text-xs md:text-base text-brand-muted italic max-w-2xl mx-auto text-center mb-8">
+          Based on your answers, here is what suits you best.
         </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-white rounded-2xl border border-brand-border p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <Target size={16} className="text-brand-sage" />
+              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-sage">Focus Areas</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {analysis.psychologicalProfile.focusCategories.map((cat, i) => (
+                <span key={i} className="px-3 py-1.5 bg-brand-sage/10 text-brand-sage text-[10px] font-bold uppercase tracking-wider rounded-full border border-brand-sage/20">
+                  {cat}
+                </span>
+              ))}
+              <span className="px-3 py-1.5 bg-brand-gold/10 text-brand-gold text-[10px] font-bold uppercase tracking-wider rounded-full border border-brand-gold/20">
+                {goal === 'weight_loss' ? 'Fat Loss' : goal === 'flexibility' ? 'Mobility' : 'Vitality'}
+              </span>
+            </div>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-brand-border p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <Star size={16} className="text-brand-gold" />
+              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-gold">Fitness Level</span>
+            </div>
+            <p className="text-sm font-bold text-brand-ink capitalize">
+              {analysis.psychologicalProfile.archetype === 'Beginner Restarting Journey' ? 'Beginner' :
+               analysis.psychologicalProfile.archetype === 'Transformation-Ready Champion' ? 'Intermediate' :
+               analysis.psychologicalProfile.archetype === 'Ambitious Achiever' ? 'Intermediate' :
+               analysis.psychologicalProfile.archetype === 'Consistent Grower' ? 'Beginner - Intermediate' :
+               'Beginner'}
+            </p>
+            <p className="text-[10px] text-brand-muted mt-1">Based on your experience and commitment level</p>
+          </div>
+
+          <div className="bg-white rounded-2xl border border-brand-border p-6 shadow-sm">
+            <div className="flex items-center gap-2 mb-4">
+              <ShieldCheck size={16} className="text-brand-rose" />
+              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-rose">Best Suited For</span>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {generateTags(analysis).map((tag, i) => (
+                <span key={i} className="px-3 py-1.5 bg-brand-sage/5 text-brand-muted text-[10px] font-bold uppercase tracking-wider rounded-full border border-brand-border/30">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16 md:mb-20 px-2">
-        {productMatches.map((match, index) => {
-          const product = match.product;
-          return (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.12 }}
-              className={`bg-white rounded-3xl md:rounded-[2.5rem] border overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group relative p-6 md:p-10 ${
-                index === 0 ? 'border-brand-sage ring-2 ring-brand-sage/10 md:scale-105 z-10' : 'border-brand-border'
-              }`}
-            >
-              {index === 0 && (
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-brand-sage text-white px-6 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest shadow-lg z-20 flex items-center gap-1.5">
-                  <Award size={12} /> Best Match
-                </div>
-              )}
-
-              {/* Match Score */}
-              <div className="mb-4 flex items-center justify-between">
-                <div className="inline-block bg-brand-sage/10 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest text-brand-sage">
-                  {product.category}
-                </div>
-                <div className="flex items-center gap-1">
-                  <Star size={10} className="text-brand-gold" fill="currentColor" />
-                  <span className="text-[10px] font-bold text-brand-ink">{match.matchScore}%</span>
-                  <span className="text-[8px] text-brand-muted">match</span>
-                </div>
-              </div>
-
-              <h3 className="text-2xl md:text-3xl font-serif text-brand-ink leading-tight mb-2">{product.title}</h3>
-
-              <p className="text-[10px] md:text-xs text-brand-muted italic mb-4 font-serif">{product.description}</p>
-
-              <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-3xl font-black text-brand-sage leading-none">${product.price}</span>
-                <span className="text-sm text-brand-muted line-through font-medium opacity-60">${product.oldPrice}</span>
-                <span className="text-[8px] font-bold text-brand-rose bg-brand-rose/10 px-2 py-0.5 rounded-full">Save ${product.oldPrice - product.price}</span>
-              </div>
-
-              {/* Match Reasons */}
-              <div className="mb-4 p-4 bg-brand-sage/5 rounded-2xl border border-brand-sage/20">
-                <p className="text-[8px] font-bold uppercase tracking-widest text-brand-sage mb-2">Why this matches you</p>
-                <ul className="space-y-1.5">
-                  {match.matchReasons.slice(0, 2).map((reason, ri) => (
-                    <li key={ri} className="flex items-start gap-2 text-[10px] md:text-xs text-brand-ink leading-relaxed">
-                      <CheckCircle2 size={10} className="text-brand-sage mt-0.5 shrink-0" />
-                      {reason}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <div className="mb-4 p-4 bg-brand-bone/50 rounded-2xl border border-brand-border/50">
-                <p className="text-[9px] font-bold text-brand-sage uppercase tracking-widest mb-1">Primary Benefit</p>
-                <p className="text-xs md:text-sm text-brand-ink italic font-serif leading-relaxed">&ldquo;{product.benefit}&rdquo;</p>
-              </div>
-
-              <div className="space-y-2.5 mb-5 grow">
-                {product.features.slice(0, 3).map((f, fi) => (
-                  <div key={fi} className="flex items-center gap-2.5 text-xs md:text-sm font-medium text-brand-ink/70">
-                    <div className="w-5 h-5 rounded-full bg-brand-sage/10 flex items-center justify-center text-brand-sage shrink-0">
-                      <CheckCircle2 size={11} />
-                    </div>
-                    {f}
-                  </div>
-                ))}
-              </div>
-
-              {/* Trust badges near CTA */}
-              <div className="flex items-center gap-2 mb-3 text-[7px] md:text-[8px] font-bold uppercase tracking-widest text-brand-muted/50 justify-center">
-                <span>✅ 30-Day Energy Guarantee</span>
-                <span className="w-0.5 h-0.5 rounded-full bg-brand-muted/30" />
-                <span>⚡ Instant Access</span>
-                <span className="w-0.5 h-0.5 rounded-full bg-brand-muted/30" />
-                <span>🔒 Secure</span>
-              </div>
-
-              <a
-                href={`${product.link}?utm_source=fitfeky&utm_medium=quiz&utm_campaign=${goal}&utm_content=${product.id}&score=${match.matchScore}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => {
-                  trackProductClick(product.title, product.category);
-                  trackCtaClick('product_card', product.id, goal);
-                }}
-                className={`w-full group p-5 rounded-full font-bold text-sm md:text-base shadow-lg transition-all flex justify-center items-center gap-2 border-b-4 border-black/10 active:border-b-0 active:translate-y-1 ${
-                  index === 0
-                    ? 'bg-brand-sage text-white shadow-brand-sage/20 hover:bg-brand-sage/90 hover:-translate-y-0.5'
-                    : 'bg-brand-tan/20 text-brand-ink hover:bg-brand-tan/40 shadow-brand-tan/10'
-                }`}
-              >
-                {index === 0 ? (analysis.aiCta || 'START FEELING BETTER') : 'VIEW PROGRAM'} <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-            </motion.div>
-          );
-        })}
-      </div>
+      {/* === RECOMMENDED PRODUCTS === */}
+      <RecommendationProducts analysis={analysis} />
 
       {/* === PERSONALIZED YOGA & WELLNESS RECOMMENDATIONS === */}
       {(analysis.yogaRecommendations?.length > 0 || analysis.wellnessTips?.length > 0) && (
@@ -448,19 +400,6 @@ export default function ResultsStep({
           <div className="flex items-center justify-center gap-2 mb-8 text-[11px] font-bold text-brand-sage bg-brand-sage/5 px-4 py-2 rounded-full mx-auto w-max">
             <Award size={14} /> Backed by 50,000+ success stories
           </div>
-          <button
-            onClick={() => {
-              if (productMatches.length > 0) {
-                const p = productMatches[0].product;
-                window.open(`${p.link}?utm_source=fitfeky&utm_medium=quiz&utm_campaign=${goal}&utm_content=${p.id}&score=${productMatches[0].matchScore}`, '_blank', 'noopener');
-                trackProductClick(p.title, p.category);
-                trackCtaClick('guarantee_cta', p.id, goal);
-              }
-            }}
-            className="inline-flex items-center gap-2 bg-brand-sage text-white px-8 py-4 rounded-full font-bold text-base shadow-lg shadow-brand-sage/20 hover:bg-brand-sage/90 hover:-translate-y-0.5 transition-all border-b-[3px] border-black/10 active:border-b-0"
-          >
-            {analysis.aiCta || 'Start Feeling Better'} <ArrowRight size={18} />
-          </button>
           <div className="flex flex-wrap justify-center gap-6 md:gap-12 mt-8 text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-brand-muted/60">
             <span className="flex items-center gap-1.5"><Lock size={13} className="text-brand-sage" /> SSL Secure</span>
             <span className="flex items-center gap-1.5"><CheckCircle2 size={13} className="text-brand-sage" /> 50K+ Reclaimed Energy</span>
@@ -481,24 +420,17 @@ export default function ResultsStep({
             <div className="max-w-4xl mx-auto flex items-center justify-between gap-4">
               <div className="hidden sm:block text-left">
                 <p className="text-[11px] font-bold text-brand-ink leading-tight">
-                  {productMatches[0]?.product.title || 'Your Personalized Plan'}
+                  Your Personalized Plan
                 </p>
                 <p className="text-[10px] text-brand-muted flex items-center gap-1">
                   <Clock size={10} /> Limited offer — {formatTime(timeLeft)} left
                 </p>
               </div>
               <button
-                onClick={() => {
-                  if (productMatches.length > 0) {
-                    const p = productMatches[0].product;
-                    window.open(`${p.link}?utm_source=fitfeky&utm_medium=quiz&utm_campaign=${goal}&utm_content=${p.id}&score=${productMatches[0].matchScore}`, '_blank', 'noopener');
-                    trackProductClick(p.title, p.category);
-                    trackCtaClick('sticky_cta', p.id, goal);
-                  }
-                }}
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                 className="w-full sm:w-auto bg-brand-sage text-white px-6 py-3.5 rounded-full font-bold text-sm shadow-lg shadow-brand-sage/20 hover:bg-brand-sage/90 transition-all flex items-center justify-center gap-2 border-b-[3px] border-black/10 active:border-b-0"
               >
-                {analysis.aiCta || 'Start Feeling Better'} <ArrowRight size={16} />
+                Review Your Plan <ArrowRight size={16} />
               </button>
               <button onClick={scrollToTop} className="hidden sm:flex text-brand-muted hover:text-brand-ink transition-colors p-2" aria-label="Back to top">
                 <ArrowUp size={20} />
@@ -508,5 +440,116 @@ export default function ResultsStep({
         )}
       </AnimatePresence>
     </motion.div>
+  );
+}
+
+function generateTags(analysis: EnhancedAnalysis): string[] {
+  const tags: string[] = [];
+  const goal = analysis.goal;
+  const archetype = analysis.psychologicalProfile.archetype;
+
+  if (goal === 'weight_loss') tags.push('Fat Loss', 'Metabolic', 'Body Composition');
+  if (goal === 'flexibility') tags.push('Mobility', 'Gentle Flow', 'Posture');
+  if (goal === 'energy') tags.push('Vitality', 'Strength Building', 'Endurance');
+
+  if (archetype === 'Busy Working Woman') tags.push('Time Efficient', 'Quick Sessions');
+  if (archetype === 'Emotional Eater') tags.push('Stress Relief', 'Mindful Movement');
+  if (archetype === 'Beginner Restarting Journey') tags.push('Beginner Friendly', 'Low Impact');
+  if (archetype === 'Transformation-Ready Champion') tags.push('Progressive', 'Structured');
+
+  if (analysis.psychologicalProfile.stressLevel === 'high') tags.push('Cortisol Management', 'Restorative');
+  if (analysis.psychologicalProfile.lifestylePace === 'hectic') tags.push('Home Based', 'No Equipment');
+
+  return tags;
+}
+
+function RecommendationProducts({ analysis }: { analysis: EnhancedAnalysis }) {
+  const { products, loading, error } = useRecommendations(analysis);
+
+  if (loading) return null;
+  if (error) {
+    console.warn('[ResultsStep] Recommendation error:', error);
+  }
+
+  const displayProducts = products.length > 0 ? products.slice(0, 3) : [];
+
+  if (displayProducts.length === 0) return null;
+
+  return (
+    <>
+      <Helmet>
+        {displayProducts.map((product) => (
+          <script key={product.id} type="application/ld+json">
+            {JSON.stringify(productSchema({
+              name: product.name,
+              image: product.image,
+              url: product.url,
+              price: product.price,
+              rating: product.rating,
+              ratingsCount: product.ratingsCount,
+              description: `${product.name} — rated ${product.rating}/5 with ${product.ratingsCount.toLocaleString()} reviews. ${product.tags.join(', ')}.`,
+            }))}
+          </script>
+        ))}
+      </Helmet>
+    <div className="mb-12 md:mb-16">
+      <div className="text-center mb-8">
+        <h3 className="text-xl md:text-4xl font-serif text-brand-ink mb-2">Recommended Products For You</h3>
+        <p className="text-brand-muted italic text-sm md:text-base max-w-2xl mx-auto">
+          Top-rated products matched to your goals and profile
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        {displayProducts.map((product) => (
+          <motion.a
+            key={product.id}
+            href={product.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="group bg-white rounded-2xl border border-brand-border overflow-hidden shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col"
+          >
+            <div className="aspect-[4/3] bg-brand-bone/30 overflow-hidden">
+              <img
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+            <div className="p-4 md:p-5 flex flex-col flex-1">
+              <h4 className="text-xs md:text-sm font-bold text-brand-ink leading-snug mb-2 line-clamp-2">
+                {product.name}
+              </h4>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="flex items-center gap-1">
+                  <Star size={12} className="text-brand-gold fill-brand-gold" />
+                  <span className="text-[10px] font-bold text-brand-ink">{product.rating.toFixed(1)}</span>
+                </div>
+                <div className="flex items-center gap-1">
+                  <Users size={11} className="text-brand-muted" />
+                  <span className="text-[9px] text-brand-muted">{product.ratingsCount.toLocaleString()} reviews</span>
+                </div>
+              </div>
+              <div className="flex flex-wrap gap-1.5 mb-3">
+                {product.tags.slice(0, 3).map((tag, i) => (
+                  <span key={i} className="text-[7px] md:text-[8px] font-bold uppercase tracking-wider text-brand-muted bg-brand-bone/50 px-2 py-0.5 rounded-full">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-auto flex items-center justify-between">
+                <span className="text-sm md:text-base font-black text-brand-ink">${product.price.toFixed(2)}</span>
+                <span className="text-[9px] font-bold text-brand-sage group-hover:underline inline-flex items-center gap-1">
+                  View Deal <ExternalLink size={10} />
+                </span>
+              </div>
+            </div>
+          </motion.a>
+        ))}
+      </div>
+    </div>
+    </>
   );
 }
