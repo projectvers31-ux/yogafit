@@ -8,6 +8,8 @@ import SEOHelmet from '@/components/seo/SEOHelmet';
 import { breadcrumbSchema } from '@/lib/seo';
 import SafeImage from '@/components/ui/SafeImage';
 
+// This page uses mock blog data from src/content/blogArticles.ts.
+// It displays a searchable article list and links each article to /blog/:slug.
 const PER_PAGE = 9;
 
 export default function Blog() {
@@ -24,6 +26,7 @@ export default function Blog() {
     setPage(1);
   }, [activeCategory, searchQuery]);
 
+  // Filter the list based on the selected category and search term.
   const filtered = useMemo(() => {
     let list = activeCategory === 'All' ? articles : articles.filter(a => a.category === activeCategory);
     if (searchQuery.trim()) {
@@ -38,6 +41,7 @@ export default function Blog() {
     return list;
   }, [activeCategory, searchQuery]);
 
+  // Paginate the filtered list so the blog page does not show too many articles at once.
   const { items: pageItems, totalPages } = useMemo(
     () => paginateArticles(filtered, page, PER_PAGE),
     [filtered, page]

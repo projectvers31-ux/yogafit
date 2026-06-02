@@ -7,6 +7,9 @@ import { breadcrumbSchema, articleSchema as articleSchemaFn } from '@/lib/seo';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 import SafeImage from '@/components/ui/SafeImage';
 
+// This page reads the article slug from the URL, e.g. /blog/yoga-for-beginners.
+// It then loads the matching article from local mock data.
+
 function H2SectionRenderer({ section: s }: { section: Section }) {
   if (s.type !== 'h2') return null;
   return <h2 id={s.text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')} className="text-xl md:text-2xl font-serif text-brand-ink mt-10 mb-4 leading-tight scroll-mt-24">{s.text}</h2>;
@@ -197,10 +200,14 @@ export default function BlogArticle() {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    // Scroll back to the top when a new article loads.
     window.scrollTo(0, 0);
+
+    // Find the article with a matching slug from our mock data.
     const found = getArticleBySlug(slug || '');
     if (found) {
       setArticle(found);
+      setNotFound(false);
     } else {
       setNotFound(true);
     }
@@ -235,6 +242,7 @@ export default function BlogArticle() {
     { name: article.title, url: canonicalUrl }
   ]);
 
+  // Structured data for Google and SEO crawlers.
   const articleJsonLd = articleSchemaFn({
     headline: article.title,
     description: article.metaDescription,
@@ -251,6 +259,10 @@ export default function BlogArticle() {
 
   return (
     <main id="main-content" className="min-h-screen bg-brand-bone font-sans">
+      {/*
+        SEO helmet adds page title, description, canonical URL, and JSON-LD data.
+        This helps search engines index each article page separately.
+      */}
       <SEOHelmet
         title={article.metaTitle}
         description={article.metaDescription}

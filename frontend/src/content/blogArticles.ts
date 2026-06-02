@@ -24,6 +24,8 @@ export interface BlogArticle {
   relatedSlugs: string[];
 }
 
+// Mock article data used for the blog system.
+// Each article has a slug to generate SEO-friendly URLs like /blog/lose-belly-fat-yoga.
 export const articles: BlogArticle[] = [
   {
     id: '1',

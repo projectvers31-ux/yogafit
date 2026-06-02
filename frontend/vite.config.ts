@@ -4,7 +4,7 @@ import path from 'path';
 import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
-  const env = loadEnv(mode, '.', '');
+  const env = loadEnv(mode, path.resolve(__dirname, '..'), '');
   const isProd = mode === 'production';
   return {
     plugins: [react(), tailwindcss()],
@@ -20,6 +20,8 @@ export default defineConfig(({mode}) => {
       },
     },
     build: {
+      outDir: '../dist',
+      emptyOutDir: true,
       cssMinify: 'esbuild',
       minify: 'terser',
       terserOptions: isProd ? {

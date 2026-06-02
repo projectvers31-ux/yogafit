@@ -2,8 +2,8 @@ import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 const AFFILIATE_TAG = '233232122-20';
-const RAW_PATH = path.resolve(import.meta.dirname, '../src/data/products.json');
-const OUTPUT_PATH = path.resolve(import.meta.dirname, '../src/data/products-enhanced.json');
+const RAW_PATH = path.resolve(import.meta.dirname, '../frontend/src/data/products.json');
+const OUTPUT_PATH = path.resolve(import.meta.dirname, '../frontend/src/data/products-enhanced.json');
 
 const AMAZON_DOMAINS = [
   'amazon.com', 'amazon.co.uk', 'amazon.de', 'amazon.fr',

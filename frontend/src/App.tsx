@@ -215,22 +215,6 @@ function LandingPage() {
         )}
       </AnimatePresence>
 
-      {step === 'welcome' && (
-        <motion.div
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 50 }}
-          className="md:hidden fixed bottom-6 left-6 right-6 z-40"
-        >
-          <button
-            onClick={() => handleNext('identity')}
-            className="w-full bg-brand-sage text-white py-3.5 rounded-xl font-semibold text-sm shadow-lg shadow-brand-sage/30 flex items-center justify-center gap-2 border-b-2 border-white/10 active:scale-95 transition-transform"
-          >
-            Discover Your Blueprint <ArrowRight size={16} />
-          </button>
-        </motion.div>
-      )}
-
       <main id="main-content" className="relative">
         <AnimatePresence mode="wait">
           {step === 'welcome' && (
@@ -656,6 +640,11 @@ export default function App() {
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#D4A373]" />
         </div>
       }>
+        {/*
+          The application uses React Router for client-side pages.
+          The blog list is available at /blog and each article is displayed at /blog/:slug.
+          The slug is read by the BlogArticle page using useParams().
+        */}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/about" element={<About />} />
