@@ -8,9 +8,11 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true' # إجبار جيت هب على استخدام الإصدار الحديث ونبذ التحذير
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4 # تحديث للإصدار الأحدث والأكثر استقراراً
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -28,7 +30,7 @@ jobs:
 
       - name: Commit and Push Changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # استخدام التوكن الافتراضي لضمان صلاحية الحفظ
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
