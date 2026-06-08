@@ -8,6 +8,10 @@ on:
     - cron: '0 22 * * *' # 12:00 AM Egypt (6:00 PM US EST - Evening Catch)
   workflow_dispatch: # Allows you to manually trigger it anytime for testing
 
+# 💡 تم إضافة المتغير لإجبار جميع الإجراءات على العمل ببيئة Node 24 المتوافقة
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
 jobs:
   build-and-publish:
     runs-on: ubuntu-latest
@@ -18,7 +22,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v4
       with:
-        node-version: '18'
+        node-version: '24' # 💡 تم التحديث من 18 إلى 24 لحل مشكلة توقف السكريبت تلقائياً
 
     - name: Generate One Article with AI
       env:
