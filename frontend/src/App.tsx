@@ -34,14 +34,15 @@ const Picks = lazy(() => import('./pages/Picks'));
 const Stories = lazy(() => import('./pages/Stories'));
 const StoryDetail = lazy(() => import('./pages/StoryDetail'));
 const Calculators = lazy(() => import('./pages/Calculators'));
+const CalorieCalculatorPage = lazy(() => import('./pages/CalorieCalculatorPage'));
+const BMICalculatorPage = lazy(() => import('./pages/BMICalculatorPage'));
+const NutritionCalculatorPage = lazy(() => import('./pages/NutritionCalculatorPage'));
+const IdealWeightCalculatorPage = lazy(() => import('./pages/IdealWeightCalculatorPage'));
+const BodyFatCalculatorPage = lazy(() => import('./pages/BodyFatCalculatorPage'));
+const ProteinCalculatorPage = lazy(() => import('./pages/ProteinCalculatorPage'));
 const TDEECalculator = lazy(() => import('./pages/TDEECalculator'));
 const BMRCalculator = lazy(() => import('./pages/calculators/BMRCalculator'));
-const CalorieDeficitCalculator = lazy(() => import('./pages/calculators/CalorieDeficitCalculator'));
-const MacroCalculator = lazy(() => import('./pages/calculators/MacroCalculator'));
-const IdealWeightCalculator = lazy(() => import('./pages/calculators/IdealWeightCalculator'));
-const BodyFatCalculator = lazy(() => import('./pages/calculators/BodyFatCalculator'));
 const WaterIntakeCalculator = lazy(() => import('./pages/calculators/WaterIntakeCalculator'));
-const ProteinCalculator = lazy(() => import('./pages/calculators/ProteinCalculator'));
 const CalculatorResultPage = lazy(() => import('./pages/CalculatorResultPage'));
 const ResultsStep = lazy(() => import('@/components/quiz/ResultsStep'));
 const ChatWindow = lazy(() => import('@/components/chatbot/ChatWindow'));
@@ -773,14 +774,23 @@ export default function App() {
           <Route path="/stories" element={<Stories />} />
           <Route path="/stories/:id" element={<StoryDetail />} />
           <Route path="/calculators" element={<Calculators />} />
+          <Route path="/calorie-calculator" element={<CalorieCalculatorPage />} />
+          <Route path="/bmi-calculator" element={<BMICalculatorPage />} />
+          <Route path="/nutrition-calculator" element={<NutritionCalculatorPage />} />
+          <Route path="/ideal-weight-calculator" element={<IdealWeightCalculatorPage />} />
+          <Route path="/body-fat-calculator" element={<BodyFatCalculatorPage />} />
+          <Route path="/protein-calculator" element={<ProteinCalculatorPage />} />
           <Route path="/calculators/tdee-calculator" element={<TDEECalculator />} />
           <Route path="/calculators/bmr-calculator" element={<BMRCalculator />} />
-          <Route path="/calculators/calorie-deficit-calculator" element={<CalorieDeficitCalculator />} />
-          <Route path="/calculators/macro-calculator" element={<MacroCalculator />} />
-          <Route path="/calculators/ideal-weight-calculator" element={<IdealWeightCalculator />} />
-          <Route path="/calculators/body-fat-calculator" element={<BodyFatCalculator />} />
           <Route path="/calculators/water-intake-calculator" element={<WaterIntakeCalculator />} />
-          <Route path="/calculators/protein-calculator" element={<ProteinCalculator />} />
+          <Route path="/calculators/calorie-calculator" element={<Navigate to="/calorie-calculator" replace />} />
+          <Route path="/calculators/calorie-deficit-calculator" element={<Navigate to="/calorie-calculator" replace />} />
+          <Route path="/calculators/bmi-calculator" element={<Navigate to="/bmi-calculator" replace />} />
+          <Route path="/calculators/nutrition-calculator" element={<Navigate to="/nutrition-calculator" replace />} />
+          <Route path="/calculators/macro-calculator" element={<Navigate to="/nutrition-calculator" replace />} />
+          <Route path="/calculators/ideal-weight-calculator" element={<Navigate to="/ideal-weight-calculator" replace />} />
+          <Route path="/calculators/body-fat-calculator" element={<Navigate to="/body-fat-calculator" replace />} />
+          <Route path="/calculators/protein-calculator" element={<Navigate to="/protein-calculator" replace />} />
           <Route path="/calculators/:tool/result/:category" element={<CalculatorResultPage />} />
           <Route path="/quiz" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />

@@ -15,7 +15,10 @@ import type { RegistryProduct } from '@/lib/affiliateRegistry';
 const TOOL_COUNTS: Record<string, string> = {
   'TDEE Calculator': '847,392+',
   'BMR Calculator': '623,847+',
+  'BMI Calculator': '521,404+',
+  'Calorie Calculator': '412,058+',
   'Calorie Deficit': '412,058+',
+  'Nutrition Calculator': '387,214+',
   'Macro Calculator': '387,214+',
   'Ideal Weight': '256,891+',
   'Body Fat': '314,502+',

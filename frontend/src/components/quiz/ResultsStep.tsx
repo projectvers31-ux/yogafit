@@ -473,10 +473,10 @@ export default function ResultsStep({
           <p className="text-xs md:text-sm text-brand-muted italic text-center mb-6 max-w-lg mx-auto">Track your progress with these science-backed calculators</p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
             {[
-              { icon: Scale, title: 'BMI Calculator', desc: 'Check your body mass index', link: '/calculators/bmr-calculator', color: 'text-brand-sage' },
+              { icon: Scale, title: 'BMI Calculator', desc: 'Check your body mass index', link: '/bmi-calculator', color: 'text-brand-sage' },
               { icon: Zap, title: 'TDEE Calculator', desc: 'Know your daily energy needs', link: '/calculators/tdee-calculator', color: 'text-brand-gold' },
-              { icon: Target, title: 'Calorie Deficit', desc: 'Find your fat loss target', link: '/calculators/calorie-deficit-calculator', color: 'text-brand-rose' },
-              { icon: Activity, title: 'Macro Calculator', desc: 'Split protein, carbs & fat', link: '/calculators/macro-calculator', color: 'text-brand-sage' },
+              { icon: Target, title: 'Calorie Calculator', desc: 'Find your fat loss target', link: '/calorie-calculator', color: 'text-brand-rose' },
+              { icon: Activity, title: 'Nutrition Calculator', desc: 'Split protein, carbs & fat', link: '/nutrition-calculator', color: 'text-brand-sage' },
             ].map((calc, i) => (
               <Link
                 key={i}
@@ -870,7 +870,7 @@ function RecommendationProducts({ analysis }: { analysis: EnhancedAnalysis }) {
             animate={{ opacity: 1, y: 0 }}
             className="group bg-white rounded-2xl border border-brand-border overflow-hidden shadow-sm hover:shadow-lg transition-all hover:-translate-y-1 flex flex-col"
           >
-            <div className="aspect-[4/3] bg-brand-bone/30 overflow-hidden">
+            <div className="aspect-4/3 bg-brand-bone/30 overflow-hidden">
               <img
                 src={product.image}
                 alt={product.name}
@@ -932,7 +932,7 @@ function BlogArticlesSection({ analysis }: { analysis: EnhancedAnalysis }) {
   const matchedArticles = useMemo(() => {
     const filtered = articles.filter(a => allCategories.includes(a.category));
     return filtered.slice(0, 3);
-  }, []);
+  }, [allCategories]);
 
   if (matchedArticles.length === 0) return null;
 
@@ -957,7 +957,7 @@ function BlogArticlesSection({ analysis }: { analysis: EnhancedAnalysis }) {
             to={`/blog/${article.slug}`}
             className="group bg-white rounded-2xl border border-brand-border overflow-hidden shadow-sm hover:shadow-lg transition-all hover:-translate-y-0.5 flex flex-col"
           >
-            <div className="aspect-[16/9] bg-brand-bone/30 overflow-hidden">
+            <div className="aspect-video bg-brand-bone/30 overflow-hidden">
               <img
                 src={article.ogImage}
                 alt={article.title}

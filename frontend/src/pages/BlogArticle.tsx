@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, Clock, Calendar, Tag, Copy, Check, Sparkles, Share2, Calculator, Target, UserCheck, ShoppingBag } from 'lucide-react';
 import { getArticleBySlug, getRelatedArticles, getArticleTitleBySlug } from '@/content/blogArticles';
@@ -10,6 +10,14 @@ import InlineCalculatorCTA from '@/components/blog/InlineCalculatorCTA';
 import ProductMention from '@/components/affiliate/ProductMention';
 import { getCalculatorProducts } from '@/lib/fallbackEngine';
 import AffiliateCard from '@/components/affiliate/AffiliateCard';
+
+const CATEGORY_TOOL_MAP: Record<string, { tool: string; href: string; text: string }> = {
+  'Weight Loss': { tool: 'Calorie Calculator', href: '/calculators/calorie-deficit-calculator', text: 'calculate your personal calorie deficit for weight loss' },
+  'Yoga': { tool: 'BMR Calculator', href: '/calculators/bmr-calculator', text: 'find out how many calories your body burns at rest' },
+  'Nutrition': { tool: 'Macro Calculator', href: '/calculators/macro-calculator', text: 'get your personalized protein, carb and fat targets' },
+  'Wellness': { tool: 'Water Intake Calculator', href: '/calculators/water-intake-calculator', text: 'calculate your daily water intake for optimal hydration' },
+  'Product Reviews': { tool: 'TDEE Calculator', href: '/calculators/tdee-calculator', text: 'find out your total daily energy expenditure' },
+};
 
 // This page reads the article slug from the URL, e.g. /blog/yoga-for-beginners.
 // It then loads the matching article from local mock data.
@@ -288,21 +296,7 @@ export default function BlogArticle() {
     slug: article.slug,
   });
 
-  const h2Sections = article.sections.filter(s => s.type === 'h2');
-  const h2Ids = h2Sections.map(s => ({
-    text: (s as any).text as string,
-    id: (s as any).text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '')
-  }));
-
-  const categoryToolMap: Record<string, { tool: string; href: string; text: string }> = useMemo(() => ({
-    'Weight Loss': { tool: 'Calorie Calculator', href: '/calculators/calorie-deficit-calculator', text: 'calculate your personal calorie deficit for weight loss' },
-    'Yoga': { tool: 'BMR Calculator', href: '/calculators/bmr-calculator', text: 'find out how many calories your body burns at rest' },
-    'Nutrition': { tool: 'Macro Calculator', href: '/calculators/macro-calculator', text: 'get your personalized protein, carb and fat targets' },
-    'Wellness': { tool: 'Water Intake Calculator', href: '/calculators/water-intake-calculator', text: 'calculate your daily water intake for optimal hydration' },
-    'Product Reviews': { tool: 'TDEE Calculator', href: '/calculators/tdee-calculator', text: 'find out your total daily energy expenditure' },
-  }), []);
-
-  const toolForCategory = categoryToolMap[article.category] || categoryToolMap['Weight Loss'];
+  const toolForCategory = CATEGORY_TOOL_MAP[article.category] || CATEGORY_TOOL_MAP['Weight Loss'];
 
   const sectionElements: React.ReactNode[] = [];
   let pCount = 0;
@@ -423,6 +417,14 @@ export default function BlogArticle() {
                         variant="mini"
                       />
                     ))}
+                  </div>
+                  <div className="mt-6 text-center">
+                    <Link
+                      to="/picks"
+                      className="inline-flex items-center justify-center gap-2 text-brand-sage border border-brand-sage/30 bg-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.15em] hover:bg-brand-sage/5 transition-all"
+                    >
+                      Browse all FitFeky Picks
+                    </Link>
                   </div>
                 </div>
               );

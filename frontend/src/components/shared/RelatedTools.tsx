@@ -6,8 +6,9 @@ import {
 const allTools = [
   { icon: Calculator, title: 'TDEE Calculator', path: '/calculators/tdee-calculator', desc: 'Find your total daily energy expenditure' },
   { icon: Heart, title: 'BMR Calculator', path: '/calculators/bmr-calculator', desc: 'Calculate your basal metabolic rate' },
-  { icon: Target, title: 'Calorie Deficit', path: '/calculators/calorie-deficit-calculator', desc: 'Set a safe calorie deficit for weight loss' },
-  { icon: Utensils, title: 'Macro Calculator', path: '/calculators/macro-calculator', desc: 'Get your protein, carb, and fat targets' },
+  { icon: Scale, title: 'BMI Calculator', path: '/bmi-calculator', desc: 'Check your body mass index' },
+  { icon: Target, title: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Set a safe calorie target for weight loss' },
+  { icon: Utensils, title: 'Nutrition Calculator', path: '/nutrition-calculator', desc: 'Get your protein, carb, and fat targets' },
   { icon: Scale, title: 'Ideal Weight', path: '/calculators/ideal-weight-calculator', desc: 'See your healthy weight range' },
   { icon: Activity, title: 'Body Fat', path: '/calculators/body-fat-calculator', desc: 'Estimate your body fat percentage' },
   { icon: Droplets, title: 'Water Intake', path: '/calculators/water-intake-calculator', desc: 'Find your daily water target' },
@@ -25,15 +26,25 @@ const anchorTexts: Record<string, string[]> = {
     'find out how many calories you burn at rest',
     'get your resting calorie number',
   ],
+  'BMI Calculator': [
+    'check your body mass index',
+    'see where your BMI falls',
+    'get your quick BMI reading',
+  ],
+  'Calorie Calculator': [
+    'set your safe calorie target',
+    'find out how many calories to eat for weight loss',
+    'calculate your weight loss calorie target',
+  ],
+  'Nutrition Calculator': [
+    'get your personalized macro split',
+    'find your protein, carb and fat targets',
+    'calculate your perfect macro balance',
+  ],
   'Calorie Deficit': [
     'set your safe calorie deficit',
     'find out how many calories to eat for weight loss',
     'calculate your weight loss calorie target',
-  ],
-  'Macro Calculator': [
-    'get your personalized macro split',
-    'find your protein, carb and fat targets',
-    'calculate your perfect macro balance',
   ],
   'Ideal Weight': [
     'see your healthy weight range',

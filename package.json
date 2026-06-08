@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "cd frontend && vite --config vite.config.ts --port=3000 --host=0.0.0.0",
-    "build": "cd frontend && vite build --config vite.config.ts",
+    "sitemap": "npx tsx scripts/generate-sitemap.ts",
+    "build": "npm run sitemap && cd frontend && vite build --config vite.config.ts",
     "preview": "cd frontend && vite preview --config vite.config.ts",
     "clean": "rm -rf dist frontend/dist",
     "lint": "tsc --noEmit -p frontend/tsconfig.json",

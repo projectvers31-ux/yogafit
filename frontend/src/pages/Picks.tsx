@@ -127,6 +127,25 @@ export default function Picks() {
         </div>
       </section>
 
+      <section className="max-w-6xl mx-auto px-4 md:px-12 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-10">
+          <Link
+            to="/calculators"
+            className="block bg-white border border-brand-border/30 rounded-3xl p-6 text-center hover:border-brand-sage/20 hover:shadow-sm transition-all"
+          >
+            <p className="text-[10px] font-bold uppercase tracking-widest text-brand-muted mb-2">Get Your Numbers</p>
+            <p className="text-sm font-medium text-brand-ink">Browse our free calculator suite to personalize your nutrition and fitness plan.</p>
+          </Link>
+          <Link
+            to="/"
+            className="block bg-brand-sage text-white rounded-3xl p-6 text-center hover:bg-[#243D31] transition-all"
+          >
+            <p className="text-[10px] font-bold uppercase tracking-widest mb-2">Take the Quiz</p>
+            <p className="text-sm font-medium">Start the 60-second personalized fitness quiz now.</p>
+          </Link>
+        </div>
+      </section>
+
       <section className="max-w-6xl mx-auto px-4 md:px-12 pb-20">
         <div className="text-center">
           <Link

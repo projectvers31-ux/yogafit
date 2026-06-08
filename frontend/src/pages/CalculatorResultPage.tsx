@@ -4,49 +4,55 @@ import SEOHelmet from '@/components/seo/SEOHelmet';
 import { breadcrumbSchema } from '@/lib/seo';
 import { getResultPageData, VALID_CATEGORY_LABELS, CATEGORY_ARTICLE_MAP } from '@/data/resultPages';
 import { articles, getArticleBySlug } from '@/content/blogArticles';
+import type { BlogArticle } from '@/content/blogArticles';
 import { getCalculatorProducts } from '@/lib/fallbackEngine';
 import AffiliateCard from '@/components/affiliate/AffiliateCard';
 import SafeImage from '@/components/ui/SafeImage';
 
 const RELATED_CALCULATORS: Record<string, Array<{ label: string; path: string; desc: string }>> = {
+  'bmi-calculator': [
+    { label: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Plan your fat loss target' },
+    { label: 'Body Fat Calculator', path: '/body-fat-calculator', desc: 'Measure your body composition' },
+    { label: 'Ideal Weight Calculator', path: '/ideal-weight-calculator', desc: 'Find your healthy weight range' },
+  ],
   'tdee-calculator': [
     { label: 'BMR Calculator', path: '/calculators/bmr-calculator', desc: 'Find your resting metabolism' },
-    { label: 'Calorie Deficit Calculator', path: '/calculators/calorie-deficit-calculator', desc: 'Plan your fat loss deficit' },
-    { label: 'Macro Calculator', path: '/calculators/macro-calculator', desc: 'Get your protein, carb & fat targets' },
+    { label: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Plan your fat loss target' },
+    { label: 'Nutrition Calculator', path: '/nutrition-calculator', desc: 'Get your protein, carb & fat targets' },
   ],
   'bmr-calculator': [
     { label: 'TDEE Calculator', path: '/calculators/tdee-calculator', desc: 'See your total daily burn' },
-    { label: 'Calorie Deficit Calculator', path: '/calculators/calorie-deficit-calculator', desc: 'Plan your fat loss deficit' },
-    { label: 'Ideal Weight Calculator', path: '/calculators/ideal-weight-calculator', desc: 'Find your healthy weight range' },
+    { label: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Plan your fat loss target' },
+    { label: 'Ideal Weight Calculator', path: '/ideal-weight-calculator', desc: 'Find your healthy weight range' },
   ],
   'calorie-deficit-calculator': [
-    { label: 'Macro Calculator', path: '/calculators/macro-calculator', desc: 'Get your protein, carb & fat targets' },
+    { label: 'Nutrition Calculator', path: '/nutrition-calculator', desc: 'Get your protein, carb & fat targets' },
     { label: 'BMR Calculator', path: '/calculators/bmr-calculator', desc: 'Know your resting metabolism' },
-    { label: 'Protein Calculator', path: '/calculators/protein-calculator', desc: 'Set your daily protein target' },
+    { label: 'Protein Calculator', path: '/protein-calculator', desc: 'Set your daily protein target' },
   ],
   'macro-calculator': [
-    { label: 'Calorie Deficit Calculator', path: '/calculators/calorie-deficit-calculator', desc: 'Plan your fat loss deficit' },
-    { label: 'Protein Calculator', path: '/calculators/protein-calculator', desc: 'Set your daily protein target' },
+    { label: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Plan your fat loss target' },
+    { label: 'Protein Calculator', path: '/protein-calculator', desc: 'Set your daily protein target' },
     { label: 'TDEE Calculator', path: '/calculators/tdee-calculator', desc: 'See your total daily burn' },
   ],
   'ideal-weight-calculator': [
-    { label: 'Body Fat Calculator', path: '/calculators/body-fat-calculator', desc: 'Measure your body composition' },
+    { label: 'Body Fat Calculator', path: '/body-fat-calculator', desc: 'Measure your body composition' },
     { label: 'BMR Calculator', path: '/calculators/bmr-calculator', desc: 'Know your resting metabolism' },
     { label: 'TDEE Calculator', path: '/calculators/tdee-calculator', desc: 'See your total daily burn' },
   ],
   'body-fat-calculator': [
-    { label: 'Ideal Weight Calculator', path: '/calculators/ideal-weight-calculator', desc: 'Find your healthy weight range' },
-    { label: 'Calorie Deficit Calculator', path: '/calculators/calorie-deficit-calculator', desc: 'Plan your fat loss deficit' },
-    { label: 'Protein Calculator', path: '/calculators/protein-calculator', desc: 'Set your daily protein target' },
+    { label: 'Ideal Weight Calculator', path: '/ideal-weight-calculator', desc: 'Find your healthy weight range' },
+    { label: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Plan your fat loss target' },
+    { label: 'Protein Calculator', path: '/protein-calculator', desc: 'Set your daily protein target' },
   ],
   'water-intake-calculator': [
-    { label: 'Macro Calculator', path: '/calculators/macro-calculator', desc: 'Get your protein, carb & fat targets' },
-    { label: 'Calorie Deficit Calculator', path: '/calculators/calorie-deficit-calculator', desc: 'Plan your fat loss deficit' },
-    { label: 'Protein Calculator', path: '/calculators/protein-calculator', desc: 'Set your daily protein target' },
+    { label: 'Nutrition Calculator', path: '/nutrition-calculator', desc: 'Get your protein, carb & fat targets' },
+    { label: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Plan your fat loss target' },
+    { label: 'Protein Calculator', path: '/protein-calculator', desc: 'Set your daily protein target' },
   ],
   'protein-calculator': [
-    { label: 'Macro Calculator', path: '/calculators/macro-calculator', desc: 'Get your full macro breakdown' },
-    { label: 'Calorie Deficit Calculator', path: '/calculators/calorie-deficit-calculator', desc: 'Plan your fat loss deficit' },
+    { label: 'Nutrition Calculator', path: '/nutrition-calculator', desc: 'Get your full macro breakdown' },
+    { label: 'Calorie Calculator', path: '/calorie-calculator', desc: 'Plan your fat loss target' },
     { label: 'TDEE Calculator', path: '/calculators/tdee-calculator', desc: 'See your total daily burn' },
   ],
 };
@@ -59,9 +65,9 @@ export default function CalculatorResultPage() {
 
   // Get recommended articles for this tool
   const recommendedArticleSlugs = (tool && CATEGORY_ARTICLE_MAP[tool]) || [];
-  const recommendedArticles = recommendedArticleSlugs
+  const recommendedArticles: BlogArticle[] = recommendedArticleSlugs
     .map(slug => getArticleBySlug(slug))
-    .filter(Boolean)
+    .filter((a): a is BlogArticle => a !== undefined)
     .slice(0, 3);
   const displayArticles = recommendedArticles.length >= 3 ? recommendedArticles : fallbackArticles;
 
@@ -220,6 +226,14 @@ export default function CalculatorResultPage() {
                   variant="mini"
                 />
               ))}
+            </div>
+            <div className="mt-6 text-center">
+              <Link
+                to="/picks"
+                className="inline-flex items-center justify-center gap-2 bg-white text-brand-sage border border-brand-sage/30 px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.15em] hover:bg-brand-sage/5 transition-all"
+              >
+                See more FitFeky Picks
+              </Link>
             </div>
           </div>
         )}

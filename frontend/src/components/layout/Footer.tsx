@@ -50,14 +50,15 @@ export default memo(function Footer() {
               <Link to="/picks" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">FitFeky Picks</Link>
               <Link to="/stories" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Real Stories</Link>
               <Link to="/calculators" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">All Calculators</Link>
+              <Link to="/calorie-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Calorie Calculator</Link>
+              <Link to="/bmi-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">BMI Calculator</Link>
+              <Link to="/nutrition-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Nutrition Calculator</Link>
+              <Link to="/ideal-weight-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Ideal Weight</Link>
+              <Link to="/body-fat-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Body Fat</Link>
+              <Link to="/protein-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Protein Calculator</Link>
               <Link to="/calculators/tdee-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">TDEE Calculator</Link>
               <Link to="/calculators/bmr-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">BMR Calculator</Link>
-              <Link to="/calculators/calorie-deficit-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Calorie Deficit</Link>
-              <Link to="/calculators/macro-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Macro Calculator</Link>
-              <Link to="/calculators/ideal-weight-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Ideal Weight</Link>
-              <Link to="/calculators/body-fat-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Body Fat</Link>
               <Link to="/calculators/water-intake-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Water Intake</Link>
-              <Link to="/calculators/protein-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Protein Calculator</Link>
             </div>
           </div>
 

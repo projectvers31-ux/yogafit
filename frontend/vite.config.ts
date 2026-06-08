@@ -24,23 +24,49 @@ export default defineConfig(({mode}) => {
       emptyOutDir: true,
       cssMinify: 'esbuild',
       minify: 'terser',
+      sourcemap: false,
+      reportCompressedSize: false,
+      cssCodeSplit: false,
+      target: 'es2020',
       terserOptions: isProd ? {
         compress: {
           drop_console: true,
           drop_debugger: true,
           pure_funcs: ['console.log', 'console.warn', 'console.error'],
+          passes: 2,
+        },
+        mangle: {
+          safari10: true,
         },
       } : undefined,
       rollupOptions: {
         output: {
-          manualChunks: {
-            vendor: ['react', 'react-dom', 'motion'],
-            router: ['react-router-dom'],
-            icons: ['lucide-react'],
+          manualChunks(id: string) {
+            if (id.includes('node_modules/react-') || id.includes('node_modules/motion')) {
+              return 'vendor';
+            }
+            if (id.includes('node_modules/react-router')) {
+              return 'router';
+            }
+            if (id.includes('node_modules/lucide-react')) {
+              return 'icons';
+            }
+            if (id.includes('node_modules')) {
+              return 'vendor';
+            }
+            if (id.includes('src/content/blogArticles')) {
+              return 'blog-data';
+            }
+            if (id.includes('src/data/products')) {
+              return 'product-data';
+            }
+            if (id.includes('src/lib/affiliateRegistry')) {
+              return 'affiliate';
+            }
           },
         },
       },
-      chunkSizeWarningLimit: 500,
+      chunkSizeWarningLimit: 600,
     },
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
