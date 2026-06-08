@@ -2,18 +2,20 @@ name: Pinterest Auto-Publisher
 
 on:
   schedule:
-    - cron: '0 14 * * *' # تشغيل تلقائي يومياً الساعة 4 عصرًا بتوقيت مصر
+    - cron: '0 */3 * * *' # 🚀 النشر التلقائي كل 3 ساعات يومياً (مثال: 3، 6، 9، 12... وهكذا)
   workflow_dispatch: # للتشغيل اليدوي الفوري عند التجربة
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true' # حل نهائي لتنبيه Node.js وتفعيل النظام الحديث
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4.2.2 # تحديث للإصدار الفرعي الأحدث لدعم Node 24
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5.3.0 # تحديث للإصدار الفرعي الأحدث لدعم Node 24
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
