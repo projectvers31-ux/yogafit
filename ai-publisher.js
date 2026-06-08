@@ -1,35 +1,41 @@
-const fs = require('fs');
-const path = require('path');
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-// Configuration
-const PRODUCTS_FILE = './products.json'; 
-const PUBLISHED_DIR = './content/published';
+// 1. حل مشكلة غياب __dirname في نظام الـ ES Modules الحديث ليتوافق مع جيت هب
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// 2. ضبط وتصحيح المسارات بناءً على هيكلية مشروعك (Monorepo setup)
+const PRODUCTS_FILE = path.resolve(__dirname, 'products.json'); 
+const PUBLISHED_DIR = path.resolve(__dirname, 'frontend/public/content/published');
 const AMAZON_STORE_ID = '233232122-20'; // Your Amazon Tracking ID
 
+// تأمين المجلد حتى لا يفشل خادم Linux جيت هب إذا لم يجد المسار
 if (!fs.existsSync(PUBLISHED_DIR)) {
     fs.mkdirSync(PUBLISHED_DIR, { recursive: true });
 }
 
 async function generateArticles() {
     if (!fs.existsSync(PRODUCTS_FILE)) {
-        console.error("Error: products.json file not found in your project root!");
+        console.error("❌ Error: products.json file not found in your project root!");
         return;
     }
     
-    const rawData = fs.readFileSync(PRODUCTS_FILE);
+    const rawData = fs.readFileSync(PRODUCTS_FILE, 'utf-8');
     let products = JSON.parse(rawData);
 
     if (products.length < 1) {
-        console.log("Warning: No products left inside products.json to publish.");
+        console.log("⚠️ Warning: No products left inside products.json to publish.");
         return;
     }
 
-    // Select exactly 1 product for this scheduled turn (out of your 3 daily posts)
+    // اقتطاع منتج واحد فقط لكل دورة تشغيل (3 مرات يومياً)
     const selectedProducts = products.splice(0, 1); 
     const apiKey = process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-        console.error("Error: GEMINI_API_KEY is missing in your GitHub Secrets!");
+        console.error("❌ Error: GEMINI_API_KEY is missing in your GitHub Secrets!");
         return;
     }
 
@@ -41,7 +47,7 @@ async function generateArticles() {
             affiliateUrl = `${rawUrl}${separator}tag=${AMAZON_STORE_ID}`;
         }
 
-        console.log(`Processing Product: ${product["Product Name"] || 'Product'}`);
+        console.log(`🚀 Processing Product: ${product["Product Name"] || 'Product'}`);
         
         const prompt = `Act as an expert SEO blog writer, fitness coach, and wellness expert for FitFeky—a premium website specializing in Yoga and Weight Loss. 
         Write a high-quality, engaging, and professional article in English about this product:
@@ -67,6 +73,7 @@ async function generateArticles() {
         5. Do not include any extra chat or markdown code block wrappers (\`\`\`markdown). Just output raw markdown text.`;
 
         try {
+            // استخدام الـ fetch المدمج المستقر في Node 24 بدون حزم خارجية
             const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${apiKey}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -74,6 +81,12 @@ async function generateArticles() {
             });
 
             const data = await response.json();
+            
+            if (!data.candidates || !data.candidates[0]) {
+                console.error("❌ Gemini API didn't return content. Full response:", JSON.stringify(data));
+                continue;
+            }
+
             const articleContent = data.candidates[0].content.parts[0].text;
 
             const cleanTitle = (product["Product Name"] || 'fitness-article')
@@ -83,16 +96,16 @@ async function generateArticles() {
                 
             const fileName = `${cleanTitle}-${Date.now()}.md`;
             fs.writeFileSync(path.join(PUBLISHED_DIR, fileName), articleContent);
-            console.log(`Saved Fitness/Yoga Blog: ${fileName}`);
+            console.log(`✅ Saved Fitness/Yoga Blog: ${fileName}`);
 
         } catch (error) {
-            console.error("Error with Gemini API:", error);
+            console.error("❌ Error with Gemini API:", error);
         }
     }
 
-    // Save the remaining queue back to products.json
+    // حفظ التحديث بعد إزالة المنتج لعدم التكرار في المرة القادمة
     fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(products, null, 2));
-    console.log("Updated products.json queue successfully.");
+    console.log("📊 Updated products.json queue successfully.");
 }
 
 generateArticles();
