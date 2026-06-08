@@ -16,10 +16,41 @@ function isAmazonUrl(url: string): boolean {
   }
 }
 
+const ASIN_RE = /\/dp\/([A-Z0-9]{10})(?:\/|$)/i;
+
+function extractAsin(url: string): string | null {
+  const match = url.match(ASIN_RE);
+  return match ? match[1].toUpperCase() : null;
+}
+
+function isAmazonHostname(hostname: string): boolean {
+  const h = hostname.toLowerCase();
+  return AMAZON_DOMAINS.some(d => h === d || h.endsWith('.' + d));
+}
+
+export function normalizeAmazonUrl(url: string): string {
+  if (!url || typeof url !== 'string') return '';
+  try {
+    const parsed = new URL(url);
+    if (!isAmazonHostname(parsed.hostname)) return url;
+    const asin = extractAsin(url);
+    if (!asin) return url;
+    return `https://www.amazon.com/dp/${asin}?tag=${AFFILIATE_TAG}`;
+  } catch {
+    return url;
+  }
+}
+
 export function ensureAffiliateTag(url: string): string {
+  if (!url) return '';
   if (!isAmazonUrl(url)) return url;
 
   try {
+    const asin = extractAsin(url);
+    if (asin) {
+      return `https://www.amazon.com/dp/${asin}?tag=${AFFILIATE_TAG}`;
+    }
+
     const parsed = new URL(url);
     const params = new URLSearchParams(parsed.search);
 

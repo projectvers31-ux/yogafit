@@ -1,0 +1,40 @@
+name: AI Daily Blog Publisher
+
+on:
+  schedule:
+    # Runs 3 times a day to perfectly target Foreign Audiences (US/Europe)
+    - cron: '0 11 * * *' # 1:00 PM Egypt (7:00 AM US EST - Morning Catch)
+    - cron: '0 16 * * *' # 6:00 PM Egypt (12:00 PM US EST - Lunch Break Catch)
+    - cron: '0 22 * * *' # 12:00 AM Egypt (6:00 PM US EST - Evening Catch)
+  workflow_dispatch: # Allows you to manually trigger it anytime for testing
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+
+    - name: Generate One Article with AI
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: node ai-publisher.js
+
+    - name: Commit and Push Changes back to GitHub
+      run: |
+        git config --global user.name "GitHub Action AI"
+        git config --global user.email "actions@github.com"
+        git add content/published/
+        git add products.json
+        
+        if ! git diff --quiet --staged; then
+          git commit -m "Automation: Scheduled AI Content Update Published"
+          git push origin main
+        else
+          echo "No changes found."
+        fi

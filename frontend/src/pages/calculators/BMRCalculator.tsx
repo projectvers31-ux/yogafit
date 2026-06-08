@@ -99,12 +99,20 @@ export default function BMRCalculator() {
   return (
     <CalculatorTemplate
       seo={{
-        title: 'BMR Calculator for Women – Basal Metabolic Rate | FitFeky',
-        description: 'Free BMR calculator for women to calculate your basal metabolic rate. Find out how many calories your body burns at rest for weight management.',
+        title: 'BMR Calculator — Your Basal Metabolic Rate in Seconds | FitFeky',
+        description: 'Find the calories your body burns at complete rest. The foundation of every accurate nutrition plan. Free & instant.',
         canonicalPath: '/calculators/bmr-calculator',
         h1: 'BMR Calculator for Women – Basal Metabolic Rate',
         intro: 'Your BMR (basal metabolic rate) is the number of calories your body burns at complete rest — just breathing, keeping your heart beating, and staying alive. It is the foundation of every calorie calculation.\n\nThis BMR calculator uses the Mifflin-St Jeor equation, the most clinically validated formula for estimating resting metabolism. Enter your age, gender, weight, and height to learn your BMR instantly.\n\nOnce you know your BMR, you can add your activity calories to find your true daily needs.',
+        keywords: ['bmr calculator', 'basal metabolic rate calculator', 'resting calories women', 'bmr formula'],
+        ogImage: '/og/calculators/bmr-calculator.png',
       }}
+      currentTool="BMR Calculator"
+      blogArticle={{ slug: 'lose-belly-fat-yoga', title: 'How to Lose Belly Fat in 2 Weeks with Yoga: A Realistic Plan for Women', label: 'Understanding your metabolism' }}
+      smartCta={{ tool: 'bmr', category: 'general', userValue: bmr }}
+      productCards={[
+        { id: 'renpho-smart-scale-for-body-weight-bluetooth-13-me', context: 'Track body fat, muscle mass, and hydration alongside your BMR', position: 'below-bmi' },
+      ]}
       calculatorModule={calculatorModule}
       resultsModule={resultsModule}
       educationContent={educationContent}

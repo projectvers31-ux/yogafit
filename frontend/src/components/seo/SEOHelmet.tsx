@@ -5,6 +5,7 @@ import { SITE_URL, SITE_NAME, TWITTER_HANDLE, DEFAULT_OG_IMAGE, generateMeta } f
 interface SEOHelmetProps {
   title?: string;
   description?: string;
+  keywords?: string[];
   ogImage?: string;
   ogType?: string;
   canonicalPath?: string;
@@ -15,6 +16,7 @@ interface SEOHelmetProps {
 export default function SEOHelmet({
   title,
   description,
+  keywords,
   ogImage,
   ogType,
   canonicalPath,
@@ -35,6 +37,7 @@ export default function SEOHelmet({
       <link rel="canonical" href={canonical} />
 
       <meta name="description" content={meta.description} />
+      {keywords && <meta name="keywords" content={keywords.join(', ')} />}
       <meta name="robots" content={meta.noIndex ? 'noindex, nofollow' : 'index, follow'} />
 
       <meta property="og:title" content={meta.title} />

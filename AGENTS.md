@@ -12,6 +12,48 @@
 - `npm run preview` — preview the production build locally
 - `npm run lint` — type-check with `tsc --noEmit`
 - `npm run fix-products` — run the repository script for product data cleanup
+- In browser dev console: run `__affiliateReport()` to generate a product health maintenance report
+
+## Affiliate Product System
+
+### Architecture
+The affiliate product system has three layers:
+
+1. **`lib/affiliateRegistry.ts`** — Centralized product registry that merges `data/products.ts` (72 catalog products) and `data/products.json` (~80 recommendation products), deduplicating by ASIN. Provides single-source lookup: `getProduct(id)`, `getReplacementProduct(id)`, `getRelatedProducts(id)`.
+
+2. **`lib/fallbackEngine.ts`** — Fallback recommendation layer. `resolveProduct(id)` returns the product or the best available replacement. `getCalculatorProducts(type, ids, count)` fills gaps with category-matched products.
+
+3. **`lib/productHealth.ts`** — Validation and reporting. `generateReport()` returns a full maintenance report with invalid URLs, missing ASINs, low-quality products. `logReport(report)` prints it to console.
+
+### Safe rendering components
+- `components/affiliate/ProductMention.tsx` — Inline product card with auto-fallback to `/picks` or related products if URL is invalid or product missing.
+- `components/affiliate/AffiliateCard.tsx` — Full/mini product card with URL validation; falls back to `<Link to="/picks">` if URL is invalid.
+- `components/affiliate/SafeProductLink.tsx` — Render-prop component that resolves product ID with fallback; `SafeExternalLink` validates URLs before rendering.
+- `components/affiliate/SafeProductCard.tsx` — Card wrapper with automatic replacement and related-products display.
+
+### Data flow
+```
+CalculatorTemplate
+  └─ productCards prop (product IDs)
+      └─ resolveProduct(id) from fallbackEngine
+          └─ getProduct(id) from affiliateRegistry
+              ├─ data/products.ts (primary, 72 products)
+              └─ data/products.json via lib/products.ts (secondary, ~80 products)
+```
+
+### Product health report
+In dev mode, `__affiliateReport()` is available in the browser console. It outputs:
+- Total / healthy / issue product counts
+- Invalid URLs (products where Amazon URL fails validation)
+- Missing ASINs
+- Low-quality products (low rating or few reviews)
+- A console.table of all issues with product name, type, and message
+
+### Choosing a product data source
+- **`data/products.ts`** — For curated catalog products used in calculator cards, `Picks.tsx` page, and `AffiliateCard`/`ProductMention` components. Has benefits, goals, and category metadata.
+- **`data/products.json`** — For the recommendation engine (`lib/products.ts`) used in quiz results. Has tags, skillLevel, and numeric pricing.
+
+Always use `lib/affiliateRegistry.ts` APIs (`getProduct`, `getReplacementProduct`, `resolveProduct`) rather than importing directly from data files.
 
 ## Important patterns and conventions
 - Root package uses ESM: `type: "module"`.
@@ -41,6 +83,9 @@
 - `frontend/src/lib/analytics.ts` — custom analytics tracking
 - `frontend/src/content/blogArticles.ts` — blog content definitions
 - `frontend/src/data/products.json` — product data used in recommendations
+- `frontend/src/lib/affiliateRegistry.ts` — centralized product registry (use this for product lookups)
+- `frontend/src/lib/fallbackEngine.ts` — fallback product resolution
+- `frontend/src/lib/productHealth.ts` — product health validation and report generation
 - `frontend/vite.config.ts` — build config, alias resolution, prod optimizations
 
 ## What to do first on a new task

@@ -43,11 +43,11 @@ export default memo(function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-8">
+          <Link to="/picks" className={navLinkClasses}>Picks</Link>
           <Link to="/stories" className={navLinkClasses}>Stories</Link>
-          <Link to={isLanding ? '/#faq' : '/'} className={navLinkClasses}>FAQ</Link>
           <Link to="/calculators" className={navLinkClasses}>Calculators</Link>
-          <Link to="/about" className={navLinkClasses}>About</Link>
           <Link to="/blog" className={navLinkClasses}>Blog</Link>
+          <Link to="/about" className={navLinkClasses}>About</Link>
         </div>
 
         <button
@@ -68,11 +68,11 @@ export default memo(function Navbar() {
             className="md:hidden bg-white/95 backdrop-blur-xl border-b border-brand-border/20 overflow-hidden shadow-lg"
           >
             <div className="px-6 py-8 flex flex-col gap-5">
+              <Link to="/picks" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Picks</Link>
               <Link to="/stories" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Stories</Link>
-              <Link to={isLanding ? '/#faq' : '/'} onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">FAQ</Link>
               <Link to="/calculators" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Calculators</Link>
-              <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">About</Link>
               <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">Blog</Link>
+              <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-xs font-bold uppercase tracking-[0.2em] text-brand-muted hover:text-brand-sage transition-colors">About</Link>
             </div>
           </motion.div>
         )}

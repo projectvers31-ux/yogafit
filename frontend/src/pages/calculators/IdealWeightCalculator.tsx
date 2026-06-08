@@ -83,12 +83,20 @@ export default function IdealWeightCalculator() {
   return (
     <CalculatorTemplate
       seo={{
-        title: 'Ideal Weight Calculator for Women | FitFeky',
-        description: 'Find your ideal weight range as a woman. Free calculator using Devine, Robinson, Miller and Hamwi formulas plus healthy BMI range.',
+        title: 'Ideal Weight Calculator — Devine, Robinson & Hamwi Formulas | FitFeky',
+        description: 'See your healthy weight range using 4 science-backed formulas. Includes BMI range. Free calculator for women.',
         canonicalPath: '/calculators/ideal-weight-calculator',
         h1: 'Ideal Weight Calculator for Women – Find Your Healthy Range',
         intro: 'Your ideal weight is more than a number on a scale. This calculator estimates your healthy weight range using four established medical formulas, plus the standard BMI range of 18.5 to 24.9.\n\nThe four methods — Devine, Robinson, Miller, and Hamwi — are based on height and give slightly different results. The healthy BMI range is broader and generally more useful as a practical target.\n\nUse this alongside our body fat calculator for a complete picture of what healthy means for your body.',
+        keywords: ['ideal weight calculator', 'healthy weight calculator', 'ideal body weight women', 'devine formula calculator'],
+        ogImage: '/og/calculators/ideal-weight-calculator.png',
       }}
+      currentTool="Ideal Weight"
+      blogArticle={{ slug: 'yoga-weight-loss-women-40', title: 'Yoga for Weight Loss: Complete Guide for Women Over 40', label: 'Understanding your healthy weight' }}
+      smartCta={{ tool: 'ideal-weight', category: 'general', userValue: weights.bmiLower }}
+      productCards={[
+        { id: 'renpho-smart-scale-for-body-weight-bluetooth-13-me', context: 'Track more than just weight — body fat, muscle mass, and more', position: 'below-bmi' },
+      ]}
       calculatorModule={calculatorModule}
       resultsModule={resultsModule}
       educationContent={educationContent}

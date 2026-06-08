@@ -1,0 +1,110 @@
+[
+  {
+    "id": "weight-loss-1",
+    "name": "Aisha M.",
+    "ageRange": "34",
+    "category": "weight_loss",
+    "problem": "After having her second child, Aisha struggled with stubborn postpartum weight that wouldn't budge despite eating well and walking daily. She felt exhausted, low on confidence, and frustrated that her pre-pregnancy routines no longer worked for her changed body.",
+    "journey": "Aisha started with 15-minute daily yoga flows and gentle nutrition adjustments focused on protein-rich meals. She committed to consistency over intensity, tracking her progress weekly. By month two, she added short HIIT intervals and noticed her energy levels rising. The key shift was learning to work with her body's new rhythms instead of against them.",
+    "result": "Lost 9 kg over 4 months. More importantly, she regained her energy, sleeps better, and feels strong and capable in her body again.",
+    "duration": "4 months",
+    "image": "https://images.unsplash.com/photo-1518310383802-640c2de311b2?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Weight Loss"
+  },
+  {
+    "id": "weight-loss-2",
+    "name": "Chloe T.",
+    "ageRange": "29",
+    "category": "weight_loss",
+    "problem": "Chloe had tried two different gym memberships and three meal prep services in the past year. Each time she saw initial progress, then hit a plateau and lost motivation. She felt like her body was fighting against her and didn't know what she was doing wrong.",
+    "journey": "Instead of another extreme diet, Chloe focused on building a sustainable routine: daily movement she actually enjoyed (yoga + walking), eating enough protein and fiber, and prioritizing sleep. She stopped weighing herself daily and switched to monthly progress checks and how her clothes fit. The mental shift from punishment to self-care made all the difference.",
+    "result": "Lost 6 kg in 3 months. She now maintains her weight without counting every calorie and has a healthy relationship with food and exercise for the first time.",
+    "duration": "3 months",
+    "image": "https://images.unsplash.com/photo-1594381898411-846e7d193883?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Weight Loss"
+  },
+  {
+    "id": "weight-loss-3",
+    "name": "Maya R.",
+    "ageRange": "41",
+    "category": "weight_loss",
+    "problem": "Maya's career demanded long hours at a desk. She had gradually gained 12 kg over five years and felt trapped in a cycle of stress eating and guilt. She wanted to lose weight but had zero energy left at the end of the day to cook or exercise.",
+    "journey": "Maya focused on small compounding changes: a 10-minute morning stretch routine, swapping one meal a day for a higher-protein option, and walking during phone calls. She used the FitFeky calculators to understand her calorie needs and set realistic goals. The slow, steady approach kept her motivated because she never felt deprived.",
+    "result": "Lost 8 kg in 5 months. She has more energy at work, her chronic back pain has eased, and she no longer reaches for snacks out of stress.",
+    "duration": "5 months",
+    "image": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Weight Loss"
+  },
+  {
+    "id": "yoga-1",
+    "name": "Priya K.",
+    "ageRange": "37",
+    "category": "yoga",
+    "problem": "Years of desk work left Priya with chronic lower back tightness, poor posture, and shallow breathing. She felt stiff every morning and had accepted that aches were just part of getting older. Her flexibility had declined so much that touching her toes felt impossible.",
+    "journey": "She started a gentle 15-minute morning yoga practice focused on spinal mobility and hip openers. Within two weeks, she noticed she could bend forward without discomfort. She gradually added longer evening sessions and breathwork. The practice became her daily reset — something she looked forward to rather than dreaded.",
+    "result": "Regained full pain-free mobility in 8 weeks. Touches her toes easily, stands taller, and her anxiety has reduced significantly thanks to daily breathwork.",
+    "duration": "8 weeks",
+    "image": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Yoga"
+  },
+  {
+    "id": "yoga-2",
+    "name": "Leila N.",
+    "ageRange": "26",
+    "category": "yoga",
+    "problem": "Leila suffered from frequent tension headaches, poor sleep quality, and felt constantly on edge. She was a university student juggling exams and part-time work. She wanted to manage her stress but couldn't find a workout that didn't feel like another obligation.",
+    "journey": "She discovered restorative yoga and yin yoga — slow, meditative practices that focused on holding poses for longer periods. She practiced before bed, using the time to disconnect from screens. The combination of physical release and mental stillness helped her nervous system regulate. She started sleeping through the night within a week.",
+    "result": "Headaches reduced from 4-5 per month to almost none. She sleeps 7-8 hours consistently and feels calmer and more focused throughout the day.",
+    "duration": "6 weeks",
+    "image": "https://images.unsplash.com/photo-1552196563-55cd4e45efb3?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Yoga"
+  },
+  {
+    "id": "yoga-3",
+    "name": "Sophie L.",
+    "ageRange": "52",
+    "category": "yoga",
+    "problem": "Sophie was going through perimenopause and experiencing joint stiffness, weight gain around her midsection, and mood swings. She felt like her body was changing in ways she couldn't control and was struggling to find movement that felt good rather than painful.",
+    "journey": "She began a gentle yoga practice focused on joint mobility, balance poses, and deep breathing. The low-impact nature allowed her to move without pain, and the mindfulness component helped her navigate mood swings with more compassion. She adjusted her nutrition to include more calcium and magnesium-rich foods. Her practice evolved from 10 minutes to 30 minutes daily over three months.",
+    "result": "Lost 5 kg, eliminated joint pain, improved balance, and feels emotionally steadier. Yoga helped her navigate perimenopause with grace instead of frustration.",
+    "duration": "3 months",
+    "image": "https://images.unsplash.com/photo-1588286840104-8957b019727f?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Yoga"
+  },
+  {
+    "id": "fitness-1",
+    "name": "Elena R.",
+    "ageRange": "33",
+    "category": "fitness",
+    "problem": "Elena was a former athlete who had stopped exercising after an ankle injury. She had lost her fitness base, gained weight, and felt intimidated by the idea of starting over. She didn't know how to rebuild without injuring herself again.",
+    "journey": "She focused on low-impact strength training using bodyweight exercises and resistance bands. She worked on rebuilding her ankle stability through specific mobility drills and progressed slowly. The key was following a structured program that gradually increased intensity — no guesswork, no ego. She celebrated small wins: one more push-up, one extra rep, one deeper squat.",
+    "result": "Lost 7 kg and regained her strength in 4 months. She can do 20 full push-ups, runs 5 km without pain, and has more confidence than when she was competing.",
+    "duration": "4 months",
+    "image": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Fitness"
+  },
+  {
+    "id": "fitness-2",
+    "name": "Nadia A.",
+    "ageRange": "45",
+    "category": "fitness",
+    "problem": "Nadia had been sedentary for nearly a decade due to a demanding corporate job and family responsibilities. She felt weak, got winded climbing stairs, and worried about her long-term health. She had no idea where to start and felt too embarrassed to go to a gym.",
+    "journey": "She started with 10-minute home workouts using only bodyweight. The first week was hard, but she committed to showing up. She gradually increased to 20-minute sessions combining strength and cardio intervals. She tracked her progress with simple metrics: how many stairs she could climb without stopping, how long she could hold a plank.",
+    "result": "Lost 10 kg over 6 months. She can climb four flights of stairs without getting winded, holds a plank for 90 seconds, and no longer fears exercise.",
+    "duration": "6 months",
+    "image": "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Fitness"
+  },
+  {
+    "id": "fitness-3",
+    "name": "Fatima H.",
+    "ageRange": "31",
+    "category": "fitness",
+    "problem": "Fatima wanted to build strength and improve her body composition but was stuck in a cycle of cardio-only workouts. She was losing weight but also losing muscle, leaving her feeling weak and 'skinny-fat.' She didn't know how to build muscle without bulking up.",
+    "journey": "She switched to a structured strength training program with progressive overload, focusing on compound movements like squats, lunges, and push-ups. She increased her protein intake and stopped restricting carbohydrates. The visible changes in her arms, legs, and core kept her motivated. She learned that muscle is metabolically active — the more she had, the easier it became to maintain her weight.",
+    "result": "Lost 5 kg of fat and gained visible muscle definition in 3 months. Her resting metabolic rate increased, and she feels powerful and capable in her body.",
+    "duration": "3 months",
+    "image": "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=600&q=80",
+    "categoryLabel": "Fitness"
+  }
+]

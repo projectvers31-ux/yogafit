@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
+import EmotionalMirror from '@/components/tools/EmotionalMirror';
 import { Utensils } from 'lucide-react';
 
 type Goal = 'lose' | 'maintain' | 'gain';
@@ -120,12 +121,27 @@ export default function MacroCalculator() {
   return (
     <CalculatorTemplate
       seo={{
-        title: 'Macro Calculator for Women – Weight Loss | FitFeky',
-        description: 'Free macro calculator for women. Get your daily protein, carbs, and fat targets for weight loss, energy, and muscle tone — personalized for your body.',
+        title: 'Macro Calculator — Protein, Carbs & Fat Targets for Your Goal | FitFeky',
+        description: 'Get your personalized macros for weight loss, maintenance, or muscle tone. Based on your body stats. Free.',
         canonicalPath: '/calculators/macro-calculator',
-        h1: 'Macro Calculator for Women – Daily Protein, Carbs & Fat',
-        intro: 'Macros matter more than calories alone. This macro calculator for women gives you a personalized daily split of protein, carbohydrates, and fat based on your body measurements, activity level, and goal.\n\nWhether you want to lose weight, maintain your current shape, or build lean muscle, the right macro balance keeps your energy steady, preserves muscle, and makes your calorie target sustainable.\n\nYour results update instantly as you adjust your inputs — no button clicking required.',
+        h1: 'Build Your Custom Nutrition Plan',
+        intro: 'Stop following generic ratios. Your body needs a specific balance.',
+        keywords: ['macro calculator', 'macros for weight loss', 'protein carbs fat calculator', 'iifym calculator women'],
+        ogImage: '/og/calculators/macro-calculator.png',
       }}
+      emotionalMirror={
+        <EmotionalMirror items={[
+          "You've tried generic meal plans that didn't fit your body",
+          "You're confused about how much protein, carbs, and fat you actually need",
+          'You want a simple breakdown that works for YOUR goals',
+        ]} />
+      }
+      currentTool="Macro Calculator"
+      blogArticle={{ slug: 'intermittent-fasting-beginners', title: 'Intermittent Fasting for Beginners: A Complete Guide for Women', label: 'Understanding your macros' }}
+      smartCta={{ tool: 'macro', category: goal, userValue: macros.calories }}
+      productCards={[
+        { id: 'etekcity-food-kitchen-scale-digital-grams-and-ounc', context: 'Weigh your portions for accurate macro tracking', position: 'after-results' },
+      ]}
       calculatorModule={calculatorModule}
       resultsModule={resultsModule}
       educationContent={educationContent}

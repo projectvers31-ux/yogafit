@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
+import EmotionalMirror from '@/components/tools/EmotionalMirror';
 
 function bmiBasedBF(bmi: number, age: number, isFemale: boolean): number {
   const sex = isFemale ? 0 : 1;
@@ -96,12 +97,27 @@ export default function BodyFatCalculator() {
   return (
     <CalculatorTemplate
       seo={{
-        title: 'Body Fat Calculator for Women | FitFeky',
-        description: 'Estimate your body fat percentage as a woman. Free BMI-based body fat calculator with category ranges — essential, athlete, fit, acceptable, and overweight.',
+        title: 'Body Fat Calculator — Estimate Your Body Fat Percentage Free | FitFeky',
+        description: 'Calculate your body fat % with categories from essential to overweight. A better health marker than scale weight alone.',
         canonicalPath: '/calculators/body-fat-calculator',
-        h1: 'Body Fat Calculator for Women – Estimate Your Body Fat Percentage',
-        intro: 'Body fat percentage tells you more than the scale ever will. This calculator estimates your body fat using the validated BMI-based method designed for women.\n\nYour result is categorized into one of five ranges — essential, athlete, fit, acceptable, or overweight — so you know exactly where you stand.\n\nCombine your body fat reading with our ideal weight calculator for a complete picture of your healthy body composition.',
+        h1: 'Find Out Exactly Where You Stand',
+        intro: 'Most people guess wrong about their weight category. Get your real number in 30 seconds.',
+        keywords: ['body fat calculator', 'body fat percentage calculator', 'body fat women', 'how to calculate body fat'],
+        ogImage: '/og/calculators/body-fat-calculator.png',
       }}
+      emotionalMirror={
+        <EmotionalMirror items={[
+          "You've been avoiding the scale — or obsessing over it",
+          "You're unsure if your weight is actually a problem",
+          'You want a clear, honest answer without judgment',
+        ]} />
+      }
+      currentTool="Body Fat"
+      blogArticle={{ slug: 'lose-belly-fat-yoga', title: 'How to Lose Belly Fat in 2 Weeks with Yoga: A Realistic Plan for Women', label: 'Understanding your body composition' }}
+      smartCta={{ tool: 'body-fat', category: result.category.label, userValue: result.bmi }}
+      productCards={[
+        { id: 'renpho-smart-scale-for-body-weight-bluetooth-13-me', context: 'Get accurate body fat readings at home with a smart scale', position: 'below-bmi' },
+      ]}
       calculatorModule={calculatorModule}
       resultsModule={resultsModule}
       educationContent={educationContent}

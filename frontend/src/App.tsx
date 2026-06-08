@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, lazy, Suspense, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, Navigate, useLocation } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { trackEvent, trackStepView, trackConversion, trackMetaIntent, trackMetaCommitment } from '@/lib/analytics';
 import type { EnhancedAnalysis } from '@/lib/types';
@@ -13,6 +13,7 @@ import AnalyzingStep from '@/components/quiz/AnalyzingStep';
 import ProgressBar from '@/components/quiz/ProgressBar';
 import QuizStepContainer from '@/components/quiz/QuizStepContainer';
 import QuizOption from '@/components/quiz/QuizOption';
+import MicroMessage from '@/components/quiz/MicroMessage';
 import Hero from '@/components/landing/Hero';
 import SocialProof from '@/components/landing/SocialProof';
 import HowItWorks from '@/components/landing/HowItWorks';
@@ -29,6 +30,7 @@ const Terms = lazy(() => import('./pages/Terms'));
 const Contact = lazy(() => import('./pages/Contact'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
+const Picks = lazy(() => import('./pages/Picks'));
 const Stories = lazy(() => import('./pages/Stories'));
 const StoryDetail = lazy(() => import('./pages/StoryDetail'));
 const Calculators = lazy(() => import('./pages/Calculators'));
@@ -40,6 +42,7 @@ const IdealWeightCalculator = lazy(() => import('./pages/calculators/IdealWeight
 const BodyFatCalculator = lazy(() => import('./pages/calculators/BodyFatCalculator'));
 const WaterIntakeCalculator = lazy(() => import('./pages/calculators/WaterIntakeCalculator'));
 const ProteinCalculator = lazy(() => import('./pages/calculators/ProteinCalculator'));
+const CalculatorResultPage = lazy(() => import('./pages/CalculatorResultPage'));
 const ResultsStep = lazy(() => import('@/components/quiz/ResultsStep'));
 const ChatWindow = lazy(() => import('@/components/chatbot/ChatWindow'));
 
@@ -74,6 +77,9 @@ function LandingPage() {
   const [socialProofIndex, setSocialProofIndex] = useState(0);
   const [showSocialProof, setShowSocialProof] = useState(false);
   const [chatOpen, setChatOpen] = useState(false);
+  const [showContinueBanner, setShowContinueBanner] = useState(false);
+  const [showEmailCapture, setShowEmailCapture] = useState(false);
+  const [capturedEmail, setCapturedEmail] = useState('');
 
   const socialProofs = [
     "Sara from Cairo just purchased Yoga 21 ✓",
@@ -85,10 +91,18 @@ function LandingPage() {
 
   const quizSteps: QuizStep[] = ['welcome', 'identity', 'painPoint', 'timeAvailable', 'pastObstacle', 'commitment', 'urgency', 'desiredResult', 'currentWeight', 'height', 'targetWeight', 'email', 'analyzing', 'result'];
 
-  const calculateProgress = useCallback(() => {
-    const index = quizSteps.indexOf(step);
-    return (index / (quizSteps.length - 1)) * 100;
-  }, [step, quizSteps]);
+  const stepOrder: QuizStep[] = ['identity', 'painPoint', 'timeAvailable', 'pastObstacle', 'commitment', 'urgency', 'desiredResult', 'currentWeight', 'height', 'targetWeight'];
+
+  const currentQuestionIndex = stepOrder.indexOf(step as typeof stepOrder[number]) + 1;
+
+  const handleSelect = (field: keyof QuizData, value: string, nextStep: QuizStep, trackCategory?: string, metaCallback?: () => void) => {
+    updateQuizData(field, value);
+    if (trackCategory) {
+      trackEvent('quiz_interaction', { category: trackCategory, value });
+    }
+    if (metaCallback) metaCallback();
+    setTimeout(() => handleNext(nextStep), 400);
+  };
 
   const handleNext = async (nextStep: QuizStep) => {
     if (nextStep === 'result') {
@@ -145,6 +159,54 @@ function LandingPage() {
     }, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    const saved = localStorage.getItem('fitfeky_quiz_state');
+    if (saved) {
+      try {
+        const parsed = JSON.parse(saved) as { quizData: QuizData; step: QuizStep };
+        if (parsed.quizData && parsed.step && parsed.step !== 'welcome' && parsed.step !== 'result') {
+          setShowContinueBanner(true);
+        }
+      } catch { /* ignore */ }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (step === 'welcome' || step === 'result' || step === 'analyzing' || step === 'email') return;
+    const state = { quizData, step };
+    localStorage.setItem('fitfeky_quiz_state', JSON.stringify(state));
+  }, [quizData, step]);
+
+  const restoreQuiz = () => {
+    const saved = localStorage.getItem('fitfeky_quiz_state');
+    if (!saved) return;
+    try {
+      const parsed = JSON.parse(saved) as { quizData: QuizData; step: QuizStep };
+      setQuizData(parsed.quizData);
+      setStepHistory(['welcome', parsed.step]);
+      setStep(parsed.step);
+      setShowContinueBanner(false);
+    } catch { /* ignore */ }
+  };
+
+  const clearQuiz = () => {
+    localStorage.removeItem('fitfeky_quiz_state');
+    setShowContinueBanner(false);
+  };
+
+  const captureEmail = (email: string) => {
+    setCapturedEmail(email);
+    updateQuizData('email', email);
+    const existing = localStorage.getItem('fitfeky_quiz_state');
+    if (existing) {
+      try {
+        const parsed = JSON.parse(existing);
+        parsed.quizData.email = email;
+        localStorage.setItem('fitfeky_quiz_state', JSON.stringify(parsed));
+      } catch { /* ignore */ }
+    }
+  };
 
   return (
     <div className="min-h-screen bg-brand-warm font-sans text-brand-ink selection:bg-brand-sage/20">
@@ -215,6 +277,30 @@ function LandingPage() {
         )}
       </AnimatePresence>
 
+      {showContinueBanner && (
+        <motion.div
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-brand-sage/10 border-b border-brand-sage/15 px-4 py-3 text-center"
+        >
+          <p className="text-xs text-brand-ink mb-2">You have a quiz in progress. Continue where you left off?</p>
+          <div className="flex items-center justify-center gap-2">
+            <button
+              onClick={restoreQuiz}
+              className="bg-brand-sage text-white px-5 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:bg-[#243D31] transition-all"
+            >
+              Continue
+            </button>
+            <button
+              onClick={clearQuiz}
+              className="text-brand-muted/60 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-widest hover:text-brand-muted transition-colors"
+            >
+              Start Over
+            </button>
+          </div>
+        </motion.div>
+      )}
+
       <main id="main-content" className="relative">
         <AnimatePresence mode="wait">
           {step === 'welcome' && (
@@ -228,10 +314,15 @@ function LandingPage() {
             </motion.div>
           )}
 
-          {step !== 'welcome' && step !== 'result' && step !== 'analyzing' && <ProgressBar progress={calculateProgress()} />}
+          {step !== 'welcome' && step !== 'result' && step !== 'analyzing' && (
+            <>
+              <ProgressBar currentStep={currentQuestionIndex} totalSteps={10} />
+              <MicroMessage currentStep={currentQuestionIndex} />
+            </>
+          )}
 
           {step === 'identity' && (
-            <QuizStepContainer key="identity" title="What describes you best?" onBack={handleBack} currentStep={1} totalSteps={10}>
+            <QuizStepContainer key="identity" title="What describes you best?" onBack={handleBack} currentStep={1} totalSteps={10} tooltip="identity">
               {[
                 { label: 'Busy mom trying to get her body back', icon: Zap },
                 { label: 'Working woman with no time to waste', icon: Target },
@@ -243,18 +334,14 @@ function LandingPage() {
                   label={opt.label}
                   icon={opt.icon}
                   active={quizData.identity === opt.label}
-                  onClick={() => {
-                    updateQuizData('identity', opt.label);
-                    trackEvent('quiz_interaction', { category: 'identity', value: opt.label });
-                    handleNext('painPoint');
-                  }}
+                  onClick={() => handleSelect('identity', opt.label, 'painPoint', 'identity')}
                 />
               ))}
             </QuizStepContainer>
           )}
 
           {step === 'painPoint' && (
-            <QuizStepContainer key="painPoint" title="What bothers you most right now?" onBack={handleBack} currentStep={2} totalSteps={10}>
+            <QuizStepContainer key="painPoint" title="What bothers you most right now?" onBack={handleBack} currentStep={2} totalSteps={10} tooltip="painPoint">
               {[
                 { label: 'Stubborn belly fat that won\'t go away', icon: Zap },
                 { label: 'Low energy and constant fatigue', icon: Waves },
@@ -266,18 +353,14 @@ function LandingPage() {
                   label={opt.label}
                   icon={opt.icon}
                   active={quizData.painPoint === opt.label}
-                  onClick={() => {
-                    updateQuizData('painPoint', opt.label);
-                    trackEvent('quiz_interaction', { category: 'painPoint', value: opt.label });
-                    handleNext('timeAvailable');
-                  }}
+                  onClick={() => handleSelect('painPoint', opt.label, 'timeAvailable', 'painPoint')}
                 />
               ))}
             </QuizStepContainer>
           )}
 
           {step === 'timeAvailable' && (
-            <QuizStepContainer key="timeAvailable" title="How much time can you commit daily?" onBack={handleBack} currentStep={3} totalSteps={10}>
+            <QuizStepContainer key="timeAvailable" title="How much time can you commit daily?" onBack={handleBack} currentStep={3} totalSteps={10} tooltip="timeAvailable">
               <div className="bg-brand-sage/5 text-brand-sage text-[10px] font-bold uppercase tracking-widest text-center py-1.5 px-4 rounded-full mb-5 mx-auto w-max border border-brand-sage/10">
                 You are doing great
               </div>
@@ -291,19 +374,14 @@ function LandingPage() {
                   label={opt.label}
                   icon={opt.icon}
                   active={quizData.timeAvailable === opt.label}
-                  onClick={() => {
-                    updateQuizData('timeAvailable', opt.label);
-                    trackEvent('quiz_interaction', { category: 'timeAvailable', value: opt.label });
-                    trackMetaCommitment(opt.label);
-                    handleNext('pastObstacle');
-                  }}
+                  onClick={() => handleSelect('timeAvailable', opt.label, 'pastObstacle', 'timeAvailable', () => trackMetaCommitment(opt.label))}
                 />
               ))}
             </QuizStepContainer>
           )}
 
           {step === 'pastObstacle' && (
-            <QuizStepContainer key="pastObstacle" title="What stopped you from getting results before?" onBack={handleBack} currentStep={4} totalSteps={10}>
+            <QuizStepContainer key="pastObstacle" title="What stopped you from getting results before?" onBack={handleBack} currentStep={4} totalSteps={10} tooltip="pastObstacle">
               {[
                 { label: 'Programs too hard to stick to', icon: X },
                 { label: 'Spent money on things that didn\'t work', icon: Target },
@@ -315,18 +393,14 @@ function LandingPage() {
                   label={opt.label}
                   icon={opt.icon}
                   active={quizData.pastObstacle === opt.label}
-                  onClick={() => {
-                    updateQuizData('pastObstacle', opt.label);
-                    trackEvent('quiz_interaction', { category: 'pastObstacle', value: opt.label });
-                    handleNext('commitment');
-                  }}
+                  onClick={() => handleSelect('pastObstacle', opt.label, 'commitment', 'pastObstacle')}
                 />
               ))}
             </QuizStepContainer>
           )}
 
           {step === 'commitment' && (
-            <QuizStepContainer key="commitment" title="How serious are you about changing your body?" onBack={handleBack} currentStep={5} totalSteps={10}>
+            <QuizStepContainer key="commitment" title="How serious are you about changing your body?" onBack={handleBack} currentStep={5} totalSteps={10} tooltip="commitment">
               {[
                 { label: 'Want to try \u2014 no big commitment yet', icon: Waves },
                 { label: 'Ready to start \u2014 just need the right plan', icon: Target },
@@ -340,15 +414,49 @@ function LandingPage() {
                   onClick={() => {
                     updateQuizData('commitment', opt.label);
                     trackEvent('quiz_interaction', { category: 'commitment', value: opt.label });
-                    handleNext('urgency');
+                    setShowEmailCapture(true);
                   }}
                 />
               ))}
+              {showEmailCapture && (
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-6 p-5 bg-brand-sage/5 border border-brand-sage/10 rounded-2xl"
+                >
+                  <p className="text-xs font-medium text-brand-ink mb-3 text-center">
+                    Save your progress and get results via email
+                  </p>
+                  <div className="flex gap-2">
+                    <input
+                      type="email" placeholder="your@email.com"
+                      value={capturedEmail}
+                      onChange={(e) => setCapturedEmail(e.target.value)}
+                      className="flex-1 px-4 py-2.5 rounded-xl border border-brand-border/30 focus:border-brand-sage outline-none bg-white text-sm transition-all"
+                    />
+                    <button
+                      onClick={() => {
+                        if (capturedEmail) captureEmail(capturedEmail);
+                        setTimeout(() => handleNext('urgency'), 300);
+                      }}
+                      className="bg-brand-sage text-white px-4 py-2.5 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-[#243D31] transition-all whitespace-nowrap"
+                    >
+                      Save Progress
+                    </button>
+                  </div>
+                  <button
+                    onClick={() => setTimeout(() => handleNext('urgency'), 300)}
+                    className="mt-2 w-full text-center text-[10px] text-brand-muted/60 hover:text-brand-muted transition-colors"
+                  >
+                    No thanks, continue \u2192
+                  </button>
+                </motion.div>
+              )}
             </QuizStepContainer>
           )}
 
           {step === 'urgency' && (
-            <QuizStepContainer key="urgency" title="When do you want your first real results?" onBack={handleBack} currentStep={6} totalSteps={10}>
+            <QuizStepContainer key="urgency" title="When do you want your first real results?" onBack={handleBack} currentStep={6} totalSteps={10} tooltip="urgency">
               {[
                 { label: 'ASAP \u2014 within 2 weeks', icon: Zap },
                 { label: 'About a month \u2014 realistic', icon: Target },
@@ -359,18 +467,14 @@ function LandingPage() {
                   label={opt.label}
                   icon={opt.icon}
                   active={quizData.urgency === opt.label}
-                  onClick={() => {
-                    updateQuizData('urgency', opt.label);
-                    trackEvent('quiz_interaction', { category: 'urgency', value: opt.label });
-                    handleNext('desiredResult');
-                  }}
+                  onClick={() => handleSelect('urgency', opt.label, 'desiredResult', 'urgency')}
                 />
               ))}
             </QuizStepContainer>
           )}
 
           {step === 'desiredResult' && (
-            <QuizStepContainer key="desiredResult" title="Finally, what is your primary fitness goal?" onBack={handleBack} currentStep={7} totalSteps={10}>
+            <QuizStepContainer key="desiredResult" title="Finally, what is your primary fitness goal?" onBack={handleBack} currentStep={7} totalSteps={10} tooltip="desiredResult">
               {[
                 { label: 'Lose weight & burn fat', icon: Star, goal: 'weight_loss' },
                 { label: 'Increase flexibility & posture', icon: Waves, goal: 'flexibility' },
@@ -382,19 +486,14 @@ function LandingPage() {
                   label={opt.label}
                   icon={opt.icon}
                   active={quizData.desiredResult === opt.label}
-                  onClick={() => {
-                    updateQuizData('desiredResult', opt.label);
-                    trackEvent('quiz_interaction', { category: 'desiredResult', value: opt.label });
-                    trackMetaIntent(opt.goal);
-                    handleNext('currentWeight');
-                  }}
+                  onClick={() => handleSelect('desiredResult', opt.label, 'currentWeight', 'desiredResult', () => trackMetaIntent((opt as { label: string; icon: typeof Star; goal: string }).goal))}
                 />
               ))}
             </QuizStepContainer>
           )}
 
           {step === 'currentWeight' && (
-            <QuizStepContainer key="currentWeight" title="What is your current weight?" onBack={handleBack} currentStep={8} totalSteps={10}>
+            <QuizStepContainer key="currentWeight" title="What is your current weight?" onBack={handleBack} currentStep={8} totalSteps={10} tooltip="currentWeight">
               <div className="bg-white p-6 md:p-8 rounded-3xl border border-brand-border/30 focus-within:border-brand-sage/30 transition-all">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 bg-brand-sage/5 rounded-xl flex items-center justify-center text-brand-sage">
@@ -420,7 +519,7 @@ function LandingPage() {
           )}
 
           {step === 'height' && (
-            <QuizStepContainer key="height" title="What is your height?" onBack={handleBack} currentStep={9} totalSteps={10}>
+            <QuizStepContainer key="height" title="What is your height?" onBack={handleBack} currentStep={9} totalSteps={10} tooltip="height">
               <div className="bg-white p-6 md:p-8 rounded-3xl border border-brand-border/30 focus-within:border-brand-sage/30 transition-all">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 bg-brand-sage/5 rounded-xl flex items-center justify-center text-brand-sage">
@@ -446,7 +545,7 @@ function LandingPage() {
           )}
 
           {step === 'targetWeight' && (
-            <QuizStepContainer key="targetWeight" title="What is your target weight?" onBack={handleBack} currentStep={10} totalSteps={10}>
+            <QuizStepContainer key="targetWeight" title="What is your target weight?" onBack={handleBack} currentStep={10} totalSteps={10} tooltip="targetWeight">
               <div className="bg-white p-6 md:p-8 rounded-3xl border border-brand-border/30 focus-within:border-brand-sage/30 transition-all">
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-10 h-10 bg-brand-sage/5 rounded-xl flex items-center justify-center text-brand-sage">
@@ -628,6 +727,23 @@ function NotFound() {
 }
 
 export default function App() {
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      (window as any).__affiliateReport = async () => {
+        const { generateReport, logReport } = await import('@/lib/productHealth');
+        const report = generateReport();
+        logReport(report);
+        console.table(report.issues.map(i => ({
+          product: i.product.name,
+          type: i.type,
+          message: i.message,
+        })));
+        return report;
+      };
+      console.log('[FitFeky] Run __affiliateReport() for product health report');
+    }
+  }, []);
+
   return (
     <BrowserRouter>
       <a href="#main-content" className="skip-to-content">
@@ -653,6 +769,7 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:slug" element={<BlogArticle />} />
+          <Route path="/picks" element={<Picks />} />
           <Route path="/stories" element={<Stories />} />
           <Route path="/stories/:id" element={<StoryDetail />} />
           <Route path="/calculators" element={<Calculators />} />
@@ -664,6 +781,8 @@ export default function App() {
           <Route path="/calculators/body-fat-calculator" element={<BodyFatCalculator />} />
           <Route path="/calculators/water-intake-calculator" element={<WaterIntakeCalculator />} />
           <Route path="/calculators/protein-calculator" element={<ProteinCalculator />} />
+          <Route path="/calculators/:tool/result/:category" element={<CalculatorResultPage />} />
+          <Route path="/quiz" element={<Navigate to="/" replace />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>

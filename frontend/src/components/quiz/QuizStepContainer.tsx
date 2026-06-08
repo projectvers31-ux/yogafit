@@ -1,15 +1,17 @@
 import { type ReactNode, memo } from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight } from 'lucide-react';
+import WhyTooltip from './WhyTooltip';
 
 export default memo(function QuizStepContainer({
-  title, children, onBack, currentStep, totalSteps
+  title, children, onBack, currentStep, totalSteps, tooltip
 }: {
   title: string;
   children: ReactNode;
   onBack?: () => void;
   currentStep?: number;
   totalSteps?: number;
+  tooltip?: string;
 }) {
   return (
     <motion.div
@@ -35,7 +37,10 @@ export default memo(function QuizStepContainer({
       )}
 
       <div className="text-center mb-8 md:mb-10">
-        <h2 className="text-xl md:text-3xl font-serif text-brand-ink mb-2 md:mb-3 px-2 leading-tight">{title}</h2>
+        <h2 className="text-xl md:text-3xl font-serif text-brand-ink mb-2 md:mb-3 px-2 leading-tight inline-flex items-center gap-2">
+          {title}
+          {tooltip && <WhyTooltip step={tooltip} />}
+        </h2>
         <p className="text-sm text-brand-muted px-4">Choose the option that fits you best.</p>
       </div>
       <div className="space-y-2.5 md:space-y-3">

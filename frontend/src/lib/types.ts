@@ -10,7 +10,20 @@ import type {
 
 export type { EnhancedAnalysis, PsychologicalProfile, MetabolicProfile, TransformationPlan, PersonalityInsight, PerAnswerInsight, ActionPlanItem };
 
-export type QuizData = { name: string };
+export type QuizData = {
+  name: string;
+  identity: string;
+  painPoint: string;
+  desiredResult: string;
+  timeAvailable: string;
+  pastObstacle: string;
+  commitment: string;
+  urgency: string;
+  currentWeight: string;
+  height: string;
+  targetWeight: string;
+  email: string;
+};
 
 export type ChatMessage = {
   id: string;

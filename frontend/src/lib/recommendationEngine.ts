@@ -1,5 +1,8 @@
 import type { EnhancedAnalysis } from './quizAnalysis';
-import { allProducts, type Product } from './products';
+import { getAllAsRecommendationProducts } from './affiliateRegistry';
+import type { Product } from './products';
+
+const allProducts = getAllAsRecommendationProducts();
 
 export interface RecommendationInput {
   goal: string;

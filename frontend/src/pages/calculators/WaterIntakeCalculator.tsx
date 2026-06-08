@@ -86,12 +86,21 @@ export default function WaterIntakeCalculator() {
   return (
     <CalculatorTemplate
       seo={{
-        title: 'Water Intake Calculator for Women | FitFeky',
-        description: 'Calculate how much water you should drink daily as a woman. Free hydration calculator based on weight, activity, climate, and breastfeeding.',
+        title: 'Water Intake Calculator — Your Daily Hydration Target | FitFeky',
+        description: 'Find your exact daily water intake based on weight, activity level, climate, and breastfeeding. Free & accurate.',
         canonicalPath: '/calculators/water-intake-calculator',
         h1: 'Water Intake Calculator for Women – How Much Water to Drink',
         intro: 'Staying hydrated is one of the simplest and most effective things you can do for your energy, metabolism, and skin. This water intake calculator gives you a personalized daily target based on your weight, activity level, climate, and whether you are breastfeeding.\n\nThe general recommendation of eight glasses a day is a starting point, but your actual needs depend on your body and lifestyle. This calculator factors all of that in so you get a number that is actually yours.\n\nCombine your hydration plan with balanced nutrition using our macro calculator.',
+        keywords: ['water intake calculator', 'daily water intake calculator', 'how much water should i drink', 'hydration calculator women'],
+        ogImage: '/og/calculators/water-intake-calculator.png',
       }}
+      currentTool="Water Intake"
+      productCards={[
+        { id: 'hydro-flask-water-bottle-standard-mouth-21oz-insul', context: 'Stay hydrated throughout your day with this insulated bottle', position: 'after-results' },
+        { id: 'nutribullet-pro-900-series-blender-single-serve', context: 'Blend hydrating smoothies packed with fruits and vegetables', position: 'below-bmi' },
+      ]}
+      blogArticle={{ slug: 'restorative-yoga-sleep', title: 'Restorative Yoga Poses for Deep Relaxation & Better Sleep', label: 'Understanding your hydration' }}
+      smartCta={{ tool: 'water-intake', category: 'general', userValue: water }}
       calculatorModule={calculatorModule}
       resultsModule={resultsModule}
       educationContent={educationContent}

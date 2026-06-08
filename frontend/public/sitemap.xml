@@ -156,5 +156,35 @@
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
   </url>
+  <!-- === RESULT PAGES === -->
+  <url><loc>https://www.fitfeky.com/calculators/tdee-calculator/result/sedentary</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/tdee-calculator/result/lightly-active</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/tdee-calculator/result/moderately-active</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/tdee-calculator/result/very-active</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/tdee-calculator/result/extra-active</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/bmr-calculator/result/low</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/bmr-calculator/result/average</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/bmr-calculator/result/high</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/calorie-deficit-calculator/result/mild</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/calorie-deficit-calculator/result/moderate</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/calorie-deficit-calculator/result/aggressive</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/macro-calculator/result/weight-loss</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/macro-calculator/result/maintenance</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/macro-calculator/result/muscle-tone</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/ideal-weight-calculator/result/underweight</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/ideal-weight-calculator/result/at-goal</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/ideal-weight-calculator/result/slightly-over</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/ideal-weight-calculator/result/far-from-goal</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/body-fat-calculator/result/essential</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/body-fat-calculator/result/athletic</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/body-fat-calculator/result/fitness</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/body-fat-calculator/result/average</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/body-fat-calculator/result/overweight</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/water-intake-calculator/result/low</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/water-intake-calculator/result/moderate</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/water-intake-calculator/result/high</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/protein-calculator/result/weight-loss</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/protein-calculator/result/maintenance</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.fitfeky.com/calculators/protein-calculator/result/muscle-building</loc><lastmod>2026-06-08</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url>
 </urlset>

@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram } from 'lucide-react';
+
 
 const PinterestIcon = ({ size = 22, className = "" }) => (
   <svg
@@ -35,7 +35,6 @@ export default memo(function Footer() {
               Your personalized wellness companion. Science-backed fitness and nutrition designed for real women&apos;s lives.
             </p>
             <div className="flex items-center gap-4 text-brand-muted/60 mt-1">
-              <a href="https://www.instagram.com/fitfeky2025/?hl=en" target="_blank" rel="noopener noreferrer" className="hover:text-brand-sage hover:-translate-y-0.5 transition-all"><Instagram size={18} /></a>
               <a href="https://pin.it/4WXisJo3W" target="_blank" rel="noopener noreferrer" className="hover:text-brand-sage hover:-translate-y-0.5 transition-all"><PinterestIcon size={18} /></a>
             </div>
           </div>
@@ -48,6 +47,7 @@ export default memo(function Footer() {
               <Link to="/terms" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Terms</Link>
               <Link to="/contact" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Contact</Link>
               <Link to="/blog" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Blog</Link>
+              <Link to="/picks" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">FitFeky Picks</Link>
               <Link to="/stories" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">Real Stories</Link>
               <Link to="/calculators" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">All Calculators</Link>
               <Link to="/calculators/tdee-calculator" className="text-sm text-brand-muted hover:text-brand-sage transition-colors">TDEE Calculator</Link>

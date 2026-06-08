@@ -1,14 +1,19 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
+import { Link } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { motion, AnimatePresence } from 'motion/react';
 import {
-  ArrowRight, ArrowUp, CheckCircle2, Clock, Lock, ShieldCheck, Star, Target, Zap, Heart, Brain, Flame, Award, Sparkles, Activity, ShoppingCart, Users, ExternalLink
+  ArrowRight, ArrowUp, CheckCircle2, Clock, Lock, ShieldCheck, Star, Target, Zap, Heart, Brain, Flame, Award, Sparkles, Activity, ShoppingCart, Users, ExternalLink,
+  BookOpen, Share2, Mail, Crown, TrendingUp, Copy, ChevronRight, Scale
 } from 'lucide-react';
 import { trackResultsView } from '@/lib/analytics';
 import { useCountdown } from '@/hooks/useCountdown';
 import { useRecommendations } from '@/hooks/useRecommendations';
 import { productSchema } from '@/lib/seo';
+import { articles } from '@/content/blogArticles';
+import { getTopRecommendations } from '@/lib/recommendationEngine';
 import type { QuizData, EnhancedAnalysis } from '@/lib/types';
+import type { Product } from '@/lib/products';
 
 function getGoalIcon(goal: string) {
   if (goal === 'weight_loss') return Flame;
@@ -117,6 +122,39 @@ export default function ResultsStep({
         </p>
       </div>
 
+      {/* === SECTION 1: PERSONAL SUMMARY HEADER === */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
+      >
+        <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-6 text-center">Your Personal Summary</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+          <div className="bg-white rounded-2xl md:rounded-3xl border border-brand-border p-4 md:p-6 shadow-sm text-center">
+            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-brand-muted">Current Weight</span>
+            <div className="text-2xl md:text-3xl font-black text-brand-ink mt-1">{quizData.currentWeight} <span className="text-sm font-medium text-brand-muted">kg</span></div>
+          </div>
+          <div className="bg-white rounded-2xl md:rounded-3xl border border-brand-border p-4 md:p-6 shadow-sm text-center">
+            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-brand-muted">Target Weight</span>
+            <div className="text-2xl md:text-3xl font-black text-brand-ink mt-1">{quizData.targetWeight} <span className="text-sm font-medium text-brand-muted">kg</span></div>
+          </div>
+          <div className="bg-white rounded-2xl md:rounded-3xl border border-brand-border p-4 md:p-6 shadow-sm text-center">
+            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-brand-muted">To {Math.abs(analysis.weightToLose) > 0 ? (analysis.weightToLose > 0 ? 'Lose' : 'Gain') : 'Maintain'}</span>
+            <div className={`text-2xl md:text-3xl font-black mt-1 ${analysis.weightToLose > 0 ? 'text-brand-rose' : 'text-brand-sage'}`}>
+              {Math.abs(analysis.weightToLose)} <span className="text-sm font-medium text-brand-muted">kg</span>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl md:rounded-3xl border border-brand-border p-4 md:p-6 shadow-sm text-center">
+            <span className="text-[8px] md:text-[9px] font-bold uppercase tracking-widest text-brand-muted">Est. Timeline</span>
+            <div className="text-lg md:text-xl font-black text-brand-gold mt-1">
+              {Math.max(4, Math.ceil(Math.abs(analysis.weightToLose) / 0.75))} weeks
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
       {/* === METABOLIC DASHBOARD === */}
       <div className="mb-12 md:mb-16">
         <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-6 text-center">Your Metabolic Dashboard</h3>
@@ -167,6 +205,96 @@ export default function ResultsStep({
         </div>
       </div>
 
+      {/* === SECTION 2: CALORIE & MACRO TARGETS === */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
+      >
+        <div className="bg-white rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h3 className="text-xl md:text-2xl font-serif text-brand-ink">Calorie & Macro Targets</h3>
+              <p className="text-[10px] text-brand-muted">Daily targets based on your unique biometrics</p>
+            </div>
+            <Link
+              to="/calculators/macro-calculator"
+              onClick={() => localStorage.setItem('calc_calculators_macro-calculator_clicked', Date.now().toString())}
+              className="text-[9px] font-bold text-brand-sage hover:underline inline-flex items-center gap-1"
+            >
+              Full Calculator <ArrowRight size={12} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-6">
+            <div className="bg-brand-sage/5 rounded-2xl p-4 md:p-5 text-center border border-brand-sage/10">
+              <span className="text-[8px] font-bold uppercase tracking-widest text-brand-muted">Calorie Target</span>
+              <div className="text-3xl md:text-4xl font-black text-brand-ink mt-1">{meta.calorieTarget}</div>
+              <span className="text-[9px] text-brand-muted">calories/day</span>
+              <div className="mt-2 h-1.5 bg-brand-bone rounded-full overflow-hidden">
+                <div className="h-full bg-brand-sage rounded-full" style={{ width: `${Math.min(100, (meta.calorieTarget / (meta.tdee || 2000)) * 100)}%` }} />
+              </div>
+              <p className="text-[8px] text-brand-muted/60 mt-1">
+                {analysis.goal === 'weight_loss' ? `${Math.round((1 - meta.calorieTarget / (meta.tdee || 2000)) * 100)}% deficit` : 'Maintenance level'}
+              </p>
+            </div>
+            <div className="bg-brand-gold/5 rounded-2xl p-4 md:p-5 text-center border border-brand-gold/10">
+              <span className="text-[8px] font-bold uppercase tracking-widest text-brand-muted">Protein</span>
+              <div className="text-3xl md:text-4xl font-black text-brand-ink mt-1">{meta.proteinG}g</div>
+              <span className="text-[9px] text-brand-muted">{meta.proteinTarget}% of calories</span>
+              <div className="mt-2 h-1.5 bg-brand-bone rounded-full overflow-hidden">
+                <div className="h-full bg-brand-rose rounded-full" style={{ width: `${meta.proteinTarget}%` }} />
+              </div>
+            </div>
+            <div className="flex flex-col gap-3">
+              <Link
+                to="/calculators/tdee-calculator"
+                onClick={() => localStorage.setItem('calc_calculators_tdee-calculator_clicked', Date.now().toString())}
+                className="flex-1 bg-brand-tan/20 rounded-xl p-3 flex items-center gap-3 hover:bg-brand-tan/30 transition-colors"
+              >
+                <Zap size={14} className="text-brand-gold shrink-0" />
+                <div className="text-left">
+                  <span className="text-[9px] font-bold text-brand-ink block">TDEE: {meta.tdee} cal</span>
+                  <span className="text-[8px] text-brand-muted">Total daily energy expenditure</span>
+                </div>
+                <ChevronRight size={12} className="text-brand-muted ml-auto shrink-0" />
+              </Link>
+              <Link
+                to="/calculators/bmr-calculator"
+                onClick={() => localStorage.setItem('calc_calculators_bmr-calculator_clicked', Date.now().toString())}
+                className="flex-1 bg-brand-tan/20 rounded-xl p-3 flex items-center gap-3 hover:bg-brand-tan/30 transition-colors"
+              >
+                <Heart size={14} className="text-brand-rose shrink-0" />
+                <div className="text-left">
+                  <span className="text-[9px] font-bold text-brand-ink block">BMR: {meta.bmr} cal</span>
+                  <span className="text-[8px] text-brand-muted">Basal metabolic rate</span>
+                </div>
+                <ChevronRight size={12} className="text-brand-muted ml-auto shrink-0" />
+              </Link>
+            </div>
+          </div>
+
+          <div className="bg-brand-bone/20 rounded-2xl p-4">
+            <div className="grid grid-cols-3 gap-4 text-center text-[9px]">
+              <div>
+                <span className="font-bold text-brand-ink block">{meta.carbG}g</span>
+                <span className="text-brand-muted">Carbs ({meta.carbTarget}%)</span>
+              </div>
+              <div>
+                <span className="font-bold text-brand-ink block">{meta.fatG}g</span>
+                <span className="text-brand-muted">Fat ({meta.fatTarget}%)</span>
+              </div>
+              <div>
+                <span className="font-bold text-brand-ink block">{meta.carbG + meta.proteinG + meta.fatG}g</span>
+                <span className="text-brand-muted">Total macros</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
       {/* === PERSONALITY INSIGHTS === */}
       {analysis.personalityInsights.length > 0 && (
         <div className="mb-12 md:mb-16">
@@ -187,6 +315,50 @@ export default function ResultsStep({
           </div>
         </div>
       )}
+
+      {/* === SECTION 4: EMOTIONAL FEEDBACK === */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
+      >
+        <div className="bg-linear-to-br from-brand-rose/5 to-brand-tan/10 border border-brand-rose/15 rounded-3xl md:rounded-[3rem] p-6 md:p-10 shadow-sm relative overflow-hidden">
+          <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
+            <Heart size={80} className="text-brand-rose" />
+          </div>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 rounded-full bg-brand-rose/10 flex items-center justify-center">
+              <Heart size={18} className="text-brand-rose" />
+            </div>
+            <div>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-brand-rose">Your Emotional Insight</span>
+              <p className="text-[10px] text-brand-muted">Understanding what has held you back</p>
+            </div>
+          </div>
+          <p className="text-base md:text-lg text-brand-ink leading-relaxed font-serif italic">
+            &ldquo;
+            {quizData.pastObstacle?.toLowerCase().includes('hard to stick') &&
+              'You have tried programs that demanded too much too soon. The key is finding an approach that fits your life — not the other way around. This plan is built for consistency, not intensity.'}
+            {quizData.pastObstacle?.toLowerCase().includes('spent money') &&
+              'You have invested in solutions that did not deliver. This plan is different — it is personalized to your body and goals, eliminating guesswork and wasted effort.'}
+            {quizData.pastObstacle?.toLowerCase().includes('never found') &&
+              'You have been searching for the right fit. Generic programs fail because they treat everyone the same. Your plan is uniquely crafted for you.'}
+            {quizData.pastObstacle?.toLowerCase().includes('no gym') &&
+              'You do not need a gym. Every workout in your plan can be done at home with zero equipment. Your living room is your studio.'}
+            {!quizData.pastObstacle?.toLowerCase().includes('hard to stick') &&
+             !quizData.pastObstacle?.toLowerCase().includes('spent money') &&
+             !quizData.pastObstacle?.toLowerCase().includes('never found') &&
+             !quizData.pastObstacle?.toLowerCase().includes('no gym') &&
+              'Your past obstacles have shaped your resilience. This plan addresses those specific challenges with targeted strategies.'}
+            &rdquo;
+          </p>
+          <div className="mt-4 flex items-center gap-2 text-[10px] text-brand-sage font-bold">
+            <CheckCircle2 size={12} /> Personalized to your past challenges
+          </div>
+        </div>
+      </motion.div>
 
       {/* === PER-ANSWER INSIGHTS === */}
       <div className="mb-12 md:mb-16">
@@ -261,6 +433,78 @@ export default function ResultsStep({
         </div>
       </div>
 
+      {/* === SECTION 5: NEXT STEPS === */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
+      >
+        <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-6 text-center">Your Next Steps</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+          {[
+            { icon: Zap, title: 'Start Your Journey', desc: 'Begin with Week 1 of your 4-week action plan above', color: 'text-brand-sage', bg: 'bg-brand-sage/10' },
+            { icon: Target, title: 'Track Progress', desc: 'Take photos and measurements to see your transformation', color: 'text-brand-gold', bg: 'bg-brand-gold/10' },
+            { icon: Users, title: 'Join Community', desc: 'Connect with women on the same journey for accountability', color: 'text-brand-rose', bg: 'bg-brand-rose/10' },
+            { icon: BookOpen, title: 'Read Your Guides', desc: 'Explore personalized articles matched to your profile below', color: 'text-brand-sage', bg: 'bg-brand-sage/10' },
+          ].map((step, i) => (
+            <div key={i} className="bg-white rounded-2xl border border-brand-border p-4 md:p-6 shadow-sm text-center hover:shadow-md transition-all">
+              <div className={`w-10 h-10 rounded-full ${step.bg} flex items-center justify-center mx-auto mb-3`}>
+                <step.icon size={18} className={step.color} />
+              </div>
+              <h4 className="text-xs md:text-sm font-bold text-brand-ink mb-1">{step.title}</h4>
+              <p className="text-[9px] md:text-[10px] text-brand-muted leading-relaxed">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* === SECTION 6: CALCULATOR LINKS === */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
+      >
+        <div className="bg-linear-to-br from-brand-tan/20 to-brand-sage/5 rounded-3xl md:rounded-[3rem] p-6 md:p-10 border border-brand-border">
+          <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-2 text-center">Free Tools & Calculators</h3>
+          <p className="text-xs md:text-sm text-brand-muted italic text-center mb-6 max-w-lg mx-auto">Track your progress with these science-backed calculators</p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+            {[
+              { icon: Scale, title: 'BMI Calculator', desc: 'Check your body mass index', link: '/calculators/bmr-calculator', color: 'text-brand-sage' },
+              { icon: Zap, title: 'TDEE Calculator', desc: 'Know your daily energy needs', link: '/calculators/tdee-calculator', color: 'text-brand-gold' },
+              { icon: Target, title: 'Calorie Deficit', desc: 'Find your fat loss target', link: '/calculators/calorie-deficit-calculator', color: 'text-brand-rose' },
+              { icon: Activity, title: 'Macro Calculator', desc: 'Split protein, carbs & fat', link: '/calculators/macro-calculator', color: 'text-brand-sage' },
+            ].map((calc, i) => (
+              <Link
+                key={i}
+                to={calc.link}
+                onClick={() => {
+                  const key = `calc_${calc.link.replace(/\//g, '_')}_clicked`;
+                  localStorage.setItem(key, Date.now().toString());
+                }}
+                className="bg-white rounded-2xl border border-brand-border p-4 md:p-5 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all text-center group block"
+              >
+                <calc.icon size={20} className={`${calc.color} mx-auto mb-2`} />
+                <h4 className="text-[10px] md:text-xs font-bold text-brand-ink mb-0.5">{calc.title}</h4>
+                <p className="text-[8px] md:text-[9px] text-brand-muted">{calc.desc}</p>
+                <span className="text-[8px] font-bold text-brand-sage opacity-0 group-hover:opacity-100 transition-opacity inline-flex items-center gap-0.5 mt-1">
+                  Open <ChevronRight size={8} />
+                </span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
+      {/* === SECTION 7: PERSONALIZED BLOG ARTICLES === */}
+      <BlogArticlesSection analysis={analysis} />
+
+      {/* === SECTION 8: AFFILIATE PRODUCTS === */}
+      <AffiliateProductsSection analysis={analysis} />
+
       {/* === RECOMMENDED PRODUCTS === */}
       <RecommendationProducts analysis={analysis} />
 
@@ -328,6 +572,47 @@ export default function ResultsStep({
         </div>
       </div>
 
+      {/* === SECTION 3: TIMELINE PREDICTION === */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
+      >
+        <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-6 text-center">Your Milestone Timeline</h3>
+        <div className="relative max-w-4xl mx-auto">
+          <div className="absolute left-1/2 -translate-x-px top-0 bottom-0 w-0.5 bg-brand-sage/20 hidden md:block" />
+          <div className="space-y-6 md:space-y-0">
+            {[
+              { week: 'Wk 1-2', title: 'Neuro-Adaptation', desc: 'Your nervous system learns new movement patterns. Energy stabilizes.', color: 'bg-brand-sage', icon: Brain },
+              { week: 'Wk 3-4', title: 'Metabolic Shift', desc: 'Your body taps into stored fat. Sleep improves. Clothes fit differently.', color: 'bg-brand-gold', icon: Flame },
+              { week: 'Wk 5-8', title: 'Visible Transformation', desc: 'Physical changes become apparent. Friends will notice.', color: 'bg-brand-rose', icon: TrendingUp },
+              { week: 'Wk 9-12', title: 'Lifestyle Integration', desc: 'New habits become automatic. Transformation becomes permanent.', color: 'bg-brand-sage', icon: Crown },
+            ].map((phase, i) => (
+              <div key={i} className="md:flex items-center gap-6 md:odd:flex-row-reverse">
+                <div className="hidden md:block md:w-1/2" />
+                <div className="flex items-center gap-4 md:gap-0 md:absolute md:left-1/2 md:-translate-x-1/2 md:flex-col md:items-center">
+                  <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full ${phase.color} text-white flex items-center justify-center shadow-lg shrink-0 relative z-10`}>
+                    <phase.icon size={18} />
+                  </div>
+                  <div className="md:hidden">
+                    <span className="text-[9px] font-bold uppercase tracking-widest text-brand-muted">{phase.week}</span>
+                    <h4 className="text-sm font-bold text-brand-ink">{phase.title}</h4>
+                    <p className="text-[10px] text-brand-muted">{phase.desc}</p>
+                  </div>
+                </div>
+                <div className="hidden md:block md:w-1/2 md:pl-8 md:odd:pl-0 md:odd:pr-8 md:odd:text-right">
+                  <span className="text-[9px] font-bold uppercase tracking-widest text-brand-muted">{phase.week}</span>
+                  <h4 className="text-sm font-bold text-brand-ink">{phase.title}</h4>
+                  <p className="text-[10px] text-brand-muted">{phase.desc}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.div>
+
       {/* === 4-WEEK ACTION PLAN === */}
       <div className="mb-12 md:mb-16">
         <div className="text-center mb-8">
@@ -382,6 +667,81 @@ export default function ResultsStep({
           </div>
         </div>
       </div>
+
+      {/* === SECTION 9: SAVE & CONTINUE === */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.5 }}
+        className="mb-12 md:mb-16"
+      >
+        <div className="bg-white rounded-3xl md:rounded-[3rem] border border-brand-border p-6 md:p-10 shadow-sm">
+          <div className="text-center mb-8">
+            <div className="w-14 h-14 bg-brand-gold/10 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Crown size={24} className="text-brand-gold" />
+            </div>
+            <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-2">Save Your Plan & Continue</h3>
+            <p className="text-sm text-brand-muted max-w-lg mx-auto">Get your personalized plan delivered to your inbox and join our 7-Day Challenge.</p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 max-w-3xl mx-auto mb-8">
+            <div className="bg-brand-sage/5 rounded-2xl p-5 text-center border border-brand-sage/10">
+              <Mail size={20} className="text-brand-sage mx-auto mb-3" />
+              <h4 className="text-sm font-bold text-brand-ink mb-1">Email Your Plan</h4>
+              <p className="text-[10px] text-brand-muted mb-3">Never lose access to your results</p>
+              <div className="flex gap-2">
+                <input
+                  type="email" placeholder="your@email.com"
+                  defaultValue={quizData.email || ''}
+                  className="flex-1 px-3 py-2 rounded-xl border border-brand-border/30 text-[11px] focus:border-brand-sage outline-none bg-white"
+                />
+                <button className="bg-brand-sage text-white px-3 py-2 rounded-xl text-[9px] font-bold uppercase tracking-widest hover:bg-brand-sage/90 transition-all whitespace-nowrap">
+                  Send
+                </button>
+              </div>
+            </div>
+
+            <Link
+              to="/"
+              className="bg-brand-gold/5 rounded-2xl p-5 text-center border border-brand-gold/10 hover:bg-brand-gold/10 transition-all block group"
+            >
+              <Zap size={20} className="text-brand-gold mx-auto mb-3" />
+              <h4 className="text-sm font-bold text-brand-ink mb-1">Join 7-Day Challenge</h4>
+              <p className="text-[10px] text-brand-muted mb-3">Start seeing results this week</p>
+              <span className="text-[9px] font-bold text-brand-gold uppercase tracking-widest inline-flex items-center gap-1 group-hover:underline">
+                Start Free <ArrowRight size={12} />
+              </span>
+            </Link>
+
+            <div className="bg-brand-tan/30 rounded-2xl p-5 text-center border border-brand-border/30">
+              <Share2 size={20} className="text-brand-sage mx-auto mb-3" />
+              <h4 className="text-sm font-bold text-brand-ink mb-1">Share Your Results</h4>
+              <p className="text-[10px] text-brand-muted mb-3">Inspire others on their journey</p>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(window.location.href);
+                }}
+                className="text-[9px] font-bold text-brand-sage uppercase tracking-widest inline-flex items-center gap-1 hover:underline"
+              >
+                <Copy size={12} /> Copy Link
+              </button>
+            </div>
+          </div>
+
+          <div className="bg-brand-sage/5 rounded-2xl p-4 md:p-6 text-center border border-brand-sage/10">
+            <p className="text-xs text-brand-muted mb-3">
+              <Sparkles size={12} className="inline text-brand-gold mr-1" />
+              Your plan is saved locally. For full access across devices, enter your email above.
+            </p>
+            <div className="flex flex-wrap justify-center gap-3 text-[8px] font-bold uppercase tracking-widest text-brand-muted/50">
+              <span className="flex items-center gap-1"><Lock size={10} /> Encrypted</span>
+              <span className="flex items-center gap-1"><CheckCircle2 size={10} /> Free Forever</span>
+              <span className="flex items-center gap-1"><Zap size={10} /> Instant Access</span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
       {/* === GUARANTEE + TRUST === */}
       <div className="bg-brand-tan/30 rounded-[3rem] p-8 md:p-20 border border-brand-border text-center relative overflow-hidden shadow-sm">
@@ -551,5 +911,138 @@ function RecommendationProducts({ analysis }: { analysis: EnhancedAnalysis }) {
       </div>
     </div>
     </>
+  );
+}
+
+const ARCHETYPE_CATEGORY_MAP: Record<string, string[]> = {
+  'Busy Working Woman': ['Wellness', 'Nutrition'],
+  'Emotional Eater': ['Wellness', 'Yoga'],
+  'Beginner Restarting Journey': ['Yoga', 'Weight Loss'],
+  'Transformation-Ready Champion': ['Weight Loss', 'Nutrition'],
+  'Consistent Grower': ['Nutrition', 'Wellness'],
+  'Ambitious Achiever': ['Nutrition', 'Weight Loss'],
+};
+
+function BlogArticlesSection({ analysis }: { analysis: EnhancedAnalysis }) {
+  const archetype = analysis.psychologicalProfile.archetype;
+  const categories = ARCHETYPE_CATEGORY_MAP[archetype] || ['Weight Loss', 'Wellness'];
+  const goalCategory = analysis.goal === 'flexibility' ? 'Yoga' : analysis.goal === 'weight_loss' ? 'Weight Loss' : 'Nutrition';
+  const allCategories = [...new Set([...categories, goalCategory])];
+
+  const matchedArticles = useMemo(() => {
+    const filtered = articles.filter(a => allCategories.includes(a.category));
+    return filtered.slice(0, 3);
+  }, []);
+
+  if (matchedArticles.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5 }}
+      className="mb-12 md:mb-16"
+    >
+      <div className="text-center mb-8">
+        <h3 className="text-xl md:text-3xl font-serif text-brand-ink mb-2">Personalized Reads For You</h3>
+        <p className="text-brand-muted italic text-sm md:text-base max-w-lg mx-auto">
+          Articles curated to your {archetype.toLowerCase()} profile
+        </p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        {matchedArticles.map((article) => (
+          <Link
+            key={article.id}
+            to={`/blog/${article.slug}`}
+            className="group bg-white rounded-2xl border border-brand-border overflow-hidden shadow-sm hover:shadow-lg transition-all hover:-translate-y-0.5 flex flex-col"
+          >
+            <div className="aspect-[16/9] bg-brand-bone/30 overflow-hidden">
+              <img
+                src={article.ogImage}
+                alt={article.title}
+                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="lazy"
+              />
+            </div>
+            <div className="p-4 md:p-5 flex flex-col flex-1">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="text-[8px] font-bold uppercase tracking-widest text-brand-sage bg-brand-sage/5 px-2 py-0.5 rounded-full">
+                  {article.category}
+                </span>
+                <span className="text-[8px] text-brand-muted">{article.readTime}</span>
+              </div>
+              <h4 className="text-xs md:text-sm font-bold text-brand-ink leading-snug mb-2 line-clamp-2 group-hover:text-brand-sage transition-colors">
+                {article.title}
+              </h4>
+              <p className="text-[10px] text-brand-muted leading-relaxed line-clamp-2 flex-1">
+                {article.excerpt}
+              </p>
+              <span className="text-[9px] font-bold text-brand-sage mt-3 inline-flex items-center gap-1 group-hover:underline">
+                Read More <ArrowRight size={10} />
+              </span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function AffiliateProductsSection({ analysis }: { analysis: EnhancedAnalysis }) {
+  const products = useMemo(() => {
+    return getTopRecommendations(analysis, 4);
+  }, [analysis]);
+
+  if (products.length === 0) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5 }}
+      className="mb-12 md:mb-16"
+    >
+      <div className="bg-white rounded-3xl border border-brand-border p-6 md:p-8 shadow-sm">
+        <div className="text-center mb-6">
+          <h3 className="text-xl md:text-2xl font-serif text-brand-ink mb-1">Top Picks For Your Profile</h3>
+          <p className="text-[10px] text-brand-muted">Hand-picked products based on your archetype and goals</p>
+        </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+          {products.map((product) => (
+            <motion.a
+              key={product.id}
+              href={product.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ y: -2 }}
+              className="group bg-brand-bone/20 rounded-xl border border-brand-border/50 overflow-hidden hover:shadow-md transition-all"
+            >
+              <div className="aspect-square bg-white p-3">
+                <img
+                  src={product.image}
+                  alt={product.name}
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                />
+              </div>
+              <div className="p-3">
+                <h4 className="text-[10px] font-bold text-brand-ink leading-snug line-clamp-2 mb-1">{product.name}</h4>
+                <div className="flex items-center gap-1 mb-1">
+                  <Star size={8} className="text-brand-gold fill-brand-gold" />
+                  <span className="text-[8px] font-bold text-brand-ink">{product.rating.toFixed(1)}</span>
+                  <span className="text-[7px] text-brand-muted">({product.ratingsCount.toLocaleString()})</span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[10px] font-black text-brand-ink">${product.price.toFixed(2)}</span>
+                  <span className="text-[7px] font-bold text-brand-sage group-hover:underline">Shop</span>
+                </div>
+              </div>
+            </motion.a>
+          ))}
+        </div>
+      </div>
+    </motion.div>
   );
 }

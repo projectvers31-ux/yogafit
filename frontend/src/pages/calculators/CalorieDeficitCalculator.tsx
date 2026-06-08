@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
+import EmotionalMirror from '@/components/tools/EmotionalMirror';
 import { Target, AlertTriangle } from 'lucide-react';
 
 export default function CalorieDeficitCalculator() {
@@ -90,12 +91,27 @@ export default function CalorieDeficitCalculator() {
   return (
     <CalculatorTemplate
       seo={{
-        title: 'Calorie Deficit Calculator for Women | FitFeky',
-        description: 'Calculate your calorie deficit for weight loss. Free calculator for women — find the right daily intake to lose fat without slowing your metabolism.',
+        title: 'Calorie Deficit Calculator — Safe Daily Deficit for Weight Loss | FitFeky',
+        description: 'Set a mild, moderate, or aggressive calorie deficit. See your daily target and weekly weight loss estimate. Free tool.',
         canonicalPath: '/calculators/calorie-deficit-calculator',
-        h1: 'Calorie Deficit Calculator for Women – Lose Weight Safely',
-        intro: 'A calorie deficit is the most reliable path to weight loss. This calculator tells you exactly how many calories to eat each day to create a safe, effective deficit based on your total daily energy expenditure.\n\nChoose your deficit size — mild, moderate, or aggressive — and see your daily calorie target, estimated weekly weight loss, and whether your deficit stays above the safe minimum of 1,200 calories.\n\nFor best results, pair your deficit with a balanced macro split from our macro calculator.',
+        h1: 'Stop Guessing How Much to Eat',
+        intro: 'Eating too little is just as bad as eating too much. Get your personal target based on your real metabolism.',
+        keywords: ['calorie deficit calculator', 'how big should my deficit be', 'calorie deficit for weight loss', 'safe calorie deficit women'],
+        ogImage: '/og/calculators/calorie-deficit-calculator.png',
       }}
+      emotionalMirror={
+        <EmotionalMirror items={[
+          "You've tried diets before but nothing stuck",
+          "You're tired of conflicting advice about how much to eat",
+          'You want a number based on YOUR body, not generic charts',
+        ]} />
+      }
+      currentTool="Calorie Deficit"
+      blogArticle={{ slug: 'weight-loss-busy-moms', title: 'Weight Loss Tips for Busy Moms Who Have No Time', label: 'Understanding your calorie deficit' }}
+      smartCta={{ tool: 'calorie-deficit', category: 'weight-loss', userValue: results.dailyIntake }}
+      productCards={[
+        { id: 'etekcity-food-kitchen-scale-digital-grams-and-ounc', context: 'Accurate portion tracking makes hitting your deficit effortless', position: 'after-results' },
+      ]}
       calculatorModule={calculatorModule}
       resultsModule={resultsModule}
       educationContent={educationContent}

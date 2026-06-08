@@ -4,10 +4,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import {
   Calculator, ArrowRight, Check, ChevronRight,
   Dumbbell, Sparkles, Target, Zap,
-  Heart, Brain
+  Heart, Brain, BarChart3, UserCheck, BookOpen, Clock
 } from 'lucide-react';
 import SEOHelmet from '@/components/seo/SEOHelmet';
 import { breadcrumbSchema } from '@/lib/seo';
+import EmotionalMirror from '@/components/tools/EmotionalMirror';
+import SmartCTA, { InlineCta, EndOfPageCta } from '@/components/tools/SmartCTA';
+import RelatedTools from '@/components/shared/RelatedTools';
+import ProductMention from '@/components/affiliate/ProductMention';
 
 type Step = 'calculator' | 'results' | 'explain' | 'cta' | 'quiz' | 'ai_plan';
 type Gender = 'male' | 'female';
@@ -147,16 +151,20 @@ export default function TDEECalculator() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  return (
+  const mainContent = (
     <main id="main-content" className="min-h-screen bg-brand-bone font-sans">
       <div className="max-w-5xl mx-auto px-4 md:px-12 pt-6">
-        <Link to="/calculators" className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-widest text-brand-muted/60 hover:text-brand-sage transition-colors">
-          <ArrowRight size={11} className="rotate-180" /> All Calculators
-        </Link>
+        <div className="flex items-center gap-1.5 text-[11px] text-brand-muted/60">
+          <Link to="/calculators" className="hover:text-brand-sage transition-colors">Calculators</Link>
+          <ArrowRight size={10} className="text-brand-muted/30 shrink-0 rotate-180" />
+          <span className="text-brand-muted/40">TDEE Calculator</span>
+        </div>
       </div>
       <SEOHelmet
-        title="TDEE Calculator for Women – Weight Loss Calories | FitFeky"
-        description="Free TDEE calculator for women. Calculate daily calories for weight loss, understand BMR vs TDEE, and get a personalized plan today."
+        title="TDEE Calculator — Find Your Total Daily Energy Expenditure | FitFeky"
+        description="Calculate your exact daily calories with activity level. Free TDEE calculator for women. No signup required."
+        keywords={['tdee calculator', 'total daily energy expenditure', 'calorie calculator women', 'how many calories should i eat']}
+        ogImage="/og/calculators/tdee-calculator.png"
         canonicalPath="/calculators/tdee-calculator"
         ldJson={[
           breadcrumb,
@@ -238,23 +246,36 @@ export default function TDEECalculator() {
                 <Calculator size={12} /> Free Tool
               </span>
               <h1 className="text-3xl md:text-4xl font-serif text-brand-ink mb-4 leading-tight">
-                TDEE Calculator for Women –{' '}
-                <span className="text-brand-sage italic">Your Weight Loss</span> Calories
+                Find Your Personal{' '}
+                <span className="text-brand-sage italic">Fat-Burning</span> Zone
               </h1>
               <p className="text-sm md:text-base text-brand-muted max-w-2xl mx-auto leading-relaxed">
-                Our free TDEE calculator for women reveals how many calories your body burns each day. For
-                women managing weight loss, this number is your starting point. Get accurate calorie targets,
-                then build a <Link to="/quiz" className="text-brand-sage underline hover:no-underline transition-all">personalized plan</Link> or explore{' '}
-                <Link to="/blog" className="text-brand-sage underline hover:no-underline transition-all">yoga for weight loss</Link> — no signup needed.
+                Your body burns calories differently than anyone else's. Find your personal fat-burning zone in 30 seconds.
               </p>
-              <div className="flex flex-wrap items-center justify-center gap-5 mt-5 text-[11px] text-brand-muted/60">
+              <div className="flex flex-wrap items-center justify-center gap-4 mt-5 text-[11px] text-brand-muted/60">
                 <span className="flex items-center gap-1.5"><Check size={11} className="text-brand-sage" /> Science-backed</span>
                 <span className="flex items-center gap-1.5"><Check size={11} className="text-brand-sage" /> 30-second calculation</span>
                 <span className="flex items-center gap-1.5"><Check size={11} className="text-brand-sage" /> Free, no signup</span>
               </div>
+              <div className="flex flex-wrap items-center justify-center gap-3 mt-3 text-[10px] text-brand-muted/40">
+                <span className="flex items-center gap-1"><Clock size={10} /> Takes 30 seconds</span>
+                <span className="w-px h-3 bg-brand-border/20" />
+                <span>Last updated: June 2026</span>
+              </div>
             </motion.div>
           </div>
         </section>
+      )}
+
+      {/* ===== EMOTIONAL MIRROR ===== */}
+      {step === 'calculator' && (
+        <div className="max-w-lg mx-auto px-4 md:px-0 py-6 md:py-8">
+          <EmotionalMirror items={[
+            "You've been working hard but not seeing changes",
+            "You're tired of generic calorie counts that don't fit you",
+            'You want to know YOUR number — not a guess',
+          ]} />
+        </div>
       )}
 
       {/* ===== PROGRESS ===== */}
@@ -279,6 +300,21 @@ export default function TDEECalculator() {
         <AnimatePresence mode="wait">
           {step === 'calculator' && (
             <motion.div key="calc" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="bg-white border border-brand-border rounded-3xl shadow-lg shadow-brand-sage/5 p-6 md:p-8 -mt-8 md:-mt-12 relative z-10">
+              {/* ===== TRUST SIGNALS ===== */}
+              <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6 pb-5 mb-5 border-b border-brand-border/10 text-[10px] text-brand-muted/60">
+                <span className="flex items-center gap-1.5">
+                  <BarChart3 size={12} className="text-brand-sage shrink-0" />
+                  847,392+ calculations
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <UserCheck size={12} className="text-brand-sage shrink-0" />
+                  No signup required
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Heart size={12} className="text-brand-sage shrink-0" />
+                  Free forever
+                </span>
+              </div>
               <div className="text-center mb-6">
                 <div className="w-12 h-12 bg-brand-sage/10 rounded-2xl flex items-center justify-center mx-auto mb-3">
                   <Calculator size={22} className="text-brand-sage" />
@@ -454,11 +490,37 @@ export default function TDEECalculator() {
 
               <div className="bg-brand-sage/5 border border-brand-sage/10 rounded-2xl p-5 text-center">
                 <p className="text-sm text-brand-ink font-semibold mb-3">Want a complete plan based on these numbers?</p>
-                <Link to="/quiz"
+                <Link to="/"
                   className="flex sm:inline-flex items-center gap-2 bg-brand-sage text-white px-6 py-3 rounded-full text-xs font-bold uppercase tracking-[0.2em] hover:bg-[#243D31] transition-all shadow-lg shadow-brand-sage/20 w-full sm:w-auto justify-center">
                   Get My Free Plan <ArrowRight size={14} />
                 </Link>
               </div>
+
+              <InlineCta />
+
+              <RelatedTools currentTool="TDEE Calculator" />
+
+              <ProductMention id="etekcity-food-kitchen-scale-digital-grams-and-ounc" context="Track your portions accurately to hit your calorie targets" />
+
+              <Link
+                to="/blog/weight-loss-busy-moms"
+                className="mt-4 block p-4 bg-brand-warm border border-brand-border/20 rounded-xl hover:bg-brand-sage/5 hover:border-brand-sage/15 transition-all group"
+              >
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-xs">
+                    <BookOpen size={14} className="text-brand-sage" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-[9px] font-bold uppercase tracking-widest text-brand-muted/60 mb-0.5">
+                      Understanding your calorie needs
+                    </p>
+                    <p className="text-xs font-medium text-brand-ink leading-snug group-hover:text-brand-sage transition-colors">
+                      Weight Loss Tips for Busy Moms Who Have No Time
+                    </p>
+                  </div>
+                  <ArrowRight size={14} className="text-brand-muted/30 group-hover:text-brand-sage mt-1 ml-auto shrink-0 transition-colors" />
+                </div>
+              </Link>
 
               <div className="flex gap-2 mt-4">
                 <motion.button whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
@@ -779,7 +841,7 @@ export default function TDEECalculator() {
             better food choices naturally. When you know your maintenance calories and practice yoga consistently, you
             create a calorie deficit for women that feels natural rather than forced. Your body responds to consistency,
             not perfection. Start with yoga designed for your goals. Take our{' '}
-            <Link to="/quiz" className="text-brand-sage underline hover:no-underline">quick quiz for a personalized yoga plan</Link>{' '}
+            <Link to="/" className="text-brand-sage underline hover:no-underline">quick quiz for a personalized yoga plan</Link>{' '}
             built around your TDEE and preferences. For more tips, explore our{' '}
             <Link to="/blog" className="text-brand-sage underline hover:no-underline">fitness blog</Link>.
           </p>
@@ -862,12 +924,20 @@ export default function TDEECalculator() {
       {/* ===== STICKY MOBILE BANNER ===== */}
       {step !== 'calculator' && !isLoading && (
         <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden" style={{ backgroundColor: '#D4A373' }}>
-          <Link to="/quiz" className="flex items-center justify-center gap-2 px-4 py-3.5 text-sm font-bold tracking-wide" style={{ color: '#FEFAE0' }}>
+          <Link to="/" className="flex items-center justify-center gap-2 px-4 py-3.5 text-sm font-bold tracking-wide" style={{ color: '#FEFAE0' }}>
             Ready for your full plan? → Take the Quiz
           </Link>
         </div>
       )}
+
+      <EndOfPageCta />
     </main>
+  );
+
+  return (
+    <SmartCTA tool="tdee" category={formGoal} userValue={results.tdee}>
+      {mainContent}
+    </SmartCTA>
   );
 }
 
@@ -887,7 +957,7 @@ function MetaTags() {
     if (!tagExists('keywords')) {
       const kw = document.createElement('meta');
       kw.setAttribute('name', 'keywords');
-      kw.setAttribute('content', 'TDEE calculator for women, calorie calculator, weight loss calories, fat loss calculator, daily calorie needs, BMR calculator, macros for women, women weight loss, fitness calculator, yoga weight loss');
+      kw.setAttribute('content', 'tdee calculator, total daily energy expenditure, calorie calculator women, how many calories should i eat');
       document.head.appendChild(kw);
     }
 
@@ -895,8 +965,8 @@ function MetaTags() {
     upsertMeta('property', 'og:type', 'website');
     upsertMeta('property', 'og:site_name', 'FitFeky');
     upsertMeta('name', 'twitter:card', 'summary_large_image');
-    upsertMeta('name', 'twitter:title', "TDEE Calculator for Women – Weight Loss Calories | FitFeky");
-    upsertMeta('name', 'twitter:description', 'Free TDEE calculator for women. Calculate daily calories for weight loss, understand BMR vs TDEE, and get a personalized plan today.');
+    upsertMeta('name', 'twitter:title', 'TDEE Calculator — Find Your Total Daily Energy Expenditure | FitFeky');
+    upsertMeta('name', 'twitter:description', 'Calculate your exact daily calories with activity level. Free TDEE calculator for women. No signup required.');
     upsertMeta('name', 'twitter:url', url);
   }, []);
 

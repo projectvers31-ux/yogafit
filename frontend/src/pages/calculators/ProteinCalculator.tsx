@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import CalculatorTemplate from '@/components/calculators/CalculatorTemplate';
+import EmotionalMirror from '@/components/tools/EmotionalMirror';
 import { Flame } from 'lucide-react';
 
 type ActivityLevel = 'sedentary' | 'light' | 'moderate' | 'active' | 'very-active';
@@ -94,12 +95,28 @@ export default function ProteinCalculator() {
   return (
     <CalculatorTemplate
       seo={{
-        title: 'Protein Calculator for Women | FitFeky',
-        description: 'Calculate your daily protein needs as a woman. Free protein intake calculator based on weight and activity level — optimal targets for health, weight loss, and muscle.',
+        title: 'Protein Calculator — Optimal Daily Protein for Women | FitFeky',
+        description: 'Calculate your daily protein grams based on weight and activity level. Preserve muscle and stay full. Free tool.',
         canonicalPath: '/calculators/protein-calculator',
-        h1: 'Protein Calculator for Women – Daily Protein Needs',
-        intro: 'Protein is the single most important nutrient for weight loss, muscle preservation, and long-term health. This protein calculator tells you exactly how many grams of protein you need each day based on your body weight and activity level.\n\nThe standard recommendation of 0.8 g per kg is the minimum to prevent deficiency. This calculator gives you an optimal range based on your lifestyle — from sedentary all the way to very active.\n\nFor a complete macro picture including carbs and fat, pair this with our macro calculator.',
+        h1: 'Know Your Exact Daily Protein Target',
+        intro: 'Most women don\u2019t eat enough protein. Get your exact daily target based on your weight and lifestyle.',
+        keywords: ['protein calculator', 'daily protein intake calculator', 'how much protein should i eat', 'protein calculator women'],
+        ogImage: '/og/calculators/protein-calculator.png',
       }}
+      emotionalMirror={
+        <EmotionalMirror items={[
+          "You're not sure if you're eating enough protein",
+          "You've heard conflicting numbers about how much you need",
+          'You want a simple, personalized target you can actually hit',
+        ]} />
+      }
+      currentTool="Protein Calculator"
+      productCards={[
+        { id: 'optimum-nutrition-gold-standard-100-whey-protein', context: 'Premium whey protein to hit your daily protein target', position: 'after-results' },
+        { id: 'garden-of-life-sport-organic-plant-based-protein-v', context: 'Plant-based protein powder for women who prefer vegan options', position: 'below-bmi' },
+      ]}
+      blogArticle={{ slug: 'intermittent-fasting-beginners', title: 'Intermittent Fasting for Beginners: A Complete Guide for Women', label: 'Understanding your protein needs' }}
+      smartCta={{ tool: 'protein', category: activity, userValue: protein.min }}
       calculatorModule={calculatorModule}
       resultsModule={resultsModule}
       educationContent={educationContent}
