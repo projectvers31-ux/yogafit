@@ -1,1 +1,55 @@
+name: AI Daily Blog Publisher
 
+on:
+  schedule:
+    - cron: '0 11 * * *'
+    - cron: '0 16 * * *'
+    - cron: '0 22 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '24'
+        cache: 'npm' # تسريع العملية عبر كاش الحزم
+
+    # تثبيت الحزم في المجلد الرئيسي (Root) حيث يوجد package.json الحالي
+    - name: Install Root Dependencies
+      run: npm install
+
+    # تشغيل سكريبت الناشر التلقائي باستخدام بيئة Node 24 المستقرة
+    - name: Generate One Article with AI
+      env:
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      run: node ai-publisher.js
+
+    # حفظ وتمرير التعديلات والمقالات الجديدة إلى جيت هب
+    - name: Commit and Push Changes back to GitHub
+      run: |
+        git config --global user.name "GitHub Action AI"
+        git config --global user.email "actions@github.com"
+        
+        # حماية الأوامر باستخدام "|| true" حتى لا يفشل الـ workflow إذا لم يجد ملفات جديدة
+        git add content/published/ || true
+        git add frontend/public/ || true
+        git add products.json || true
+        
+        if ! git diff --quiet --staged; then
+          git commit -m "Automation: Scheduled AI Content Update Published"
+          git push origin main
+        else
+          echo "No new changes to push."
+        fi
