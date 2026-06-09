@@ -1,51 +1,47 @@
-name: AI Daily Blog Publisher
+name: Pinterest Auto-Publisher
 
 on:
   schedule:
-    - cron: '0 11 * * *'
-    - cron: '0 16 * * *'
-    - cron: '0 22 * * *'
-  workflow_dispatch: # يسمح لك بتشغيله يدوياً للتجربة في أي وقت
+    - cron: '0 */3 * * *' # 🚀 النشر التلقائي كل 3 ساعات يومياً
+  workflow_dispatch: # للتشغيل اليدوي الفوري عند التجربة
 
 permissions:
-  contents: write
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
+  contents: write # إعطاء صلاحية للكتابة والتعديل على الملفات وحذف المنتجات المنشورة
 
 jobs:
-  build-and-publish:
+  publish:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: 'true'
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '24'
-        cache: 'npm'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: Install Root Dependencies
-      run: npm install
+      - name: Install Dependencies
+        run: pip install requests
 
-    - name: Generate One Article with AI
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      run: node ai-publisher.js
+      - name: Run Script
+        env:
+          PINTEREST_ACCESS_TOKEN: ${{ secrets.PINTEREST_ACCESS_TOKEN }}
+          PINTEREST_BOARD_ID: ${{ secrets.PINTEREST_BOARD_ID }}
+        run: python publish_pin.py
 
-    - name: Commit and Push Changes back to GitHub
-      run: |
-        git config --global user.name "GitHub Action AI"
-        git config --global user.email "actions@github.com"
-        
-        # 💡 تم تحديث المسار هنا ليقوم جيت هب بسحب ومزامنة المقالات من المجلد الجديد فوراً
-        git add content/blog/ || true
-        git add products.json || true
-        
-        if ! git diff --quiet --staged; then
-          git commit -m "Automation: Scheduled Master SEO AI Content Published"
-          git push origin main
-        else
-          echo "No new changes to push."
-        fi
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "GitHub Action Pinterest"
+          git config --global user.email "actions@github.com"
+          
+          # حفظ التعديلات على ملفات الـ json بعد حذف المنتج الذي تم نشره
+          git add *.json || true
+          
+          if ! git diff --quiet --staged; then
+            git commit -m "Automation: Remove published product from queue"
+            git push origin main
+          else
+            echo "No changes in products queue."
+          fi
